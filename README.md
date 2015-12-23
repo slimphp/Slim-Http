@@ -4,7 +4,7 @@ Strict PSR-7 implementation used by the Slim Framework, but you may use it
 separately with any framework compatible with the PSR-7 standard.
 
 [![Build Status](https://travis-ci.org/slimphp/Slim-Http.svg?branch=master)](https://travis-ci.org/slimphp/Slim-Http)
-[![Coverage Status](https://coveralls.io/repos/slimphp/Slim-Http/badge.svg?branch=master)](https://coveralls.io/r/slimphp/Slim-Http?branch=master)
+[![Coverage Status](https://coveralls.io/repos/slimphp/Slim-Http/badge.svg?branch=master&service=github)](https://coveralls.io/github/slimphp/Slim-Http?branch=master)
 [![Total Downloads](https://poser.pugx.org/slim/http/downloads)](https://packagist.org/packages/slim/http)
 [![License](https://poser.pugx.org/slim/http/license)](https://packagist.org/packages/slim/http)
 
