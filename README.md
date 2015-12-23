@@ -18,7 +18,7 @@ $ composer require slim/http "^0.1"
 ```
 
 This will install the `slim/http` component and all required dependencies.
-PHP 5.5.0 or newer is required.
+PHP 5.6.0 or newer is required.
 
 ## Usage
 
