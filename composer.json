@@ -31,7 +31,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Slim\\Http\\": "src"
+      "Slim\\Http\\": "src",
+      "Slim\\Tests\\Http\\": "tests"
     }
   }
 }

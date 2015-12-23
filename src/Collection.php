@@ -17,7 +17,7 @@ use ArrayIterator;
  * classes in a Slim application that manage "collections"
  * of data that must be inspected and/or manipulated
  */
-class Collection
+class Collection implements CollectionInterface
 {
     /**
      * The source data
