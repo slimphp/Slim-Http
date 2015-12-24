@@ -109,6 +109,20 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($h->get('Foo'));
     }
 
+    public function testGetOriginalKey()
+    {
+        $h = new Headers(['X-FooBar' => 'baz']);
+
+        $this->assertSame('X-FooBar', $h->getOriginalKey('x-foobar'));
+    }
+
+    public function testGetOriginalKeyThatDoesNotExist()
+    {
+        $h = new Headers(['X-Foo' => 'baz']);
+
+        $this->assertSame('nope', $h->getOriginalKey('x-foobar', 'nope'));
+    }
+
     public function testAddNewValue()
     {
         $h = new Headers();
