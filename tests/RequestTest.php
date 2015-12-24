@@ -83,7 +83,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Slim\Http\Request::createFromEnvironment
+     * @covers Slim\Http\Request::createFromGlobals
      */
     public function testCreateFromEnvironmentWithMultipart()
     {
