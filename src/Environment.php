@@ -15,7 +15,7 @@ namespace Slim\Http;
  * This is particularly useful for unit testing, but it also lets us create
  * custom sub-requests.
  */
-class Environment extends Collection implements EnvironmentInterface
+class Environment extends Collection
 {
     /**
      * Create mock environment
