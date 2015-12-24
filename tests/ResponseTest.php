@@ -147,126 +147,6 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Custom Phrase', $clone->getReasonPhrase());
     }
 
-    /**
-     * @covers Slim\Http\Response::withRedirect
-     */
-    public function testWithRedirect()
-    {
-        $response = new Response(200);
-        $clone = $response->withRedirect('/foo', 301);
-
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertFalse($response->hasHeader('Location'));
-
-        $this->assertSame(301, $clone->getStatusCode());
-        $this->assertTrue($clone->hasHeader('Location'));
-        $this->assertEquals('/foo', $clone->getHeaderLine('Location'));
-    }
-
-    /*******************************************************************************
-     * Behaviors
-     ******************************************************************************/
-
-    public function testIsEmpty()
-    {
-        $response = new Response();
-        $prop = new ReflectionProperty($response, 'status');
-        $prop->setAccessible(true);
-        $prop->setValue($response, 204);
-
-        $this->assertTrue($response->isEmpty());
-    }
-
-    public function testIsInformational()
-    {
-        $response = new Response();
-        $prop = new ReflectionProperty($response, 'status');
-        $prop->setAccessible(true);
-        $prop->setValue($response, 100);
-
-        $this->assertTrue($response->isInformational());
-    }
-
-    public function testIsOk()
-    {
-        $response = new Response();
-        $prop = new ReflectionProperty($response, 'status');
-        $prop->setAccessible(true);
-        $prop->setValue($response, 200);
-
-        $this->assertTrue($response->isOk());
-    }
-
-    public function testIsSuccessful()
-    {
-        $response = new Response();
-        $prop = new ReflectionProperty($response, 'status');
-        $prop->setAccessible(true);
-        $prop->setValue($response, 201);
-
-        $this->assertTrue($response->isSuccessful());
-    }
-
-    public function testIsRedirect()
-    {
-        $response = new Response();
-        $prop = new ReflectionProperty($response, 'status');
-        $prop->setAccessible(true);
-        $prop->setValue($response, 302);
-
-        $this->assertTrue($response->isRedirect());
-    }
-
-    public function testIsRedirection()
-    {
-        $response = new Response();
-        $prop = new ReflectionProperty($response, 'status');
-        $prop->setAccessible(true);
-        $prop->setValue($response, 308);
-
-        $this->assertTrue($response->isRedirection());
-    }
-
-    public function testIsForbidden()
-    {
-        $response = new Response();
-        $prop = new ReflectionProperty($response, 'status');
-        $prop->setAccessible(true);
-        $prop->setValue($response, 403);
-
-        $this->assertTrue($response->isForbidden());
-    }
-
-    public function testIsNotFound()
-    {
-        $response = new Response();
-        $prop = new ReflectionProperty($response, 'status');
-        $prop->setAccessible(true);
-        $prop->setValue($response, 404);
-
-        $this->assertTrue($response->isNotFound());
-    }
-
-    public function testIsClientError()
-    {
-        $response = new Response();
-        $prop = new ReflectionProperty($response, 'status');
-        $prop->setAccessible(true);
-        $prop->setValue($response, 400);
-
-        $this->assertTrue($response->isClientError());
-    }
-
-    public function testIsServerError()
-    {
-        $response = new Response();
-        $prop = new ReflectionProperty($response, 'status');
-        $prop->setAccessible(true);
-        $prop->setValue($response, 503);
-
-        $this->assertTrue($response->isServerError());
-    }
-
     public function testToString()
     {
         $output = 'HTTP/1.1 404 Not Found' . PHP_EOL .
@@ -274,36 +154,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                   'Where am I?';
         $this->expectOutputString($output);
         $response = new Response();
-        $response = $response->withStatus(404)->withHeader('X-Foo', 'Bar')->write('Where am I?');
+        $response = $response->withStatus(404)->withHeader('X-Foo', 'Bar');
+        $response->getBody()->write('Where am I?');
 
         echo $response;
-    }
-
-    public function testWithJson()
-    {
-        $data = ['foo' => 'bar1&bar2'];
-
-        $response = new Response();
-        $response = $response->withJson($data, 201);
-
-        $this->assertEquals(201, $response->getStatusCode());
-        $this->assertEquals('application/json;charset=utf-8', $response->getHeaderLine('Content-Type'));
-
-        $body = $response->getBody();
-        $body->rewind();
-        $dataJson = $body->getContents(); //json_decode($body->getContents(), true);
-
-        $this->assertEquals('{"foo":"bar1&bar2"}', $dataJson);
-        $this->assertEquals($data['foo'], json_decode($dataJson, true)['foo']);
-
-        // Test encoding option
-        $response = $response->withJson($data, 200, JSON_HEX_AMP);
-
-        $body = $response->getBody();
-        $body->rewind();
-        $dataJson = $body->getContents();
-
-        $this->assertEquals('{"foo":"bar1\u0026bar2"}', $dataJson);
-        $this->assertEquals($data['foo'], json_decode($dataJson, true)['foo']);
     }
 }
