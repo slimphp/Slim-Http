@@ -41,14 +41,15 @@ class Headers extends Collection implements HeadersInterface
      * Create new headers collection with data extracted from
      * the application Environment object
      *
-     * @param Environment $environment The Slim application Environment
+     * @param array $globals Global server variables.
      *
      * @return self
      */
-    public static function createFromEnvironment(Environment $environment)
+    public static function createFromGlobals(array $globals)
     {
+        $env = new Collection($globals);
         $data = [];
-        foreach ($environment as $key => $value) {
+        foreach ($env as $key => $value) {
             $key = strtoupper($key);
             if (isset(static::$special[$key]) || strpos($key, 'HTTP_') === 0) {
                 if ($key !== 'HTTP_CONTENT_LENGTH') {

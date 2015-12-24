@@ -148,14 +148,16 @@ class Uri implements UriInterface
     }
 
     /**
-     * Create new Uri from environment.
+     * Create new Uri from global server variables.
      *
-     * @param Environment $env
+     * @param array $globals
      *
      * @return self
      */
-    public static function createFromEnvironment(Environment $env)
+    public static function createFromGlobals(array $globals)
     {
+        $env = new Collection($globals);
+
         // Scheme
         $isSecure = $env->get('HTTPS');
         $scheme = (empty($isSecure) || $isSecure === 'off') ? 'http' : 'https';

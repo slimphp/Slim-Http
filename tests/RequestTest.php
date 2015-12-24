@@ -23,16 +23,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function requestFactory()
     {
         $env = Environment::mock();
-
         $uri = Uri::createFromString('https://example.com:443/foo/bar?abc=123');
-        $headers = Headers::createFromEnvironment($env);
+        $headers = Headers::createFromGlobals($env);
         $cookies = [
             'user' => 'john',
             'id' => '123',
         ];
-        $serverParams = $env->all();
+        $serverParams = $env;
         $body = new RequestBody();
-        $uploadedFiles = UploadedFile::createFromEnvironment($env);
+        $uploadedFiles = UploadedFile::createFromGlobals($env);
         $request = new Request('GET', $uri, $headers, $cookies, $serverParams, $body, $uploadedFiles);
 
         return $request;
@@ -61,17 +60,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('GET', $this->requestFactory()->getMethod());
     }
 
-    public function testGetOriginalMethod()
-    {
-        $this->assertEquals('GET', $this->requestFactory()->getOriginalMethod());
-    }
-
     public function testWithMethod()
     {
         $request = $this->requestFactory()->withMethod('PUT');
 
-        //$this->assertAttributeEquals(null, 'method', $request);
-        $this->assertAttributeEquals('PUT', 'originalMethod', $request);
+        $this->assertAttributeEquals('PUT', 'method', $request);
     }
 
     /**
@@ -86,23 +79,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->requestFactory()->withMethod(null);
 
-        $this->assertAttributeEquals(null, 'originalMethod', $request);
-    }
-
-    /**
-     * @covers Slim\Http\Request::createFromEnvironment
-     */
-    public function testCreateFromEnvironment()
-    {
-        $env = Environment::mock([
-            'SCRIPT_NAME' => '/index.php',
-            'REQUEST_URI' => '/foo',
-            'REQUEST_METHOD' => 'POST',
-        ]);
-
-        $request = Request::createFromEnvironment($env);
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals($env->all(), $request->getServerParams());
+        $this->assertAttributeEquals(null, 'method', $request);
     }
 
     /**
@@ -119,83 +96,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             'HTTP_CONTENT_TYPE' => 'multipart/form-data; boundary=---foo'
         ]);
 
-        $request = Request::createFromEnvironment($env);
+        $request = Request::createFromGlobals($env);
         unset($_POST);
 
         $this->assertEquals(['foo' => 'bar'], $request->getParsedBody());
-    }
-
-    /**
-     * @covers Slim\Http\Request::createFromEnvironment
-     */
-    public function testCreateFromEnvironmentWithMultipartMethodOverride()
-    {
-        $_POST['_METHOD'] = 'PUT';
-
-        $env = Environment::mock([
-            'SCRIPT_NAME' => '/index.php',
-            'REQUEST_URI' => '/foo',
-            'REQUEST_METHOD' => 'POST',
-            'HTTP_CONTENT_TYPE' => 'multipart/form-data; boundary=---foo'
-        ]);
-
-        $request = Request::createFromEnvironment($env);
-        unset($_POST);
-
-        $this->assertEquals('POST', $request->getOriginalMethod());
-        $this->assertEquals('PUT', $request->getMethod());
-    }
-
-    public function testGetMethodWithOverrideHeader()
-    {
-        $uri = Uri::createFromString('https://example.com:443/foo/bar?abc=123');
-        $headers = new Headers([
-            'HTTP_X_HTTP_METHOD_OVERRIDE' => 'PUT',
-        ]);
-        $cookies = [];
-        $serverParams = [];
-        $body = new RequestBody();
-        $request = new Request('POST', $uri, $headers, $cookies, $serverParams, $body);
-
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('POST', $request->getOriginalMethod());
-    }
-
-    public function testGetMethodWithOverrideParameterFromBodyObject()
-    {
-        $uri = Uri::createFromString('https://example.com:443/foo/bar?abc=123');
-        $headers = new Headers([
-            'Content-Type' => 'application/x-www-form-urlencoded',
-        ]);
-        $cookies = [];
-        $serverParams = [];
-        $body = new RequestBody();
-        $body->write('_METHOD=PUT');
-        $body->rewind();
-        $request = new Request('POST', $uri, $headers, $cookies, $serverParams, $body);
-
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('POST', $request->getOriginalMethod());
-    }
-
-    public function testGetMethodOverrideParameterFromBodyArray()
-    {
-        $uri = Uri::createFromString('https://example.com:443/foo/bar?abc=123');
-        $headers = new Headers([
-            'Content-Type' => 'application/x-www-form-urlencoded',
-        ]);
-        $cookies = [];
-        $serverParams = [];
-        $body = new RequestBody();
-        $body->write('_METHOD=PUT');
-        $body->rewind();
-        $request = new Request('POST', $uri, $headers, $cookies, $serverParams, $body);
-        $request->registerMediaTypeParser('application/x-www-form-urlencoded', function ($input) {
-            parse_str($input, $body);
-            return $body; // <-- Array
-        });
-
-        $this->assertEquals('PUT', $request->getMethod());
     }
 
     /**
@@ -222,91 +126,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $serverParams = [];
         $body = new RequestBody();
         $request = new Request(10, $uri, $headers, $cookies, $serverParams, $body);
-    }
-
-    public function testIsGet()
-    {
-        $request = $this->requestFactory();
-        $prop = new ReflectionProperty($request, 'originalMethod');
-        $prop->setAccessible(true);
-        $prop->setValue($request, 'GET');
-
-        $this->assertTrue($request->isGet());
-    }
-
-    public function testIsPost()
-    {
-        $request = $this->requestFactory();
-        $prop = new ReflectionProperty($request, 'originalMethod');
-        $prop->setAccessible(true);
-        $prop->setValue($request, 'POST');
-
-        $this->assertTrue($request->isPost());
-    }
-
-    public function testIsPut()
-    {
-        $request = $this->requestFactory();
-        $prop = new ReflectionProperty($request, 'originalMethod');
-        $prop->setAccessible(true);
-        $prop->setValue($request, 'PUT');
-
-        $this->assertTrue($request->isPut());
-    }
-
-    public function testIsPatch()
-    {
-        $request = $this->requestFactory();
-        $prop = new ReflectionProperty($request, 'originalMethod');
-        $prop->setAccessible(true);
-        $prop->setValue($request, 'PATCH');
-
-        $this->assertTrue($request->isPatch());
-    }
-
-    public function testIsDelete()
-    {
-        $request = $this->requestFactory();
-        $prop = new ReflectionProperty($request, 'originalMethod');
-        $prop->setAccessible(true);
-        $prop->setValue($request, 'DELETE');
-
-        $this->assertTrue($request->isDelete());
-    }
-
-    public function testIsHead()
-    {
-        $request = $this->requestFactory();
-        $prop = new ReflectionProperty($request, 'originalMethod');
-        $prop->setAccessible(true);
-        $prop->setValue($request, 'HEAD');
-
-        $this->assertTrue($request->isHead());
-    }
-
-    public function testIsOptions()
-    {
-        $request = $this->requestFactory();
-        $prop = new ReflectionProperty($request, 'originalMethod');
-        $prop->setAccessible(true);
-        $prop->setValue($request, 'OPTIONS');
-
-        $this->assertTrue($request->isOptions());
-    }
-
-    public function testIsXhr()
-    {
-        $uri = Uri::createFromString('https://example.com:443/foo/bar?abc=123');
-        $headers = new Headers([
-            'Content-Type' => 'application/x-www-form-urlencoded',
-            'X-Requested-With' => 'XMLHttpRequest',
-        ]);
-        $cookies = [];
-        $serverParams = [];
-        $body = new RequestBody();
-        $request = new Request('GET', $uri, $headers, $cookies, $serverParams, $body);
-
-        $this->assertTrue($request->isXhr());
     }
 
     /*******************************************************************************
@@ -420,92 +239,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = $this->requestFactory();
 
         $this->assertNull($request->getMediaType());
-    }
-
-    public function testGetMediaTypeParams()
-    {
-        $headers = new Headers([
-            'Content-Type' => ['application/json;charset=utf8;foo=bar'],
-        ]);
-        $request = $this->requestFactory();
-        $headersProp = new ReflectionProperty($request, 'headers');
-        $headersProp->setAccessible(true);
-        $headersProp->setValue($request, $headers);
-
-        $this->assertEquals(['charset' => 'utf8', 'foo' => 'bar'], $request->getMediaTypeParams());
-    }
-
-    public function testGetMediaTypeParamsEmpty()
-    {
-        $headers = new Headers([
-            'Content-Type' => ['application/json'],
-        ]);
-        $request = $this->requestFactory();
-        $headersProp = new ReflectionProperty($request, 'headers');
-        $headersProp->setAccessible(true);
-        $headersProp->setValue($request, $headers);
-
-        $this->assertEquals([], $request->getMediaTypeParams());
-    }
-
-    public function testGetMediaTypeParamsWithoutHeader()
-    {
-        $request = $this->requestFactory();
-
-        $this->assertEquals([], $request->getMediaTypeParams());
-    }
-
-    public function testGetContentCharset()
-    {
-        $headers = new Headers([
-            'Content-Type' => ['application/json;charset=utf8'],
-        ]);
-        $request = $this->requestFactory();
-        $headersProp = new ReflectionProperty($request, 'headers');
-        $headersProp->setAccessible(true);
-        $headersProp->setValue($request, $headers);
-
-        $this->assertEquals('utf8', $request->getContentCharset());
-    }
-
-    public function testGetContentCharsetEmpty()
-    {
-        $headers = new Headers([
-            'Content-Type' => ['application/json'],
-        ]);
-        $request = $this->requestFactory();
-        $headersProp = new ReflectionProperty($request, 'headers');
-        $headersProp->setAccessible(true);
-        $headersProp->setValue($request, $headers);
-
-        $this->assertNull($request->getContentCharset());
-    }
-
-    public function testGetContentCharsetWithoutHeader()
-    {
-        $request = $this->requestFactory();
-
-        $this->assertNull($request->getContentCharset());
-    }
-
-    public function testGetContentLength()
-    {
-        $headers = new Headers([
-            'Content-Length' => '150', // <-- Note we define as a string
-        ]);
-        $request = $this->requestFactory();
-        $headersProp = new ReflectionProperty($request, 'headers');
-        $headersProp->setAccessible(true);
-        $headersProp->setValue($request, $headers);
-
-        $this->assertEquals(150, $request->getContentLength());
-    }
-
-    public function testGetContentLengthWithoutHeader()
-    {
-        $request = $this->requestFactory();
-
-        $this->assertNull($request->getContentLength());
     }
 
     /*******************************************************************************
@@ -656,18 +389,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('123', $clone->getAttribute('test'));
     }
 
-    public function testWithAttributes()
-    {
-        $request = $this->requestFactory();
-        $attrProp = new ReflectionProperty($request, 'attributes');
-        $attrProp->setAccessible(true);
-        $attrProp->setValue($request, new Collection(['foo' => 'bar']));
-        $clone = $request->withAttributes(['test' => '123']);
-
-        $this->assertNull($clone->getAttribute('foo'));
-        $this->assertEquals('123', $clone->getAttribute('test'));
-    }
-
     public function testWithoutAttribute()
     {
         $request = $this->requestFactory();
@@ -796,75 +517,5 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testWithParsedBodyInvalid()
     {
         $this->requestFactory()->withParsedBody(2);
-    }
-
-    /*******************************************************************************
-     * Parameters
-     ******************************************************************************/
-
-    public function testGetParameterFromBody()
-    {
-        $body = new RequestBody();
-        $body->write('foo=bar');
-        $body->rewind();
-        $request = $this->requestFactory()
-                   ->withBody($body)
-                   ->withHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-        $this->assertEquals('bar', $request->getParam('foo'));
-    }
-
-    public function testGetParameterFromQuery()
-    {
-        $request = $this->requestFactory()->withHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-        $this->assertEquals('123', $request->getParam('abc'));
-    }
-
-    public function testGetParameterFromBodyOverQuery()
-    {
-        $body = new RequestBody();
-        $body->write('abc=xyz');
-        $body->rewind();
-        $request = $this->requestFactory()
-                   ->withBody($body)
-                   ->withHeader('Content-Type', 'application/x-www-form-urlencoded');
-        $this->assertEquals('xyz', $request->getParam('abc'));
-    }
-
-    public function testGetParameterWithDefaultFromBodyOverQuery()
-    {
-        $body = new RequestBody();
-        $body->write('abc=xyz');
-        $body->rewind();
-        $request = $this->requestFactory()
-                   ->withBody($body)
-                   ->withHeader('Content-Type', 'application/x-www-form-urlencoded');
-        $this->assertEquals('xyz', $request->getParam('abc'));
-        $this->assertEquals('bar', $request->getParam('foo', 'bar'));
-    }
-
-    public function testGetParameters()
-    {
-        $body = new RequestBody();
-        $body->write('foo=bar');
-        $body->rewind();
-        $request = $this->requestFactory()
-                   ->withBody($body)
-                   ->withHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-        $this->assertEquals(['abc' => '123', 'foo' => 'bar'], $request->getParams());
-    }
-
-    public function testGetParametersWithBodyPriority()
-    {
-        $body = new RequestBody();
-        $body->write('foo=bar&abc=xyz');
-        $body->rewind();
-        $request = $this->requestFactory()
-                   ->withBody($body)
-                   ->withHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-        $this->assertEquals(['abc' => 'xyz', 'foo' => 'bar'], $request->getParams());
     }
 }

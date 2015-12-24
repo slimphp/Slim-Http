@@ -22,11 +22,11 @@ class Environment extends Collection implements EnvironmentInterface
      *
      * @param  array $userData Array of custom environment keys and values
      *
-     * @return self
+     * @return array
      */
     public static function mock(array $userData = [])
     {
-        $data = array_merge([
+        return array_merge([
             'SERVER_PROTOCOL'      => 'HTTP/1.1',
             'REQUEST_METHOD'       => 'GET',
             'SCRIPT_NAME'          => '',
@@ -43,7 +43,5 @@ class Environment extends Collection implements EnvironmentInterface
             'REQUEST_TIME'         => time(),
             'REQUEST_TIME_FLOAT'   => microtime(true),
         ], $userData);
-
-        return new static($data);
     }
 }
