@@ -174,17 +174,14 @@ class Request extends Message implements ServerRequestInterface
 
     public static function createFromGlobals(array $globals)
     {
-        if (!isset($globals['REQUEST_METHOD'])) {
-            throw new \InvalidArgumentException('Expected REQUEST_METHOD in global environment data');
-        }
-        $method = $globals['REQUEST_METHOD'];
+        $env = new Collection($globals);
+        $method = $env->get('REQUEST_METHOD');
         $uri = Uri::createFromGlobals($globals);
         $headers = Headers::createFromGlobals($globals);
         $cookies = Cookies::parseHeader($headers->get('Cookie', []));
         $serverParams = $globals;
         $body = new RequestBody();
         $uploadedFiles = UploadedFile::createFromGlobals($globals);
-
         $request = new static($method, $uri, $headers, $cookies, $serverParams, $body, $uploadedFiles);
 
         if ($method === 'POST' &&

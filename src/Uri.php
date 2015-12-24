@@ -69,13 +69,6 @@ class Uri implements UriInterface
     protected $port;
 
     /**
-     * Uri base path
-     *
-     * @var string
-     */
-    protected $basePath = '';
-
-    /**
      * Uri path
      *
      * @var string
@@ -189,25 +182,9 @@ class Uri implements UriInterface
             }
         }
 
-        // Path
-        $requestScriptName = parse_url($env->get('SCRIPT_NAME'), PHP_URL_PATH);
-        $requestScriptDir = dirname($requestScriptName);
-
         // parse_url() requires a full URL. As we don't extract the domain name or scheme,
         // we use a stand-in.
         $requestUri = parse_url('http://example.com' . $env->get('REQUEST_URI'), PHP_URL_PATH);
-
-        $basePath = '';
-        $virtualPath = $requestUri;
-        if (stripos($requestUri, $requestScriptName) === 0) {
-            $basePath = $requestScriptName;
-        } elseif ($requestScriptDir !== '/' && stripos($requestUri, $requestScriptDir) === 0) {
-            $basePath = $requestScriptDir;
-        }
-
-        if ($basePath) {
-            $virtualPath = ltrim(substr($requestUri, strlen($basePath)), '/');
-        }
 
         // Query string
         $queryString = $env->get('QUERY_STRING', '');
@@ -216,12 +193,7 @@ class Uri implements UriInterface
         $fragment = '';
 
         // Build Uri
-        $uri = new static($scheme, $host, $port, $virtualPath, $queryString, $fragment, $username, $password);
-        if ($basePath) {
-            $uri = $uri->withBasePath($basePath);
-        }
-
-        return $uri;
+        return new static($scheme, $host, $port, $requestUri, $queryString, $fragment, $username, $password);
     }
 
     /********************************************************************************
@@ -548,51 +520,6 @@ class Uri implements UriInterface
         $clone = clone $this;
         $clone->path = $this->filterPath($path);
 
-        // if the path is absolute, then clear basePath
-        if (substr($path, 0, 1) == '/') {
-            $clone->basePath = '';
-        }
-
-        return $clone;
-    }
-
-    /**
-     * Retrieve the base path segment of the URI.
-     *
-     * Note: This method is not part of the PSR-7 standard.
-     *
-     * This method MUST return a string; if no path is present it MUST return
-     * an empty string.
-     *
-     * @return string The base path segment of the URI.
-     */
-    public function getBasePath()
-    {
-        return $this->basePath;
-    }
-
-    /**
-     * Set base path.
-     *
-     * Note: This method is not part of the PSR-7 standard.
-     *
-     * @param  string $basePath
-     * @return self
-     */
-    public function withBasePath($basePath)
-    {
-        if (!is_string($basePath)) {
-            throw new InvalidArgumentException('Uri path must be a string');
-        }
-        if (!empty($basePath)) {
-            $basePath = '/' . trim($basePath, '/'); // <-- Trim on both sides
-        }
-        $clone = clone $this;
-
-        if ($basePath !== '/') {
-            $clone->basePath = $this->filterPath($basePath);
-        }
-
         return $clone;
     }
 
@@ -774,41 +701,16 @@ class Uri implements UriInterface
     {
         $scheme = $this->getScheme();
         $authority = $this->getAuthority();
-        $basePath = $this->getBasePath();
         $path = $this->getPath();
         $query = $this->getQuery();
         $fragment = $this->getFragment();
 
-        $path = $basePath . '/' . ltrim($path, '/');
+        $path = '/' . ltrim($path, '/');
 
         return ($scheme ? $scheme . ':' : '')
         . ($authority ? '//' . $authority : '')
         . $path
         . ($query ? '?' . $query : '')
         . ($fragment ? '#' . $fragment : '');
-    }
-
-    /**
-     * Return the fully qualified base URL.
-     *
-     * Note that this method never includes a trailing /
-     *
-     * This method is not part of PSR-7.
-     *
-     * @return string
-     */
-    public function getBaseUrl()
-    {
-        $scheme = $this->getScheme();
-        $authority = $this->getAuthority();
-        $basePath = $this->getBasePath();
-
-        if ($authority && substr($basePath, 0, 1) !== '/') {
-            $basePath = $basePath . '/' . $basePath;
-        }
-
-        return ($scheme ? $scheme . ':' : '')
-        . ($authority ? '//' . $authority : '')
-        . rtrim($basePath, '/');
     }
 }
