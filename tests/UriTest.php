@@ -500,7 +500,6 @@ class UriTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Slim\Http\Uri::createFromEnvironment
      * @ticket 1375
      */
     /*public function testCreateEnvironmentWithBasePath()
@@ -561,7 +560,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
     }*/
 
     /**
-     * @covers Slim\Http\Uri::createFromEnvironment
+     * @covers Slim\Http\Uri::createFromGlobals
      * @ticket 1380
      */
     public function testWithPathWhenBaseRootIsEmpty()
