@@ -50,9 +50,9 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
             'REQUEST_URI' => '/foo/bar?abc=123',
         ]);
 
-        $this->assertInstanceOf('\Slim\Http\Environment', $env);
-        $this->assertEquals('/foo/bar/index.php', $env->get('SCRIPT_NAME'));
-        $this->assertEquals('/foo/bar?abc=123', $env->get('REQUEST_URI'));
-        $this->assertEquals('localhost', $env->get('HTTP_HOST'));
+        $this->assertTrue(is_array($env));
+        $this->assertEquals('/foo/bar/index.php', $env['SCRIPT_NAME']);
+        $this->assertEquals('/foo/bar?abc=123', $env['REQUEST_URI']);
+        $this->assertEquals('localhost', $env['HTTP_HOST']);
     }
 }

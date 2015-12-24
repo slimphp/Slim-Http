@@ -19,7 +19,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
         $e = Environment::mock([
             'HTTP_ACCEPT' => 'application/json',
         ]);
-        $h = Headers::createFromEnvironment($e);
+        $h = Headers::createFromGlobals($e);
         $prop = new ReflectionProperty($h, 'data');
         $prop->setAccessible(true);
 
@@ -32,7 +32,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
         $e = Environment::mock([
             'CONTENT_TYPE' => 'application/json',
         ]);
-        $h = Headers::createFromEnvironment($e);
+        $h = Headers::createFromGlobals($e);
         $prop = new ReflectionProperty($h, 'data');
         $prop->setAccessible(true);
 
@@ -46,7 +46,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
             'CONTENT_TYPE' => 'text/csv',
             'HTTP_CONTENT_LENGTH' => 1230, // <-- Ignored
         ]);
-        $h = Headers::createFromEnvironment($e);
+        $h = Headers::createFromGlobals($e);
         $prop = new ReflectionProperty($h, 'data');
         $prop->setAccessible(true);
 

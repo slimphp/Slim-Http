@@ -49,7 +49,7 @@ class UploadedFilesTest extends \PHPUnit_Framework_TestCase
     {
         $_FILES = $input;
 
-        $uploadedFile = UploadedFile::createFromEnvironment(Environment::mock());
+        $uploadedFile = UploadedFile::createFromGlobals(Environment::mock());
         $this->assertEquals($expected, $uploadedFile);
     }
 
