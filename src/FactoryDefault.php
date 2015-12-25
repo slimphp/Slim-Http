@@ -5,7 +5,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
-class FactoryDefault
+class FactoryDefault implements FactoryInterface
 {
     /**
      * Server data from $_SERVER superglobal
