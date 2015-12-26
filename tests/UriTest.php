@@ -389,30 +389,6 @@ class UriTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('https://josh:sekrit@example.com/foo/?abc=123', (string)$uri);
     }
 
-    /**
-     * @covers Slim\Http\Uri::createFromString
-     */
-    public function testCreateFromString()
-    {
-        $uri = Uri::createFromString('https://example.com:8080/foo/bar?abc=123');
-
-        $this->assertEquals('https', $uri->getScheme());
-        $this->assertEquals('example.com', $uri->getHost());
-        $this->assertEquals('8080', $uri->getPort());
-        $this->assertEquals('/foo/bar', $uri->getPath());
-        $this->assertEquals('abc=123', $uri->getQuery());
-    }
-
-    /**
-     * @covers Slim\Http\Uri::createFromString
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Uri must be a string
-     */
-    public function testCreateFromStringWithInvalidType()
-    {
-        Uri::createFromString(['https://example.com:8080/foo/bar?abc=123']);
-    }
-
     public function testCreateEnvironment()
     {
         $uri = $this->uriFactory([

@@ -18,11 +18,17 @@ class FactoryDefault implements FactoryInterface
         $method = $globals['REQUEST_METHOD'];
         $uri = $this->makeUri($globals);
         $headers = $this->makeHeaders($globals);
-        $cookies = []; // TODO: Should these be internal to headers?
+        $cookies = Cookies::parseHeader($headers->get('Cookie', []));
         $body = $this->makeBody();
         $files = []; // TODO: Create factory method for uploaded files
+        $request = new Request($method, $uri, $headers, $cookies, $globals, $body, $files);
+        if ($method === 'POST' && in_array($request->getMediaType(), ['application/x-www-form-urlencoded', 'multipart/form-data'])
+        ) {
+            // parsed body must be $_POST
+            $request = $request->withParsedBody($_POST);
+        }
 
-        return new Request($method, $uri, $headers, $cookies, $globals, $body, $files);
+        return $request;
     }
 
     /**
