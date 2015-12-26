@@ -8,47 +8,32 @@ use Psr\Http\Message\UriInterface;
 class FactoryDefault implements FactoryInterface
 {
     /**
-     * Server data from $_SERVER superglobal
-     *
-     * @var array
-     */
-    protected $globals;
-
-    /**
-     * FactoryDefault constructor.
-     *
-     * @param array $globals
-     */
-    public function __construct(array $globals)
-    {
-        $this->globals = $globals;
-    }
-
-    /**
      * Make request
      *
+     * @param  array $globals The $_SERVER super-global
      * @return \Psr\Http\Message\ServerRequestInterface
      */
-    public function makeRequest() : ServerRequestInterface
+    public function makeRequest(array $globals) : ServerRequestInterface
     {
-        $method = $this->globals['REQUEST_METHOD'];
-        $uri = $this->makeUri();
-        $headers = $this->makeHeaders();
+        $method = $globals['REQUEST_METHOD'];
+        $uri = $this->makeUri($globals);
+        $headers = $this->makeHeaders($globals);
         $cookies = []; // TODO: Should these be internal to headers?
         $body = $this->makeBody();
         $files = []; // TODO: Create factory method for uploaded files
 
-        return new Request($method, $uri, $headers, $cookies, $this->globals, $body, $files);
+        return new Request($method, $uri, $headers, $cookies, $globals, $body, $files);
     }
 
     /**
      * Make uri
      *
+     * @param  array $globals The $_SERVER super-global
      * @return \Psr\Http\Message\UriInterface
      */
-    public function makeUri() : UriInterface
+    public function makeUri(array $globals) : UriInterface
     {
-        $env = new Collection($this->globals);
+        $env = new Collection($globals);
 
         // Scheme
         $isSecure = $env->get('HTTPS');
@@ -98,9 +83,10 @@ class FactoryDefault implements FactoryInterface
     /**
      * Make headers
      *
+     * @param  array $globals The $_SERVER super-global
      * @return \Slim\Http\HeadersInterface
      */
-    public function makeHeaders() : HeadersInterface
+    public function makeHeaders(array $globals) : HeadersInterface
     {
         $special = [
             'CONTENT_TYPE' => 1,
@@ -111,7 +97,7 @@ class FactoryDefault implements FactoryInterface
             'AUTH_TYPE' => 1,
         ];
         $data = [];
-        foreach ($this->globals as $key => $value) {
+        foreach ($globals as $key => $value) {
             $key = strtoupper($key);
             if (isset($special[$key]) || strpos($key, 'HTTP_') === 0) {
                 if ($key !== 'HTTP_CONTENT_LENGTH') {

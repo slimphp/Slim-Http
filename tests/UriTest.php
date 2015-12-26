@@ -27,9 +27,9 @@ class UriTest extends \PHPUnit_Framework_TestCase
             'PHP_AUTH_USER' => 'josh',
             'PHP_AUTH_PW' => 'sekrit'
         ], $customGlobals));
-        $factory = new FactoryDefault($env);
+        $factory = new FactoryDefault();
 
-        return $factory->makeUri();
+        return $factory->makeUri($env);
     }
 
     /********************************************************************************
