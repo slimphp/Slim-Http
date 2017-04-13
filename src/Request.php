@@ -172,28 +172,6 @@ class Request extends Message implements ServerRequestInterface
         });
     }
 
-    public static function createFromGlobals(array $globals)
-    {
-        $env = new Collection($globals);
-        $method = $env->get('REQUEST_METHOD');
-        $uri = Uri::createFromGlobals($globals);
-        $headers = Headers::createFromGlobals($globals);
-        $cookies = Cookies::parseHeader($headers->get('Cookie', []));
-        $serverParams = $globals;
-        $body = new RequestBody();
-        $uploadedFiles = UploadedFile::createFromGlobals($globals);
-        $request = new static($method, $uri, $headers, $cookies, $serverParams, $body, $uploadedFiles);
-
-        if ($method === 'POST' &&
-            in_array($request->getMediaType(), ['application/x-www-form-urlencoded', 'multipart/form-data'])
-        ) {
-            // parsed body must be $_POST
-            $request = $request->withParsedBody($_POST);
-        }
-
-        return $request;
-    }
-
     /**
      * This method is applied to the cloned object
      * after PHP performs an initial shallow-copy. This
