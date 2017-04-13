@@ -94,9 +94,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(null, 'method', $request);
     }
 
-    /**
-     * @covers Slim\Http\Request::createFromGlobals
-     */
     public function testCreateFromEnvironmentWithMultipart()
     {
         $_POST['foo'] = 'bar';
