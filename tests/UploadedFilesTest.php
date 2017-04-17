@@ -8,6 +8,7 @@
  */
 namespace Slim\Tests\Http;
 
+use PHPUnit\Framework\TestCase;
 use Slim\Http\Environment;
 use Slim\Http\Headers;
 use Slim\Http\Request;
@@ -16,7 +17,7 @@ use Slim\Http\Stream;
 use Slim\Http\UploadedFile;
 use Slim\Http\Uri;
 
-class UploadedFilesTest extends \PHPUnit_Framework_TestCase
+class UploadedFilesTest extends TestCase
 {
     static private $filename = './phpUxcOty';
     /**

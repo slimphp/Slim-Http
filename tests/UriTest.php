@@ -9,11 +9,12 @@
 namespace Slim\Tests\Http;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 use Slim\Http\FactoryDefault;
 
-class UriTest extends \PHPUnit_Framework_TestCase
+class UriTest extends TestCase
 {
     public function uriFactory(array $customGlobals = [])
     {

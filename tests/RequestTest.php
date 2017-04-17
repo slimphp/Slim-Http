@@ -9,6 +9,7 @@
 
 namespace Slim\Tests\Http;
 
+use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use Slim\Http\Collection;
 use Slim\Http\Environment;
@@ -19,7 +20,7 @@ use Slim\Http\UploadedFile;
 use Slim\Http\Uri;
 use Slim\Http\FactoryDefault;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
     public function requestFactory(array $customGlobals = [])
     {
