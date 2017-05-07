@@ -37,13 +37,6 @@ class Request extends Message implements ServerRequestInterface
     protected $method;
 
     /**
-     * The original request method (ignoring override)
-     *
-     * @var string
-     */
-    protected $originalMethod;
-
-    /**
      * The request URI object
      *
      * @var \Psr\Http\Message\UriInterface
@@ -158,7 +151,7 @@ class Request extends Message implements ServerRequestInterface
         StreamInterface $body,
         array $uploadedFiles = []
     ) {
-        $this->originalMethod = $this->filterMethod($method);
+        $this->method = $this->filterMethod($method);
         $this->uri = $uri;
         $this->headers = $headers;
         $this->cookies = $cookies;
@@ -239,37 +232,7 @@ class Request extends Message implements ServerRequestInterface
      */
     public function getMethod()
     {
-        if ($this->method === null) {
-            $this->method = $this->originalMethod;
-            $customMethod = $this->getHeaderLine('X-Http-Method-Override');
-
-            if ($customMethod) {
-                $this->method = $this->filterMethod($customMethod);
-            } elseif ($this->originalMethod === 'POST') {
-                $overrideMethod = $this->filterMethod($this->getParsedBodyParam('_METHOD'));
-                if ($overrideMethod !== null) {
-                    $this->method = $overrideMethod;
-                }
-
-                if ($this->getBody()->eof()) {
-                    $this->getBody()->rewind();
-                }
-            }
-        }
-
         return $this->method;
-    }
-
-    /**
-     * Get the original HTTP method (ignore override).
-     *
-     * Note: This method is not part of the PSR-7 standard.
-     *
-     * @return string
-     */
-    public function getOriginalMethod()
-    {
-        return $this->originalMethod;
     }
 
     /**
@@ -291,7 +254,6 @@ class Request extends Message implements ServerRequestInterface
     {
         $method = $this->filterMethod($method);
         $clone = clone $this;
-        $clone->originalMethod = $method;
         $clone->method = $method;
 
         return $clone;
