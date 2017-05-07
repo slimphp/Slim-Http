@@ -1,10 +1,10 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2015 Josh Lockhart
- * @license   https://github.com/slimphp/Slim/blob/master/LICENSE.md (MIT License)
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Tests\Http;
 
@@ -20,7 +20,7 @@ class HeadersTest extends TestCase
         $e = Environment::mock([
             'HTTP_ACCEPT' => 'application/json',
         ]);
-        $h = Headers::createFromGlobals($e);
+        $h = Headers::createFromEnvironment($e);
         $prop = new ReflectionProperty($h, 'data');
         $prop->setAccessible(true);
 
@@ -33,7 +33,7 @@ class HeadersTest extends TestCase
         $e = Environment::mock([
             'CONTENT_TYPE' => 'application/json',
         ]);
-        $h = Headers::createFromGlobals($e);
+        $h = Headers::createFromEnvironment($e);
         $prop = new ReflectionProperty($h, 'data');
         $prop->setAccessible(true);
 
@@ -47,7 +47,7 @@ class HeadersTest extends TestCase
             'CONTENT_TYPE' => 'text/csv',
             'HTTP_CONTENT_LENGTH' => 1230, // <-- Ignored
         ]);
-        $h = Headers::createFromGlobals($e);
+        $h = Headers::createFromEnvironment($e);
         $prop = new ReflectionProperty($h, 'data');
         $prop->setAccessible(true);
 
@@ -103,25 +103,24 @@ class HeadersTest extends TestCase
         $this->assertEquals(['GET', 'POST'], $h->get('Allow'));
     }
 
+    public function testGetOriginalKey()
+    {
+        $h = new Headers();
+        $h->set('http-test_key', 'testValue');
+        $h->get('test-key');
+
+        $value = $h->get('test-key');
+
+        $this->assertEquals('testValue', reset($value));
+        $this->assertEquals('http-test_key', $h->getOriginalKey('test-key'));
+        $this->assertNull($h->getOriginalKey('test-non-existing'));
+    }
+
     public function testGetNotExists()
     {
         $h = new Headers();
 
         $this->assertNull($h->get('Foo'));
-    }
-
-    public function testGetOriginalKey()
-    {
-        $h = new Headers(['X-FooBar' => 'baz']);
-
-        $this->assertSame('X-FooBar', $h->getOriginalKey('x-foobar'));
-    }
-
-    public function testGetOriginalKeyThatDoesNotExist()
-    {
-        $h = new Headers(['X-Foo' => 'baz']);
-
-        $this->assertSame('nope', $h->getOriginalKey('x-foobar', 'nope'));
     }
 
     public function testAddNewValue()
@@ -215,5 +214,15 @@ class HeadersTest extends TestCase
         $this->assertEquals('foo-bar', $h->normalizeKey('Http_Foo_Bar'));
         $this->assertEquals('foo-bar', $h->normalizeKey('http_foo_bar'));
         $this->assertEquals('foo-bar', $h->normalizeKey('http-foo-bar'));
+    }
+
+    public function testDetermineAuthorization()
+    {
+        $e = Environment::mock([]);
+        $en = Headers::determineAuthorization($e);
+        $h = Headers::createFromEnvironment($e);
+
+        $this->assertEquals('electrolytes', $en->get('HTTP_AUTHORIZATION'));
+        $this->assertEquals(['electrolytes'], $h->get('Authorization'));
     }
 }

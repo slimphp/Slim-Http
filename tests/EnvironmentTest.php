@@ -1,10 +1,10 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2015 Josh Lockhart
- * @license   https://github.com/slimphp/Slim/blob/master/LICENSE.md (MIT License)
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Tests\Http;
 
@@ -51,9 +51,9 @@ class EnvironmentTest extends TestCase
             'REQUEST_URI' => '/foo/bar?abc=123',
         ]);
 
-        $this->assertTrue(is_array($env));
-        $this->assertEquals('/foo/bar/index.php', $env['SCRIPT_NAME']);
-        $this->assertEquals('/foo/bar?abc=123', $env['REQUEST_URI']);
-        $this->assertEquals('localhost', $env['HTTP_HOST']);
+        $this->assertInstanceOf('\Slim\Http\CollectionInterface', $env);
+        $this->assertEquals('/foo/bar/index.php', $env->get('SCRIPT_NAME'));
+        $this->assertEquals('/foo/bar?abc=123', $env->get('REQUEST_URI'));
+        $this->assertEquals('localhost', $env->get('HTTP_HOST'));
     }
 }

@@ -3,7 +3,7 @@
  * Slim Framework (http://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2015 Josh Lockhart
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Http;
@@ -22,11 +22,11 @@ class Environment extends Collection
      *
      * @param  array $userData Array of custom environment keys and values
      *
-     * @return array
+     * @return self
      */
     public static function mock(array $userData = [])
     {
-        return array_merge([
+        $data = array_merge([
             'SERVER_PROTOCOL'      => 'HTTP/1.1',
             'REQUEST_METHOD'       => 'GET',
             'SCRIPT_NAME'          => '',
@@ -43,5 +43,7 @@ class Environment extends Collection
             'REQUEST_TIME'         => time(),
             'REQUEST_TIME_FLOAT'   => microtime(true),
         ], $userData);
+
+        return new static($data);
     }
 }
