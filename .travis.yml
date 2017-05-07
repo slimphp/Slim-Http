@@ -5,10 +5,11 @@ language: php
 php:
   - 7.0
   - 7.1
+  - nightly
 
 matrix:
   allow_failures:
-    - php: 7.1
+    - php: nightly
 
 before_script:
   - if [[ "$TRAVIS_PHP_VERSION" == '7.0' ]]; then composer require satooshi/php-coveralls:^0.7 squizlabs/php_codesniffer:^2.5 -n ; fi
