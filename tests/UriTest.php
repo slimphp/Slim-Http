@@ -425,16 +425,6 @@ class UriTest extends TestCase
 
         $uri = $uri->withPath('/bar');
         $this->assertEquals('https://josh:sekrit@example.com/bar?abc=123#section3', (string) $uri);
-
-        // ensure that a Uri with just a base path correctly converts to a string
-        // (This occurs via createFromGlobals when index.php is in a subdirectory)
-        $environment = Environment::mock([
-            'SCRIPT_NAME' => '/foo/index.php',
-            'REQUEST_URI' => '/foo/',
-            'HTTP_HOST' => 'example.com',
-        ]);
-        $uri = Uri::createFromGlobals($environment);
-        $this->assertEquals('http://example.com/', (string) $uri);
     }
 
     /**
@@ -514,7 +504,7 @@ class UriTest extends TestCase
         ]);
         $uri = Uri::createFromGlobals($environment);
 
-        $this->assertEquals('baz', $uri->getPath());
+        $this->assertEquals('/f%27oo%20bar/baz', $uri->getPath());
     }
 
     public function testGetBaseUrl()
@@ -592,7 +582,7 @@ class UriTest extends TestCase
                 ]
             )
         );
-        $this->assertSame('bar/baz', $uri->getPath());
+        $this->assertSame('/foo/index.php/bar/baz', $uri->getPath());
     }
 
     public function testRequestURICanContainParams()

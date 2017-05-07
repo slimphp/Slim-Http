@@ -190,26 +190,9 @@ class Uri implements UriInterface
             }
         }
 
-        // Path
-        $requestScriptName = parse_url($env->get('SCRIPT_NAME'), PHP_URL_PATH);
-        $requestScriptDir = dirname($requestScriptName);
-
-        // parse_url() requires a full URL. As we don't extract the domain name or scheme,
-        // we use a stand-in.
+        // parse_url() requires a full URL. As we don't extract the domain name or scheme, we use a stand-in.
         $requestUri = parse_url('http://example.com' . $env->get('REQUEST_URI'), PHP_URL_PATH);
         $requestUri = rawurldecode($requestUri);
-
-        $basePath = '';
-        $virtualPath = $requestUri;
-        if (stripos($requestUri, $requestScriptName) === 0) {
-            $basePath = $requestScriptName;
-        } elseif ($requestScriptDir !== '/' && stripos($requestUri, $requestScriptDir) === 0) {
-            $basePath = $requestScriptDir;
-        }
-
-        if ($basePath) {
-            $virtualPath = ltrim(substr($requestUri, strlen($basePath)), '/');
-        }
 
         // Query string
         $queryString = $env->get('QUERY_STRING', '');
@@ -221,7 +204,7 @@ class Uri implements UriInterface
         $fragment = '';
 
         // Build Uri
-        $uri = new static($scheme, $host, $port, $virtualPath, $queryString, $fragment, $username, $password);
+        $uri = new static($scheme, $host, $port, $requestUri, $queryString, $fragment, $username, $password);
 
         return $uri;
     }
