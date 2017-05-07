@@ -11,11 +11,10 @@ namespace Slim\Http;
 /**
  * Environment
  *
- * This class decouples the Slim application from the global PHP environment.
- * This is particularly useful for unit testing, but it also lets us create
- * custom sub-requests.
+ * This class allows for mocking the global PHP environment.
+ * This is particularly useful for unit testing.
  */
-class Environment extends Collection
+class Environment
 {
     /**
      * Create mock environment
@@ -26,7 +25,7 @@ class Environment extends Collection
      */
     public static function mock(array $userData = [])
     {
-        $data = array_merge([
+        return array_merge([
             'SERVER_PROTOCOL'      => 'HTTP/1.1',
             'REQUEST_METHOD'       => 'GET',
             'SCRIPT_NAME'          => '',
@@ -43,7 +42,5 @@ class Environment extends Collection
             'REQUEST_TIME'         => time(),
             'REQUEST_TIME_FLOAT'   => microtime(true),
         ], $userData);
-
-        return new static($data);
     }
 }

@@ -64,35 +64,35 @@ class UploadedFilesTest extends TestCase
      * @param array $input The input array to parse.
      * @param array $expected The expected normalized output.
      *
-     * @dataProvider providerCreateFromEnvironment
+     * @dataProvider providerCreateFromGlobals
      */
-    public function testCreateFromEnvironmentFromFilesSuperglobal(array $input, array $expected)
+    public function testCreateFromGlobalsFromFilesSuperglobal(array $input, array $expected)
     {
         $_FILES = $input;
 
-        $uploadedFile = UploadedFile::createFromEnvironment(Environment::mock());
+        $uploadedFile = UploadedFile::createFromGlobals(Environment::mock());
         $this->assertEquals($expected, $uploadedFile);
     }
 
     /**
      * @param array $input The input array to parse.
      *
-     * @dataProvider providerCreateFromEnvironment
+     * @dataProvider providerCreateFromGlobals
      */
-    public function testCreateFromEnvironmentFromUserData(array $input)
+    public function testCreateFromGlobalsFromUserData(array $input)
     {
         //If slim.files provided - it will return what was provided
         $userData['slim.files'] = $input;
 
-        $uploadedFile = UploadedFile::createFromEnvironment(Environment::mock($userData));
+        $uploadedFile = UploadedFile::createFromGlobals(Environment::mock($userData));
         $this->assertEquals($input, $uploadedFile);
     }
 
-    public function testCreateFromEnvironmentWithoutFile()
+    public function testCreateFromGlobalsWithoutFile()
     {
         unset($_FILES);
 
-        $uploadedFile = UploadedFile::createFromEnvironment(Environment::mock());
+        $uploadedFile = UploadedFile::createFromGlobals(Environment::mock());
         $this->assertEquals([], $uploadedFile);
     }
 
@@ -221,7 +221,7 @@ class UploadedFilesTest extends TestCase
         $this->addToAssertionCount(1);  // does not throw an exception
     }
 
-    public function providerCreateFromEnvironment()
+    public function providerCreateFromGlobals()
     {
         return [
             // no nest: <input name="avatar" type="file">
@@ -475,11 +475,11 @@ class UploadedFilesTest extends TestCase
         $env = Environment::mock();
 
         $uri = Uri::createFromString('https://example.com:443/foo/bar?abc=123');
-        $headers = Headers::createFromEnvironment($env);
+        $headers = Headers::createFromGlobals($env);
         $cookies = [];
         $serverParams = $env->all();
         $body = new RequestBody();
-        $uploadedFiles = UploadedFile::createFromEnvironment($env);
+        $uploadedFiles = UploadedFile::createFromGlobals($env);
         $request = new Request('GET', $uri, $headers, $cookies, $serverParams, $body, $uploadedFiles);
 
         return $request;

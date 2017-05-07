@@ -103,19 +103,19 @@ class Request extends Message implements ServerRequestInterface
      * Create new HTTP request with data extracted from the application
      * Environment object
      *
-     * @param  Environment $environment The Slim application Environment
+     * @param array $globals The global server variables.
      *
      * @return static
      */
-    public static function createFromEnvironment(Environment $environment)
+    public static function createFromGlobals(array $globals)
     {
-        $method = $environment['REQUEST_METHOD'];
-        $uri = Uri::createFromEnvironment($environment);
-        $headers = Headers::createFromEnvironment($environment);
+        $method = isset($globals['REQUEST_METHOD']) ? $globals['REQUEST_METHOD'] : null;
+        $uri = Uri::createFromGlobals($globals);
+        $headers = Headers::createFromGlobals($globals);
         $cookies = Cookies::parseHeader($headers->get('Cookie', []));
-        $serverParams = $environment->all();
+        $serverParams = $globals;
         $body = new RequestBody();
-        $uploadedFiles = UploadedFile::createFromEnvironment($environment);
+        $uploadedFiles = UploadedFile::createFromGlobals($globals);
 
         $request = new static($method, $uri, $headers, $cookies, $serverParams, $body, $uploadedFiles);
 

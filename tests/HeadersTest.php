@@ -15,12 +15,12 @@ use Slim\Http\Headers;
 
 class HeadersTest extends TestCase
 {
-    public function testCreateFromEnvironment()
+    public function testCreateFromGlobals()
     {
         $e = Environment::mock([
             'HTTP_ACCEPT' => 'application/json',
         ]);
-        $h = Headers::createFromEnvironment($e);
+        $h = Headers::createFromGlobals($e);
         $prop = new ReflectionProperty($h, 'data');
         $prop->setAccessible(true);
 
@@ -28,12 +28,12 @@ class HeadersTest extends TestCase
         $this->assertEquals('application/json', $prop->getValue($h)['accept']['value'][0]);
     }
 
-    public function testCreateFromEnvironmentWithSpecialHeaders()
+    public function testCreateFromGlobalsWithSpecialHeaders()
     {
         $e = Environment::mock([
             'CONTENT_TYPE' => 'application/json',
         ]);
-        $h = Headers::createFromEnvironment($e);
+        $h = Headers::createFromGlobals($e);
         $prop = new ReflectionProperty($h, 'data');
         $prop->setAccessible(true);
 
@@ -41,13 +41,13 @@ class HeadersTest extends TestCase
         $this->assertEquals('application/json', $prop->getValue($h)['content-type']['value'][0]);
     }
 
-    public function testCreateFromEnvironmentIgnoresHeaders()
+    public function testCreateFromGlobalsIgnoresHeaders()
     {
         $e = Environment::mock([
             'CONTENT_TYPE' => 'text/csv',
             'HTTP_CONTENT_LENGTH' => 1230, // <-- Ignored
         ]);
-        $h = Headers::createFromEnvironment($e);
+        $h = Headers::createFromGlobals($e);
         $prop = new ReflectionProperty($h, 'data');
         $prop->setAccessible(true);
 
@@ -220,9 +220,9 @@ class HeadersTest extends TestCase
     {
         $e = Environment::mock([]);
         $en = Headers::determineAuthorization($e);
-        $h = Headers::createFromEnvironment($e);
+        $h = Headers::createFromGlobals($e);
 
-        $this->assertEquals('electrolytes', $en->get('HTTP_AUTHORIZATION'));
-        $this->assertEquals(['electrolytes'], $h->get('Authorization'));
+        $this->assertEquals('electrolytes', $en['HTTP_AUTHORIZATION']);
+        $this->assertEquals(['electrolytes'], $h['Authorization']);
     }
 }

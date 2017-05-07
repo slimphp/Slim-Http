@@ -427,13 +427,13 @@ class UriTest extends TestCase
         $this->assertEquals('https://josh:sekrit@example.com/bar?abc=123#section3', (string) $uri);
 
         // ensure that a Uri with just a base path correctly converts to a string
-        // (This occurs via createFromEnvironment when index.php is in a subdirectory)
+        // (This occurs via createFromGlobals when index.php is in a subdirectory)
         $environment = Environment::mock([
             'SCRIPT_NAME' => '/foo/index.php',
             'REQUEST_URI' => '/foo/',
             'HTTP_HOST' => 'example.com',
         ]);
-        $uri = Uri::createFromEnvironment($environment);
+        $uri = Uri::createFromGlobals($environment);
         $this->assertEquals('http://example.com/', (string) $uri);
     }
 
@@ -473,7 +473,7 @@ class UriTest extends TestCase
             'SERVER_PORT' => 8080,
         ]);
 
-        $uri = Uri::createFromEnvironment($environment);
+        $uri = Uri::createFromGlobals($environment);
 
         $this->assertEquals('josh:sekrit', $uri->getUserInfo());
         $this->assertEquals('example.com', $uri->getHost());
@@ -496,7 +496,7 @@ class UriTest extends TestCase
             'SERVER_PORT' => 8080,
         ]);
 
-        $uri = Uri::createFromEnvironment($environment);
+        $uri = Uri::createFromGlobals($environment);
 
         $this->assertEquals('josh:sekrit', $uri->getUserInfo());
         $this->assertEquals('[2001:db8::1]', $uri->getHost());
@@ -512,7 +512,7 @@ class UriTest extends TestCase
             'SCRIPT_NAME' => "/f'oo bar/index.php",
             'REQUEST_URI' => "/f%27oo%20bar/baz",
         ]);
-        $uri = Uri::createFromEnvironment($environment);
+        $uri = Uri::createFromGlobals($environment);
 
         $this->assertEquals('baz', $uri->getPath());
     }
@@ -526,7 +526,7 @@ class UriTest extends TestCase
             'HTTP_HOST' => 'example.com:80',
             'SERVER_PORT' => 80
         ]);
-        $uri = Uri::createFromEnvironment($environment);
+        $uri = Uri::createFromGlobals($environment);
 
         $this->assertEquals('http://example.com', $uri->getBaseUrl());
     }
@@ -540,7 +540,7 @@ class UriTest extends TestCase
             'HTTP_HOST' => 'example.com:80',
             'SERVER_PORT' => 80
         ]);
-        $uri = Uri::createFromEnvironment($environment);
+        $uri = Uri::createFromGlobals($environment);
 
         $this->assertEquals('http://example.com', $uri->getBaseUrl());
     }
@@ -556,13 +556,13 @@ class UriTest extends TestCase
             'HTTP_HOST' => 'example.com:8080',
             'SERVER_PORT' => 8080
         ]);
-        $uri = Uri::createFromEnvironment($environment);
+        $uri = Uri::createFromGlobals($environment);
 
         $this->assertEquals('http://josh:sekrit@example.com:8080', $uri->getBaseUrl());
     }
 
     /**
-     * @covers Slim\Http\Uri::createFromEnvironment
+     * @covers Slim\Http\Uri::createFromGlobals
      * @ticket 1380
      */
     public function testWithPathWhenBaseRootIsEmpty()
@@ -571,7 +571,7 @@ class UriTest extends TestCase
             'SCRIPT_NAME' => '/index.php',
             'REQUEST_URI' => '/bar',
         ]);
-        $uri = \Slim\Http\Uri::createFromEnvironment($environment);
+        $uri = \Slim\Http\Uri::createFromGlobals($environment);
 
         $this->assertEquals('http://localhost/test', (string) $uri->withPath('test'));
     }
@@ -584,7 +584,7 @@ class UriTest extends TestCase
      */
     public function testRequestURIContainsIndexDotPhp()
     {
-        $uri = Uri::createFromEnvironment(
+        $uri = Uri::createFromGlobals(
             Environment::mock(
                 [
                     'SCRIPT_NAME' => '/foo/index.php',
@@ -597,7 +597,7 @@ class UriTest extends TestCase
 
     public function testRequestURICanContainParams()
     {
-        $uri = Uri::createFromEnvironment(
+        $uri = Uri::createFromGlobals(
             Environment::mock(
                 [
                     'REQUEST_URI' => '/foo?abc=123',

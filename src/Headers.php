@@ -39,17 +39,17 @@ class Headers extends Collection implements HeadersInterface
 
     /**
      * Create new headers collection with data extracted from
-     * the application Environment object
+     * the PHP global environment
      *
-     * @param Environment $environment The Slim application Environment
+     * @param array $globals Global server variables
      *
      * @return self
      */
-    public static function createFromEnvironment(Environment $environment)
+    public static function createFromGlobals(array $globals)
     {
         $data = [];
-        $environment = self::determineAuthorization($environment);
-        foreach ($environment as $key => $value) {
+        $globals = self::determineAuthorization($globals);
+        foreach ($globals as $key => $value) {
             $key = strtoupper($key);
             if (isset(static::$special[$key]) || strpos($key, 'HTTP_') === 0) {
                 if ($key !== 'HTTP_CONTENT_LENGTH') {
@@ -65,24 +65,24 @@ class Headers extends Collection implements HeadersInterface
      * If HTTP_AUTHORIZATION does not exist tries to get it from
      * getallheaders() when available.
      *
-     * @param Environment $environment The Slim application Environment
+     * @param array $globals The Slim application Environment
      *
-     * @return Environment
+     * @return array
      */
 
-    public static function determineAuthorization(Environment $environment)
+    public static function determineAuthorization(array $globals)
     {
-        $authorization = $environment->get('HTTP_AUTHORIZATION');
+        $authorization = isset($globals['HTTP_AUTHORIZATION']) ? $globals['HTTP_AUTHORIZATION'] : null;
 
         if (null === $authorization && is_callable('getallheaders')) {
             $headers = getallheaders();
             $headers = array_change_key_case($headers, CASE_LOWER);
             if (isset($headers['authorization'])) {
-                $environment->set('HTTP_AUTHORIZATION', $headers['authorization']);
+                $globals['HTTP_AUTHORIZATION'] = $headers['authorization'];
             }
         }
 
-        return $environment;
+        return $globals;
     }
 
     /**

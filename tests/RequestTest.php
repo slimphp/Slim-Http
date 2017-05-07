@@ -26,14 +26,14 @@ class RequestTest extends TestCase
         $env = Environment::mock($envData);
 
         $uri = Uri::createFromString('https://example.com:443/foo/bar?abc=123');
-        $headers = Headers::createFromEnvironment($env);
+        $headers = Headers::createFromGlobals($env);
         $cookies = [
             'user' => 'john',
             'id' => '123',
         ];
-        $serverParams = $env->all();
+        $serverParams = $env;
         $body = new RequestBody();
-        $uploadedFiles = UploadedFile::createFromEnvironment($env);
+        $uploadedFiles = UploadedFile::createFromGlobals($env);
         $request = new Request('GET', $uri, $headers, $cookies, $serverParams, $body, $uploadedFiles);
 
         return $request;
@@ -92,9 +92,9 @@ class RequestTest extends TestCase
     }
 
     /**
-     * @covers Slim\Http\Request::createFromEnvironment
+     * @covers Slim\Http\Request::createFromGlobals
      */
-    public function testCreateFromEnvironment()
+    public function testCreateFromGlobals()
     {
         $env = Environment::mock([
             'SCRIPT_NAME' => '/index.php',
@@ -102,15 +102,15 @@ class RequestTest extends TestCase
             'REQUEST_METHOD' => 'POST',
         ]);
 
-        $request = Request::createFromEnvironment($env);
+        $request = Request::createFromGlobals($env);
         $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals($env->all(), $request->getServerParams());
+        $this->assertEquals($env, $request->getServerParams());
     }
 
     /**
-     * @covers Slim\Http\Request::createFromEnvironment
+     * @covers Slim\Http\Request::createFromGlobals
      */
-    public function testCreateFromEnvironmentWithMultipart()
+    public function testCreateFromGlobalsWithMultipart()
     {
         $_POST['foo'] = 'bar';
 
@@ -121,7 +121,7 @@ class RequestTest extends TestCase
             'HTTP_CONTENT_TYPE' => 'multipart/form-data; boundary=---foo'
         ]);
 
-        $request = Request::createFromEnvironment($env);
+        $request = Request::createFromGlobals($env);
         unset($_POST);
 
         $this->assertEquals(['foo' => 'bar'], $request->getParsedBody());
@@ -1081,7 +1081,7 @@ class RequestTest extends TestCase
     public function testGetProtocolVersion()
     {
         $env = Environment::mock(['SERVER_PROTOCOL' => 'HTTP/1.0']);
-        $request = Request::createFromEnvironment($env);
+        $request = Request::createFromGlobals($env);
 
         $this->assertEquals('1.0', $request->getProtocolVersion());
     }
