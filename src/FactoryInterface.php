@@ -7,11 +7,26 @@ use Psr\Http\Message\UriInterface;
 
 interface FactoryInterface
 {
-    public function makeRequest(array $globals) : ServerRequestInterface;
+    /**
+     * @param array $globals
+     * @return ServerRequestInterface
+     */
+    public function makeRequest(array $globals);
 
-    public function makeUri(array $globals) : UriInterface;
+    /**
+     * @param array $globals
+     * @return UriInterface
+     */
+    public function makeUri(array $globals);
 
-    public function makeHeaders(array $globals) : HeadersInterface;
+    /**
+     * @param array $globals
+     * @return HeadersInterface
+     */
+    public function makeHeaders(array $globals);
 
-    public function makeBody() : StreamInterface;
+    /**
+     * @return StreamInterface
+     */
+    public function makeBody();
 }

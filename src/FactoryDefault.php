@@ -13,7 +13,7 @@ class FactoryDefault implements FactoryInterface
      * @param  array $globals The $_SERVER super-global
      * @return \Psr\Http\Message\ServerRequestInterface
      */
-    public function makeRequest(array $globals) : ServerRequestInterface
+    public function makeRequest(array $globals)
     {
         $method = $globals['REQUEST_METHOD'];
         $uri = $this->makeUri($globals);
@@ -37,7 +37,7 @@ class FactoryDefault implements FactoryInterface
      * @param  array $globals The $_SERVER super-global
      * @return \Psr\Http\Message\UriInterface
      */
-    public function makeUri(array $globals) : UriInterface
+    public function makeUri(array $globals)
     {
         $env = new Collection($globals);
 
@@ -92,7 +92,7 @@ class FactoryDefault implements FactoryInterface
      * @param  array $globals The $_SERVER super-global
      * @return \Slim\Http\HeadersInterface
      */
-    public function makeHeaders(array $globals) : HeadersInterface
+    public function makeHeaders(array $globals)
     {
         $special = [
             'CONTENT_TYPE' => 1,
@@ -120,7 +120,7 @@ class FactoryDefault implements FactoryInterface
      *
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function makeBody() : StreamInterface
+    public function makeBody()
     {
         $stream = fopen('php://temp', 'w+');
         stream_copy_to_stream(fopen('php://input', 'r'), $stream);
