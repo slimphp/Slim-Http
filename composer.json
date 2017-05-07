@@ -27,7 +27,7 @@
     "psr/http-message": "^1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.0"
+    "phpunit/phpunit": "^5.7|^6.0"
   },
   "conflict": {
     "slim/slim": "^3.0"
