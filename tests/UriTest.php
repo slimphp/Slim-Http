@@ -15,11 +15,6 @@ use Slim\Http\Uri;
 
 class UriTest extends TestCase
 {
-    /**
-     * @var resource
-     */
-    protected $uri;
-
     public function uriFactory()
     {
         $scheme = 'https';
@@ -93,90 +88,42 @@ class UriTest extends TestCase
 
     public function testGetAuthorityWithUsername()
     {
-        $scheme = 'https';
-        $user = 'josh';
-        $password = '';
-        $host = 'example.com';
-        $path = '/foo/bar';
-        $port = 443;
-        $query = 'abc=123';
-        $fragment = 'section3';
-        $uri = new Uri($scheme, $host, $port, $path, $query, $fragment, $user, $password);
+        $uri = Uri::createFromString('https://josh@example.com/foo/bar?abc=123#section3');
 
         $this->assertEquals('josh@example.com', $uri->getAuthority());
     }
 
     public function testGetAuthority()
     {
-        $scheme = 'https';
-        $user = '';
-        $password = '';
-        $host = 'example.com';
-        $path = '/foo/bar';
-        $port = 443;
-        $query = 'abc=123';
-        $fragment = 'section3';
-        $uri = new Uri($scheme, $host, $port, $path, $query, $fragment, $user, $password);
+        $uri = Uri::createFromString('https://example.com/foo/bar?abc=123#section3');
 
         $this->assertEquals('example.com', $uri->getAuthority());
     }
 
     public function testGetAuthorityWithNonStandardPort()
     {
-        $scheme = 'https';
-        $user = '';
-        $password = '';
-        $host = 'example.com';
-        $path = '/foo/bar';
-        $port = 400;
-        $query = 'abc=123';
-        $fragment = 'section3';
-        $uri = new Uri($scheme, $host, $port, $path, $query, $fragment, $user, $password);
+        $uri = Uri::createFromString('https://example.com:400/foo/bar?abc=123#section3');
 
         $this->assertEquals('example.com:400', $uri->getAuthority());
     }
 
     public function testGetUserInfoWithUsernameAndPassword()
     {
-        $scheme = 'https';
-        $user = 'josh';
-        $password = 'sekrit';
-        $host = 'example.com';
-        $path = '/foo/bar';
-        $port = 443;
-        $query = 'abc=123';
-        $fragment = 'section3';
-        $uri = new Uri($scheme, $host, $port, $path, $query, $fragment, $user, $password);
+        $uri = Uri::createFromString('https://josh:sekrit@example.com:443/foo/bar?abc=123#section3');
 
         $this->assertEquals('josh:sekrit', $uri->getUserInfo());
     }
 
     public function testGetUserInfoWithUsername()
     {
-        $scheme = 'https';
-        $user = 'josh';
-        $password = '';
-        $host = 'example.com';
-        $path = '/foo/bar';
-        $port = 443;
-        $query = 'abc=123';
-        $fragment = 'section3';
-        $uri = new Uri($scheme, $host, $port, $path, $query, $fragment, $user, $password);
+        $uri = Uri::createFromString('http://josh@example.com/foo/bar?abc=123#section3');
 
         $this->assertEquals('josh', $uri->getUserInfo());
     }
 
     public function testGetUserInfoNone()
     {
-        $scheme = 'https';
-        $user = '';
-        $password = '';
-        $host = 'example.com';
-        $path = '/foo/bar';
-        $port = 443;
-        $query = 'abc=123';
-        $fragment = 'section3';
-        $uri = new Uri($scheme, $host, $port, $path, $query, $fragment, $user, $password);
+        $uri = Uri::createFromString('https://example.com/foo/bar?abc=123#section3');
 
         $this->assertEquals('', $uri->getUserInfo());
     }
@@ -218,11 +165,11 @@ class UriTest extends TestCase
 
     public function testGetPortWithSchemeAndDefaultPort()
     {
-        $uriHppt = new Uri('http', 'www.example.com', 80);
-        $uriHppts = new Uri('https', 'www.example.com', 443);
+        $uriHttp = new Uri('http', 'www.example.com', 80);
+        $uriHttps = new Uri('https', 'www.example.com', 443);
 
-        $this->assertNull($uriHppt->getPort());
-        $this->assertNull($uriHppts->getPort());
+        $this->assertNull($uriHttp->getPort());
+        $this->assertNull($uriHttps->getPort());
     }
 
     public function testGetPortWithoutSchemeAndPort()
@@ -451,9 +398,9 @@ class UriTest extends TestCase
         Uri::createFromString(['https://example.com:8080/foo/bar?abc=123']);
     }
 
-    public function testCreateEnvironment()
+    public function testCreateFromGlobals()
     {
-        $environment = Environment::mock([
+        $globals = Environment::mock([
             'SCRIPT_NAME' => '/index.php',
             'REQUEST_URI' => '/foo/bar',
             'PHP_AUTH_USER' => 'josh',
@@ -463,7 +410,7 @@ class UriTest extends TestCase
             'SERVER_PORT' => 8080,
         ]);
 
-        $uri = Uri::createFromGlobals($environment);
+        $uri = Uri::createFromGlobals($globals);
 
         $this->assertEquals('josh:sekrit', $uri->getUserInfo());
         $this->assertEquals('example.com', $uri->getHost());
@@ -473,9 +420,9 @@ class UriTest extends TestCase
         $this->assertEquals('', $uri->getFragment());
     }
 
-    public function testCreateEnvironmentWithIPv6Host()
+    public function testCreateFromGlobalsWithIPv6Host()
     {
-        $environment = Environment::mock([
+        $globals = Environment::mock([
             'SCRIPT_NAME' => '/index.php',
             'REQUEST_URI' => '/foo/bar',
             'PHP_AUTH_USER' => 'josh',
@@ -486,7 +433,7 @@ class UriTest extends TestCase
             'SERVER_PORT' => 8080,
         ]);
 
-        $uri = Uri::createFromGlobals($environment);
+        $uri = Uri::createFromGlobals($globals);
 
         $this->assertEquals('josh:sekrit', $uri->getUserInfo());
         $this->assertEquals('[2001:db8::1]', $uri->getHost());
@@ -496,48 +443,48 @@ class UriTest extends TestCase
         $this->assertEquals('', $uri->getFragment());
     }
 
-    public function testCreateEnvironmentWithBasePathContainingSpace()
+    public function testCreateFromGlobalsWithBasePathContainingSpace()
     {
-        $environment = Environment::mock([
+        $globals = Environment::mock([
             'SCRIPT_NAME' => "/f'oo bar/index.php",
             'REQUEST_URI' => "/f%27oo%20bar/baz",
         ]);
-        $uri = Uri::createFromGlobals($environment);
+        $uri = Uri::createFromGlobals($globals);
 
         $this->assertEquals('/f%27oo%20bar/baz', $uri->getPath());
     }
 
     public function testGetBaseUrl()
     {
-        $environment = Environment::mock([
+        $globals = Environment::mock([
             'SCRIPT_NAME' => '/foo/index.php',
             'REQUEST_URI' => '/foo/bar',
             'QUERY_STRING' => 'abc=123',
             'HTTP_HOST' => 'example.com:80',
             'SERVER_PORT' => 80
         ]);
-        $uri = Uri::createFromGlobals($environment);
+        $uri = Uri::createFromGlobals($globals);
 
         $this->assertEquals('http://example.com', $uri->getBaseUrl());
     }
 
     public function testGetBaseUrlWithNoBasePath()
     {
-        $environment = Environment::mock([
+        $globals = Environment::mock([
             'SCRIPT_NAME' => '/index.php',
             'REQUEST_URI' => '/foo/bar',
             'QUERY_STRING' => 'abc=123',
             'HTTP_HOST' => 'example.com:80',
             'SERVER_PORT' => 80
         ]);
-        $uri = Uri::createFromGlobals($environment);
+        $uri = Uri::createFromGlobals($globals);
 
         $this->assertEquals('http://example.com', $uri->getBaseUrl());
     }
 
     public function testGetBaseUrlWithAuthority()
     {
-        $environment = Environment::mock([
+        $globals = Environment::mock([
             'SCRIPT_NAME' => '/foo/index.php',
             'REQUEST_URI' => '/foo/bar',
             'PHP_AUTH_USER' => 'josh',
@@ -546,7 +493,7 @@ class UriTest extends TestCase
             'HTTP_HOST' => 'example.com:8080',
             'SERVER_PORT' => 8080
         ]);
-        $uri = Uri::createFromGlobals($environment);
+        $uri = Uri::createFromGlobals($globals);
 
         $this->assertEquals('http://josh:sekrit@example.com:8080', $uri->getBaseUrl());
     }
@@ -557,11 +504,11 @@ class UriTest extends TestCase
      */
     public function testWithPathWhenBaseRootIsEmpty()
     {
-        $environment = \Slim\Http\Environment::mock([
+        $globals = \Slim\Http\Environment::mock([
             'SCRIPT_NAME' => '/index.php',
             'REQUEST_URI' => '/bar',
         ]);
-        $uri = \Slim\Http\Uri::createFromGlobals($environment);
+        $uri = \Slim\Http\Uri::createFromGlobals($globals);
 
         $this->assertEquals('http://localhost/test', (string) $uri->withPath('test'));
     }
