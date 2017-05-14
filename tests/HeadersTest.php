@@ -225,4 +225,24 @@ class HeadersTest extends TestCase
         $this->assertEquals('electrolytes', $en['HTTP_AUTHORIZATION']);
         $this->assertEquals(['electrolytes'], $h['Authorization']);
     }
+
+    public function testDetermineAuthorizationHonoursHttpAuthorizationKey()
+    {
+        $e = Environment::mock(['HTTP_AUTHORIZATION' => 'foo']);
+        $en = Headers::determineAuthorization($e);
+        $h = Headers::createFromGlobals($e);
+
+        $this->assertEquals('foo', $en['HTTP_AUTHORIZATION']);
+        $this->assertEquals(['foo'], $h['Authorization']);
+    }
+
+    public function testDetermineAuthorizationWhenEmpty()
+    {
+        $e = Environment::mock(['HTTP_AUTHORIZATION' => '']);
+        $en = Headers::determineAuthorization($e);
+        $h = Headers::createFromGlobals($e);
+
+        $this->assertEquals('electrolytes', $en['HTTP_AUTHORIZATION']);
+        $this->assertEquals(['electrolytes'], $h['Authorization']);
+    }
 }
