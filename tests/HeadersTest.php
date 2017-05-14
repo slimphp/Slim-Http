@@ -1,10 +1,10 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2015 Josh Lockhart
- * @license   https://github.com/slimphp/Slim/blob/master/LICENSE.md (MIT License)
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Tests\Http;
 
@@ -15,7 +15,7 @@ use Slim\Http\Headers;
 
 class HeadersTest extends TestCase
 {
-    public function testCreateFromEnvironment()
+    public function testCreateFromGlobals()
     {
         $e = Environment::mock([
             'HTTP_ACCEPT' => 'application/json',
@@ -28,7 +28,7 @@ class HeadersTest extends TestCase
         $this->assertEquals('application/json', $prop->getValue($h)['accept']['value'][0]);
     }
 
-    public function testCreateFromEnvironmentWithSpecialHeaders()
+    public function testCreateFromGlobalsWithSpecialHeaders()
     {
         $e = Environment::mock([
             'CONTENT_TYPE' => 'application/json',
@@ -41,7 +41,7 @@ class HeadersTest extends TestCase
         $this->assertEquals('application/json', $prop->getValue($h)['content-type']['value'][0]);
     }
 
-    public function testCreateFromEnvironmentIgnoresHeaders()
+    public function testCreateFromGlobalsIgnoresHeaders()
     {
         $e = Environment::mock([
             'CONTENT_TYPE' => 'text/csv',
@@ -103,25 +103,24 @@ class HeadersTest extends TestCase
         $this->assertEquals(['GET', 'POST'], $h->get('Allow'));
     }
 
+    public function testGetOriginalKey()
+    {
+        $h = new Headers();
+        $h->set('http-test_key', 'testValue');
+        $h->get('test-key');
+
+        $value = $h->get('test-key');
+
+        $this->assertEquals('testValue', reset($value));
+        $this->assertEquals('http-test_key', $h->getOriginalKey('test-key'));
+        $this->assertNull($h->getOriginalKey('test-non-existing'));
+    }
+
     public function testGetNotExists()
     {
         $h = new Headers();
 
         $this->assertNull($h->get('Foo'));
-    }
-
-    public function testGetOriginalKey()
-    {
-        $h = new Headers(['X-FooBar' => 'baz']);
-
-        $this->assertSame('X-FooBar', $h->getOriginalKey('x-foobar'));
-    }
-
-    public function testGetOriginalKeyThatDoesNotExist()
-    {
-        $h = new Headers(['X-Foo' => 'baz']);
-
-        $this->assertSame('nope', $h->getOriginalKey('x-foobar', 'nope'));
     }
 
     public function testAddNewValue()
@@ -215,5 +214,35 @@ class HeadersTest extends TestCase
         $this->assertEquals('foo-bar', $h->normalizeKey('Http_Foo_Bar'));
         $this->assertEquals('foo-bar', $h->normalizeKey('http_foo_bar'));
         $this->assertEquals('foo-bar', $h->normalizeKey('http-foo-bar'));
+    }
+
+    public function testDetermineAuthorization()
+    {
+        $e = Environment::mock([]);
+        $en = Headers::determineAuthorization($e);
+        $h = Headers::createFromGlobals($e);
+
+        $this->assertEquals('electrolytes', $en['HTTP_AUTHORIZATION']);
+        $this->assertEquals(['electrolytes'], $h['Authorization']);
+    }
+
+    public function testDetermineAuthorizationHonoursHttpAuthorizationKey()
+    {
+        $e = Environment::mock(['HTTP_AUTHORIZATION' => 'foo']);
+        $en = Headers::determineAuthorization($e);
+        $h = Headers::createFromGlobals($e);
+
+        $this->assertEquals('foo', $en['HTTP_AUTHORIZATION']);
+        $this->assertEquals(['foo'], $h['Authorization']);
+    }
+
+    public function testDetermineAuthorizationWhenEmpty()
+    {
+        $e = Environment::mock(['HTTP_AUTHORIZATION' => '']);
+        $en = Headers::determineAuthorization($e);
+        $h = Headers::createFromGlobals($e);
+
+        $this->assertEquals('electrolytes', $en['HTTP_AUTHORIZATION']);
+        $this->assertEquals(['electrolytes'], $h['Authorization']);
     }
 }

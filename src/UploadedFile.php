@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2015 Josh Lockhart
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Http;
@@ -24,7 +24,7 @@ use Psr\Http\Message\UploadedFileInterface;
 class UploadedFile implements UploadedFileInterface
 {
     /**
-     * The full path to the uploaded file provided by the client.
+     * The client-provided full path to the file
      *
      * @var string
      */
@@ -80,7 +80,7 @@ class UploadedFile implements UploadedFileInterface
     protected $moved = false;
 
     /**
-     * Create a normalized tree of UploadedFile instances from global server variables.
+     * Create a normalized tree of UploadedFile instances from the Environment.
      *
      * @param array $globals The global server variables.
      *
@@ -115,26 +115,28 @@ class UploadedFile implements UploadedFileInterface
                 }
                 continue;
             }
+
             $parsed[$field] = [];
             if (!is_array($uploadedFile['error'])) {
                 $parsed[$field] = new static(
                     $uploadedFile['tmp_name'],
-                    isset($uploadedFile['tmp_name']) ? $uploadedFile['name'] : null,
+                    isset($uploadedFile['name']) ? $uploadedFile['name'] : null,
                     isset($uploadedFile['type']) ? $uploadedFile['type'] : null,
                     isset($uploadedFile['size']) ? $uploadedFile['size'] : null,
                     $uploadedFile['error'],
                     true
                 );
             } else {
+                $subArray = [];
                 foreach ($uploadedFile['error'] as $fileIdx => $error) {
-                    $parsed[$field][] = new static(
-                        $uploadedFile['tmp_name'][$fileIdx],
-                        isset($uploadedFile['tmp_name']) ? $uploadedFile['name'][$fileIdx] : null,
-                        isset($uploadedFile['type']) ? $uploadedFile['type'][$fileIdx] : null,
-                        isset($uploadedFile['size']) ? $uploadedFile['size'][$fileIdx] : null,
-                        $uploadedFile['error'][$fileIdx],
-                        true
-                    );
+                    // normalise subarray and re-parse to move the input's keyname up a level
+                    $subArray[$fileIdx]['name'] = $uploadedFile['name'][$fileIdx];
+                    $subArray[$fileIdx]['type'] = $uploadedFile['type'][$fileIdx];
+                    $subArray[$fileIdx]['tmp_name'] = $uploadedFile['tmp_name'][$fileIdx];
+                    $subArray[$fileIdx]['error'] = $uploadedFile['error'][$fileIdx];
+                    $subArray[$fileIdx]['size'] = $uploadedFile['size'][$fileIdx];
+
+                    $parsed[$field] = static::parseUploadedFiles($subArray);
                 }
             }
         }
@@ -230,11 +232,11 @@ class UploadedFile implements UploadedFileInterface
             throw new RuntimeException('Uploaded file already moved');
         }
 
-        if (!is_writable(dirname($targetPath))) {
+        $targetIsStream = strpos($targetPath, '://') > 0;
+        if (!$targetIsStream && !is_writable(dirname($targetPath))) {
             throw new InvalidArgumentException('Upload target path is not writable');
         }
 
-        $targetIsStream = strpos($targetPath, '://') > 0;
         if ($targetIsStream) {
             if (!copy($this->file, $targetPath)) {
                 throw new RuntimeException(sprintf('Error moving uploaded file %1s to %2s', $this->name, $targetPath));

@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2015 Josh Lockhart
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Http;
@@ -39,17 +39,17 @@ class Headers extends Collection implements HeadersInterface
 
     /**
      * Create new headers collection with data extracted from
-     * the application Environment object
+     * the PHP global environment
      *
-     * @param array $globals Global server variables.
+     * @param array $globals Global server variables
      *
      * @return self
      */
     public static function createFromGlobals(array $globals)
     {
-        $env = new Collection($globals);
         $data = [];
-        foreach ($env as $key => $value) {
+        $globals = self::determineAuthorization($globals);
+        foreach ($globals as $key => $value) {
             $key = strtoupper($key);
             if (isset(static::$special[$key]) || strpos($key, 'HTTP_') === 0) {
                 if ($key !== 'HTTP_CONTENT_LENGTH') {
@@ -59,6 +59,30 @@ class Headers extends Collection implements HeadersInterface
         }
 
         return new static($data);
+    }
+
+    /**
+     * If HTTP_AUTHORIZATION does not exist tries to get it from
+     * getallheaders() when available.
+     *
+     * @param array $globals The Slim application Environment
+     *
+     * @return array
+     */
+
+    public static function determineAuthorization(array $globals)
+    {
+        $authorization = isset($globals['HTTP_AUTHORIZATION']) ? $globals['HTTP_AUTHORIZATION'] : null;
+
+        if (empty($authorization) && is_callable('getallheaders')) {
+            $headers = getallheaders();
+            $headers = array_change_key_case($headers, CASE_LOWER);
+            if (isset($headers['authorization'])) {
+                $globals['HTTP_AUTHORIZATION'] = $headers['authorization'];
+            }
+        }
+
+        return $globals;
     }
 
     /**

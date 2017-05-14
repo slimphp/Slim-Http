@@ -1,15 +1,15 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2015 Josh Lockhart
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Http;
 
 use InvalidArgumentException;
-use Psr\Http\Message\UriInterface;
+use \Psr\Http\Message\UriInterface;
 
 /**
  * Value object representing a URI.
@@ -101,8 +101,16 @@ class Uri implements UriInterface
      * @param string $user     Uri user.
      * @param string $password Uri password.
      */
-    public function __construct($scheme, $host, $port = null, $path = '/', $query = '', $fragment = '', $user = '', $password = '')
-    {
+    public function __construct(
+        $scheme,
+        $host,
+        $port = null,
+        $path = '/',
+        $query = '',
+        $fragment = '',
+        $user = '',
+        $password = ''
+    ) {
         $this->scheme = $this->filterScheme($scheme);
         $this->host = $host;
         $this->port = $this->filterPort($port);
@@ -111,6 +119,94 @@ class Uri implements UriInterface
         $this->fragment = $this->filterQuery($fragment);
         $this->user = $user;
         $this->password = $password;
+    }
+
+    /**
+     * Create new Uri from string.
+     *
+     * @param  string $uri Complete Uri string
+     *     (i.e., https://user:pass@host:443/path?query).
+     *
+     * @return self
+     */
+    public static function createFromString($uri)
+    {
+        if (!is_string($uri) && !method_exists($uri, '__toString')) {
+            throw new InvalidArgumentException('Uri must be a string');
+        }
+
+        $parts = parse_url($uri);
+        $scheme = isset($parts['scheme']) ? $parts['scheme'] : '';
+        $user = isset($parts['user']) ? $parts['user'] : '';
+        $pass = isset($parts['pass']) ? $parts['pass'] : '';
+        $host = isset($parts['host']) ? $parts['host'] : '';
+        $port = isset($parts['port']) ? $parts['port'] : null;
+        $path = isset($parts['path']) ? $parts['path'] : '';
+        $query = isset($parts['query']) ? $parts['query'] : '';
+        $fragment = isset($parts['fragment']) ? $parts['fragment'] : '';
+
+        return new static($scheme, $host, $port, $path, $query, $fragment, $user, $pass);
+    }
+
+    /**
+     * Create new Uri from environment.
+     *
+     * @param array $globals The global server variables.
+     *
+     * @return self
+     */
+    public static function createFromGlobals(array $globals)
+    {
+        $env = new Collection($globals);
+
+        // Scheme
+        $isSecure = $env->get('HTTPS');
+        $scheme = (empty($isSecure) || $isSecure === 'off') ? 'http' : 'https';
+
+        // Authority: Username and password
+        $username = $env->get('PHP_AUTH_USER', '');
+        $password = $env->get('PHP_AUTH_PW', '');
+
+        // Authority: Host
+        if ($env->has('HTTP_HOST')) {
+            $host = $env->get('HTTP_HOST');
+        } else {
+            $host = $env->get('SERVER_NAME');
+        }
+
+        // Authority: Port
+        $port = (int)$env->get('SERVER_PORT', 80);
+        if (preg_match('/^(\[[a-fA-F0-9:.]+\])(:\d+)?\z/', $host, $matches)) {
+            $host = $matches[1];
+
+            if (isset($matches[2])) {
+                $port = (int) substr($matches[2], 1);
+            }
+        } else {
+            $pos = strpos($host, ':');
+            if ($pos !== false) {
+                $port = (int) substr($host, $pos + 1);
+                $host = strstr($host, ':', true);
+            }
+        }
+
+        // parse_url() requires a full URL. As we don't extract the domain name or scheme, we use a stand-in.
+        $requestUri = parse_url('http://example.com' . $env->get('REQUEST_URI'), PHP_URL_PATH);
+        $requestUri = rawurldecode($requestUri);
+
+        // Query string
+        $queryString = $env->get('QUERY_STRING', '');
+        if ($queryString === '') {
+            $queryString = parse_url('http://example.com' . $env->get('REQUEST_URI'), PHP_URL_QUERY);
+        }
+
+        // Fragment
+        $fragment = '';
+
+        // Build Uri
+        $uri = new static($scheme, $host, $port, $requestUri, $queryString, $fragment, $username, $password);
+
+        return $uri;
     }
 
     /********************************************************************************
@@ -625,9 +721,27 @@ class Uri implements UriInterface
         $path = '/' . ltrim($path, '/');
 
         return ($scheme ? $scheme . ':' : '')
-        . ($authority ? '//' . $authority : '')
-        . $path
-        . ($query ? '?' . $query : '')
-        . ($fragment ? '#' . $fragment : '');
+            . ($authority ? '//' . $authority : '')
+            . $path
+            . ($query ? '?' . $query : '')
+            . ($fragment ? '#' . $fragment : '');
+    }
+
+    /**
+     * Return the fully qualified base URL.
+     *
+     * Note that this method never includes a trailing /
+     *
+     * This method is not part of PSR-7.
+     *
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        $scheme = $this->getScheme();
+        $authority = $this->getAuthority();
+
+        return ($scheme ? $scheme . ':' : '')
+            . ($authority ? '//' . $authority : '');
     }
 }

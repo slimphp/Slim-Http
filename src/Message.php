@@ -1,9 +1,9 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2015 Josh Lockhart
+ * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim\Http;
@@ -22,7 +22,7 @@ use Psr\Http\Message\StreamInterface;
  * @see Slim\Http\Request
  * @see Slim\Http\Response
  */
-abstract class Message
+abstract class Message implements MessageInterface
 {
     /**
      * Protocol version
@@ -32,9 +32,20 @@ abstract class Message
     protected $protocolVersion = '1.1';
 
     /**
+     * A map of valid protocol versions
+     *
+     * @var array
+     */
+    protected static $validProtocolVersions = [
+        '1.0' => true,
+        '1.1' => true,
+        '2.0' => true,
+    ];
+
+    /**
      * Headers
      *
-     * @var HeadersInterface
+     * @var \Slim\Http\HeadersInterface
      */
     protected $headers;
 
@@ -86,13 +97,11 @@ abstract class Message
      */
     public function withProtocolVersion($version)
     {
-        static $valid = [
-            '1.0' => true,
-            '1.1' => true,
-            '2.0' => true,
-        ];
-        if (!isset($valid[$version])) {
-            throw new InvalidArgumentException('Invalid HTTP version. Must be one of: 1.0, 1.1, 2.0');
+        if (!isset(self::$validProtocolVersions[$version])) {
+            throw new InvalidArgumentException(
+                'Invalid HTTP version. Must be one of: '
+                . implode(', ', array_keys(self::$validProtocolVersions))
+            );
         }
         $clone = clone $this;
         $clone->protocolVersion = $version;
