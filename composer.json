@@ -1,7 +1,7 @@
 {
   "name": "slim/http",
   "type": "library",
-  "description": "Strict PSR-7 implementation",
+  "description": "Slim's PSR-7 implementation",
   "keywords": ["psr7","psr-7","http"],
   "homepage": "http://slimframework.com",
   "license": "MIT",
