@@ -279,7 +279,6 @@ class Request extends Message implements ServerRequestInterface
             ));
         }
 
-        $method = strtoupper($method);
         if (preg_match("/^[!#$%&'*+.^_`|~0-9a-z-]+$/i", $method) !== 1) {
             throw new InvalidArgumentException(sprintf(
                 'Unsupported HTTP method "%s" provided',
