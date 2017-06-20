@@ -22,9 +22,13 @@
       "homepage": "http://akrabat.com"
     }
   ],
+  "provide": {
+    "psr/http-factory-implementation": "^1.0"
+  },
   "require": {
     "php": ">=7.0.0",
-    "psr/http-message": "^1.0"
+    "psr/http-message": "^1.0",
+    "http-interop/http-factory": "0.3.0"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^2.5",
