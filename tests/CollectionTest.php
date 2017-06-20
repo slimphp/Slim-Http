@@ -1,10 +1,10 @@
 <?php
 /**
- * Slim Framework (http://slimframework.com)
+ * Slim Framework (https://slimframework.com)
  *
- * @link      https://github.com/slimphp/Slim
+ * @link      https://github.com/slimphp/Slim-Http
  * @copyright Copyright (c) 2011-2017 Josh Lockhart
- * @license   https://github.com/slimphp/Slim/blob/master/LICENSE.md (MIT License)
+ * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
  */
 namespace Slim\Tests;
 
