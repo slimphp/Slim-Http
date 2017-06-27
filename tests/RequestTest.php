@@ -69,6 +69,13 @@ class RequestTest extends TestCase
         $this->assertAttributeEquals('PUT', 'method', $request);
     }
 
+    public function testWithMethodCaseSensitive()
+    {
+        $request = $this->requestFactory()->withMethod('pOsT');
+
+        $this->assertAttributeEquals('pOsT', 'method', $request);
+    }
+
     public function testWithAllAllowedCharactersMethod()
     {
         $request = $this->requestFactory()->withMethod("!#$%&'*+.^_`|~09AZ-");
