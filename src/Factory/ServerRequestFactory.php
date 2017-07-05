@@ -14,24 +14,9 @@ use Psr\Http\Message\UriInterface;
 use Slim\Http\Cookies;
 use Slim\Http\Headers;
 use Slim\Http\Request;
-use Slim\Http\Uri;
 
 class ServerRequestFactory implements ServerRequestFactoryInterface
 {
-    /**
-     * Special HTTP headers that do not have the "HTTP_" prefix
-     *
-     * @var array
-     */
-    protected static $specialHeaders = [
-        'CONTENT_TYPE' => 1,
-        'CONTENT_LENGTH' => 1,
-        'PHP_AUTH_USER' => 1,
-        'PHP_AUTH_PW' => 1,
-        'PHP_AUTH_DIGEST' => 1,
-        'AUTH_TYPE' => 1,
-    ];
-
     /**
      * Create a new server request.
      *
@@ -48,7 +33,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             throw new \InvalidArgumentException();
         }
 
-        $body = (new StreamFactory())->createStream('');
+        $body = (new StreamFactory())->createStream();
 
         return new Request($method, $uri, new Headers(), [], [], $body);
     }
@@ -65,43 +50,19 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      */
     public function createServerRequestFromArray(array $server)
     {
-        // TODO look into Uri::createFromGlobals() for better uri factoring
-        $uri = new Uri(
-            $server['REQUEST_SCHEME'],
-            $server['SERVER_NAME'],
-            $server['SERVER_PORT'],
-            $server['REQUEST_URI'],
-            $server['QUERY_STRING'],
-            '',
-            '',
-            ''
-        );
-
-        $body = (new StreamFactory())->createStream('');
-
-        $data = [];
-        $authorization = isset($server['HTTP_AUTHORIZATION']) ? $server['HTTP_AUTHORIZATION'] : null;
-
-        if (empty($authorization) && is_callable('getallheaders')) {
-            $allHeaders = getallheaders();
-            $allHeaders = array_change_key_case($allHeaders, CASE_LOWER);
-            if (isset($allHeaders['authorization'])) {
-                $server['HTTP_AUTHORIZATION'] = $allHeaders['authorization'];
-            }
+        if (!isset($server['REQUEST_METHOD'])) {
+            throw new \InvalidArgumentException();
         }
 
-        foreach ($server as $key => $value) {
-            $key = strtoupper($key);
-            if (isset(static::$specialHeaders[$key]) || strpos($key, 'HTTP_') === 0) {
-                if ($key !== 'HTTP_CONTENT_LENGTH') {
-                    $data[$key] =  $value;
-                }
-            }
-        }
-
-        $headers = new Headers($data);
+        $method = $server['REQUEST_METHOD'];
+        $uri = (new UriFactory())->createFromGlobals($server);
+        $headers = Headers::createFromGlobals($server);
         $cookies = Cookies::parseHeader($headers->get('Cookie', []));
+        $serverParams = $server;
+        $body = (new StreamFactory())->createStream();
 
-        return new Request($server['REQUEST_METHOD'], $uri, $headers, $cookies, $server, $body);
+        $request = new Request($method, $uri, $headers, $cookies, $serverParams, $body);
+
+        return $request;
     }
 }

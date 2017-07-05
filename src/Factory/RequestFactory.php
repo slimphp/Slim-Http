@@ -32,7 +32,7 @@ class RequestFactory implements RequestFactoryInterface
             throw new \InvalidArgumentException();
         }
 
-        $body = (new StreamFactory())->createStream('');
+        $body = (new StreamFactory())->createStream();
 
         return new Request($method, $uri, new Headers(), [], [], $body);
     }

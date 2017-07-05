@@ -32,7 +32,7 @@
     "phpunit/phpunit": "^6.0|^7.0",
     "php-http/psr7-integration-tests": "dev-master",
     "phpstan/phpstan": "^0.9",
-    "http-interop/http-factory-tests": "^0.3"
+    "http-interop/http-factory-tests": "dev-master"
   },
   "provide": {
     "psr/http-message-implementation": "1.0",

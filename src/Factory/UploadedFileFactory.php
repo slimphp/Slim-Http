@@ -43,18 +43,24 @@ class UploadedFileFactory implements UploadedFileFactoryInterface
         $error = \UPLOAD_ERR_OK,
         $clientFilename = null,
         $clientMediaType = null
-    )
-    {
+    ) {
         if (is_resource($file)) {
-            if (!isset($size)) {
-                $size = fstat($file)['size'];
+            $meta = stream_get_meta_data($file);
+
+            if (!isset($meta['uri'])) {
+                throw new \InvalidArgumentException('Stream is not readable');
             }
 
-            $file = stream_get_meta_data($file)['uri'];
-        } elseif (is_string($file)) {
-            if (!isset($size)) {
-                $size = filesize($file);
-            }
+            $file = $meta['uri'];
+        } elseif (!is_string($file)) {
+            throw new \InvalidArgumentException('File must be string or resource');
+        }
+
+        if (!is_readable($file)) {
+            throw new \InvalidArgumentException('File is not readable');
+        }
+        if (!isset($size)) {
+            $size = filesize($file);
         }
 
         return new UploadedFile($file, $clientFilename, $clientMediaType, $size, $error);
