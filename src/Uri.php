@@ -112,7 +112,7 @@ class Uri implements UriInterface
         $password = ''
     ) {
         $this->scheme = $this->filterScheme($scheme);
-        $this->host = $host;
+        $this->host = strtolower($host);
         $this->port = $this->filterPort($port);
         $this->path = empty($path) ? '/' : $this->filterPath($path);
         $this->query = $this->filterQuery($query);
@@ -390,7 +390,7 @@ class Uri implements UriInterface
     public function withHost($host)
     {
         $clone = clone $this;
-        $clone->host = $host;
+        $clone->host = strtolower($host);
 
         return $clone;
     }
