@@ -30,6 +30,9 @@
     "squizlabs/php_codesniffer": "^2.5",
     "phpunit/phpunit": "^5.7|^6.0"
   },
+  "provide": {
+    "psr/http-message-implementation": "1.0"
+  },
   "conflict": {
     "slim/slim": "^3.0"
   },
