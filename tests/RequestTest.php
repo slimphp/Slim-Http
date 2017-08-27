@@ -542,9 +542,10 @@ class RequestTest extends TestCase
         $files = [new UploadedFile('foo.txt'), new UploadedFile('bar.txt')];
 
         $request = $this->requestFactory();
+        $prevUploaded = $request->getUploadedFiles();
         $clone = $request->withUploadedFiles($files);
 
-        $this->assertEquals([], $request->getUploadedFiles());
+        $this->assertEquals($prevUploaded, $request->getUploadedFiles());
         $this->assertEquals($files, $clone->getUploadedFiles());
     }
 
