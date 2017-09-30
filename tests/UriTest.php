@@ -156,6 +156,13 @@ class UriTest extends TestCase
         $this->assertAttributeEquals('slimframework.com', 'host', $uri);
     }
 
+    public function testFilterHost()
+    {
+        $uri = new Uri('http', '2001:db8::1');
+
+        $this->assertEquals('[2001:db8::1]', $uri->getHost());
+    }
+
     public function testGetPortWithSchemeAndNonDefaultPort()
     {
         $uri = new Uri('https', 'www.example.com', 4000);
