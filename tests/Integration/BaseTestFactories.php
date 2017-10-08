@@ -8,20 +8,21 @@
  */
 namespace Slim\Tests\Http\Integration;
 
+use Psr\Http\Message\UriInterface;
+use Slim\Http\Factory\UriFactory;
 use Slim\Http\Stream;
 use Slim\Http\UploadedFile;
-use Slim\Http\Uri;
 
 trait BaseTestFactories
 {
 
     /**
      * @param $uri
-     * @return Uri
+     * @return UriInterface
      */
     protected function buildUri($uri)
     {
-        return Uri::createFromString($uri);
+        return (new UriFactory())->createUri($uri);
     }
 
     /**
