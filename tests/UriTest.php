@@ -114,6 +114,13 @@ class UriTest extends TestCase
         $this->assertEquals('josh:sekrit', $uri->getUserInfo());
     }
 
+    public function testGetUserInfoWithUsernameAndPasswordEncodesCorrectly()
+    {
+        $uri = Uri::createFromString('https://bob%40example.com:pass%3Aword@example.com:443/foo/bar?abc=123#section3');
+
+        $this->assertEquals('bob%40example.com:pass%3Aword', $uri->getUserInfo());
+    }
+
     public function testGetUserInfoWithUsername()
     {
         $uri = Uri::createFromString('http://josh@example.com/foo/bar?abc=123#section3');
@@ -134,6 +141,14 @@ class UriTest extends TestCase
 
         $this->assertAttributeEquals('bob', 'user', $uri);
         $this->assertAttributeEquals('pass', 'password', $uri);
+    }
+
+    public function testWithUserInfoEncodesCorrectly()
+    {
+        $uri = $this->uriFactory()->withUserInfo('bob@example.com', 'pass:word');
+
+        $this->assertAttributeEquals('bob%40example.com', 'user', $uri);
+        $this->assertAttributeEquals('pass%3Aword', 'password', $uri);
     }
 
     public function testWithUserInfoRemovesPassword()
