@@ -27,4 +27,32 @@ class EnvironmentTest extends TestCase
         $this->assertEquals('/foo/bar?abc=123', $env['REQUEST_URI']);
         $this->assertEquals('localhost', $env['HTTP_HOST']);
     }
+
+    /**
+     * Test environment from mock data with HTTPS
+     */
+    public function testMockHttps()
+    {
+        $env = Environment::mock([
+            'HTTPS' => 'on'
+        ]);
+
+        $this->assertInternalType('array', $env);
+        $this->assertEquals('on', $env['HTTPS']);
+        $this->assertEquals(443, $env['SERVER_PORT']);
+    }
+
+    /**
+     * Test environment from mock data with REQUEST_SCHEME
+     */
+    public function testMockRequestScheme()
+    {
+        $env = Environment::mock([
+            'REQUEST_SCHEME' => 'https'
+        ]);
+
+        $this->assertInternalType('array', $env);
+        $this->assertEquals('https', $env['REQUEST_SCHEME']);
+        $this->assertEquals(443, $env['SERVER_PORT']);
+    }
 }
