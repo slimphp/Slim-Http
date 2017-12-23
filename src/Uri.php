@@ -398,8 +398,10 @@ class Uri implements UriInterface
     /**
      * Filter Uri host.
      *
-     * @param  string $host The Uri port number.
+     * If the supplied host is an IPv6 address, then it is converted to a reference
+     * as per RFC 2373.
      *
+     * @param  string $host The host to filter.
      * @return string
      * @throws \InvalidArgumentException for invalid host names.
      */
