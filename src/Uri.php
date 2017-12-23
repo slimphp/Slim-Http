@@ -112,7 +112,7 @@ class Uri implements UriInterface
         $password = ''
     ) {
         $this->scheme = $this->filterScheme($scheme);
-        $this->host = strtolower($host);
+        $this->host = $this->filterHost($host);
         $this->port = $this->filterPort($port);
         $this->path = empty($path) ? '/' : $this->filterPath($path);
         $this->query = $this->filterQuery($query);
@@ -411,9 +411,32 @@ class Uri implements UriInterface
     public function withHost($host)
     {
         $clone = clone $this;
-        $clone->host = strtolower($host);
+        $clone->host = $this->filterHost($host);
 
         return $clone;
+    }
+
+    /**
+     * Filter Uri host.
+     *
+     * If the supplied host is an IPv6 address, then it is converted to a reference
+     * as per RFC 2373.
+     *
+     * @param  string $host The host to filter.
+     * @return string
+     * @throws \InvalidArgumentException for invalid host names.
+     */
+    protected function filterHost($host)
+    {
+        if (!is_string($host) && !method_exists($host, '__toString')) {
+            throw new InvalidArgumentException('Uri host must be a string');
+        }
+
+        if (filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            $host = '[' . $host . ']';
+        }
+
+        return strtolower($host);
     }
 
     /**
