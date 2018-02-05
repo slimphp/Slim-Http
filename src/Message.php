@@ -217,6 +217,9 @@ abstract class Message implements MessageInterface
      */
     public function withHeader($name, $value)
     {
+        $this->validateHeaderName($name);
+        $this->validateHeaderValue($value);
+
         $clone = clone $this;
         $clone->headers->set($name, $value);
 
@@ -241,6 +244,9 @@ abstract class Message implements MessageInterface
      */
     public function withAddedHeader($name, $value)
     {
+        $this->validateHeaderName($name);
+        $this->validateHeaderValue($value);
+
         $clone = clone $this;
         $clone->headers->add($name, $value);
 
@@ -265,6 +271,36 @@ abstract class Message implements MessageInterface
         $clone->headers->remove($name);
 
         return $clone;
+    }
+
+    /**
+     * @param string $name
+     * @throws \InvalidArgumentException
+     */
+    protected function validateHeaderName($name)
+    {
+        if (!is_string($name) || empty($name)) {
+            throw new \InvalidArgumentException('Header names must be a non empty strings');
+        }
+    }
+
+    /**
+     * @param string|string[] $value
+     * @throws \InvalidArgumentException
+     */
+    protected function validateHeaderValue($value)
+    {
+        if (!is_array($value)) {
+            $value = [$value];
+        } elseif (empty($value)) {
+            throw new \InvalidArgumentException('Header values must be non empty strings');
+        }
+
+        foreach ($value as $v) {
+            if (!is_string($v) || strlen($v) <= 0) {
+                throw new \InvalidArgumentException('Header values must be non empty strings');
+            }
+        }
     }
 
     /*******************************************************************************
