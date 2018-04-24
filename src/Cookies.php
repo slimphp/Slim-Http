@@ -156,7 +156,7 @@ class Cookies implements CookiesInterface
      * Parse HTTP request `Cookie:` header and extract
      * into a PHP associative array.
      *
-     * @param  string $header The raw HTTP request `Cookie:` header
+     * @param  string|string[] $header The raw HTTP request `Cookie:` header
      *
      * @return array Associative array of cookie names and values
      *
