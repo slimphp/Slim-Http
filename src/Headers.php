@@ -8,6 +8,8 @@
  */
 namespace Slim\Http;
 
+use InvalidArgumentException;
+
 /**
  * Headers
  *
@@ -117,6 +119,8 @@ class Headers extends Collection implements HeadersInterface
         if (!is_array($value)) {
             $value = [$value];
         }
+        $value = $this->validateValue($value);
+
         parent::set($this->normalizeKey($key), [
             'value' => $value,
             'originalKey' => $key
@@ -209,6 +213,13 @@ class Headers extends Collection implements HeadersInterface
      */
     public function normalizeKey($key)
     {
+        if (!is_string($key)) {
+            throw new InvalidArgumentException('Header name must be a string');
+        }
+        if (!preg_match('/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/', $key)) {
+            throw new InvalidArgumentException("'$key' is not valid header name");
+        }
+
         $key = strtr(strtolower($key), '_', '-');
         if (strpos($key, 'http-') === 0) {
             $key = substr($key, 5);
@@ -236,5 +247,36 @@ class Headers extends Collection implements HeadersInterface
             $key = substr($key, 5);
         }
         return strtr(ucwords(strtr(strtolower($key), '_', ' ')), ' ', '-');
+    }
+
+    /**
+     * Ensure the header value is valid
+     *
+     * Ensure we only have visible ASCII characters, spaces, and horizontal
+     * tabs. Also a header continuation is "\r\n " or "\r\n\t".
+     *
+     * @param  array $value
+     * @return string
+     */
+    private function validateValue($value)
+    {
+        if (empty($value)) {
+            throw new InvalidArgumentException('Header value must be a string or numeric');
+        }
+        foreach ($value as $v) {
+            if (!is_string($v) && ! is_numeric($v)) {
+                throw new InvalidArgumentException('Header value must be a string or numeric');
+            }
+
+            $v = (string) $v;
+            if (preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", $v)) {
+                throw new InvalidArgumentException("'$v' is not valid header value");
+            }
+            if (preg_match('/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/', $v)) {
+                throw new InvalidArgumentException("'$value' is not valid header value");
+            }
+        }
+
+        return $value;
     }
 }
