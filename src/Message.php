@@ -280,7 +280,11 @@ abstract class Message implements MessageInterface
     protected function validateHeaderName($name)
     {
         if (!is_string($name) || empty($name)) {
-            throw new \InvalidArgumentException('Header names must be a non empty strings');
+            throw new InvalidArgumentException('Header names must be a non empty strings');
+        }
+
+        if (!preg_match('/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/', $name)) {
+            throw new InvalidArgumentException("'$name' is not valid header name");
         }
     }
 
@@ -293,12 +297,20 @@ abstract class Message implements MessageInterface
         if (!is_array($value)) {
             $value = [$value];
         } elseif (empty($value)) {
-            throw new \InvalidArgumentException('Header values must be non empty strings');
+            throw new InvalidArgumentException('Header values must be non empty strings');
         }
 
         foreach ($value as $v) {
-            if (!is_string($v) || strlen($v) <= 0) {
-                throw new \InvalidArgumentException('Header values must be non empty strings');
+            if (!is_string($v) && ! is_numeric($v)) {
+                throw new InvalidArgumentException('Header values must be strings or numeric');
+            }
+
+            $v = (string) $v;
+            if (preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", $v)) {
+                throw new InvalidArgumentException("'$v' is not valid header value");
+            }
+            if (preg_match('/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/', $v)) {
+                throw new InvalidArgumentException("'$value' is not valid header value");
             }
         }
     }
