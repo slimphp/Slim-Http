@@ -768,8 +768,8 @@ class Uri implements UriInterface
 
         $path = '/' . ltrim($path, '/');
 
-        return ($scheme ? $scheme . ':' : '')
-            . ($authority ? '//' . $authority : '')
+        return ($scheme !== '' ? $scheme . ':' : '')
+            . ($authority !== '' ? '//' . $authority : '')
             . $path
             . ($query !== '' ? '?' . $query : '')
             . ($fragment !== '' ? '#' . $fragment : '');
@@ -789,7 +789,7 @@ class Uri implements UriInterface
         $scheme = $this->getScheme();
         $authority = $this->getAuthority();
 
-        return ($scheme ? $scheme . ':' : '')
-            . ($authority ? '//' . $authority : '');
+        return ($scheme !== '' ? $scheme . ':' : '')
+            . ($authority !== '' ? '//' . $authority : '');
     }
 }
