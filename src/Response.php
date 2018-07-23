@@ -388,7 +388,7 @@ class Response extends Message implements ResponseInterface
      */
     public function isRedirect()
     {
-        return in_array($this->getStatusCode(), [301, 302, 303, 307]);
+        return in_array($this->getStatusCode(), [301, 302, 303, 307, 308]);
     }
 
     /**
