@@ -3,13 +3,16 @@
  * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @copyright Copyright (c) 2011-2018 Josh Lockhart
  * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
  */
+
+declare(strict_types=1);
+
 namespace Slim\Http\Factory;
 
-use Interop\Http\Factory\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Http\Stream;
 
 class StreamFactory implements StreamFactoryInterface
@@ -19,11 +22,11 @@ class StreamFactory implements StreamFactoryInterface
      *
      * The stream SHOULD be created with a temporary resource.
      *
-     * @param string $content
+     * @param string $content String content with which to populate the stream.
      *
      * @return StreamInterface
      */
-    public function createStream($content = '')
+    public function createStream(string $content = ''): StreamInterface
     {
         $resource = fopen('php://temp', 'r+');
         fwrite($resource, $content);
@@ -40,12 +43,12 @@ class StreamFactory implements StreamFactoryInterface
      *
      * The `$filename` MAY be any string supported by `fopen()`.
      *
-     * @param string $filename
-     * @param string $mode
+     * @param string $filename Filename or stream URI to use as basis of stream.
+     * @param string $mode Mode with which to open the underlying filename/stream.
      *
      * @return StreamInterface
      */
-    public function createStreamFromFile($filename, $mode = 'r')
+    public function createStreamFromFile(string $filename, string $mode = 'r'): StreamInterface
     {
         return $this->createStreamFromResource(fopen($filename, $mode));
     }
@@ -55,11 +58,11 @@ class StreamFactory implements StreamFactoryInterface
      *
      * The stream MUST be readable and may be writable.
      *
-     * @param resource $resource
+     * @param resource $resource PHP resource to use as basis of stream.
      *
      * @return StreamInterface
      */
-    public function createStreamFromResource($resource)
+    public function createStreamFromResource($resource): StreamInterface
     {
         return new Stream($resource);
     }

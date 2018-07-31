@@ -3,13 +3,16 @@
  * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @copyright Copyright (c) 2011-2018 Josh Lockhart
  * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
  */
+
+declare(strict_types=1);
+
 namespace Slim\Http\Factory;
 
-use Interop\Http\Factory\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Slim\Http\Collection;
 use Slim\Http\Uri;
 
@@ -22,15 +25,10 @@ class UriFactory implements UriFactoryInterface
      *
      * @return UriInterface
      *
-     * @throws \InvalidArgumentException
-     *  If the given URI cannot be parsed.
+     * @throws \InvalidArgumentException If the given URI cannot be parsed.
      */
-    public function createUri($uri = '')
+    public function createUri(string $uri = ''): UriInterface
     {
-        if (!is_string($uri) && !method_exists($uri, '__toString')) {
-            throw new \InvalidArgumentException('Uri must be a string');
-        }
-
         $parts = parse_url($uri);
 
         if ($parts === false) {
@@ -83,12 +81,12 @@ class UriFactory implements UriFactoryInterface
             $host = $matches[1];
 
             if (isset($matches[2])) {
-                $port = (int) substr($matches[2], 1);
+                $port = (int)substr($matches[2], 1);
             }
         } else {
             $pos = strpos($host, ':');
             if ($pos !== false) {
-                $port = (int) substr($host, $pos + 1);
+                $port = (int)substr($host, $pos + 1);
                 $host = strstr($host, ':', true);
             }
         }

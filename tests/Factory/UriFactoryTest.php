@@ -3,7 +3,7 @@
  * Slim Framework (https://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2017 Josh Lockhart
+ * @copyright Copyright (c) 2011-2018 Josh Lockhart
  * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
  */
 namespace Slim\Tests\Http\Factory;
@@ -83,16 +83,6 @@ class UriFactoryTest extends UriFactoryTestCase
         $this->assertEquals('8080', $uri->getPort());
         $this->assertEquals('/foo/bar', $uri->getPath());
         $this->assertEquals('abc=123', $uri->getQuery());
-    }
-
-    /**
-     * @covers \Slim\Http\Factory\UriFactory::createUri
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Uri must be a string
-     */
-    public function testCreateFromStringWithInvalidType()
-    {
-        $this->createUriFactory()->createUri(['https://example.com:8080/foo/bar?abc=123']);
     }
 
     public function testCreateFromGlobals()
