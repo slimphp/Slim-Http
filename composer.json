@@ -28,7 +28,7 @@
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^2.5",
-    "phpunit/phpunit": "^7.0",
+    "phpunit/phpunit": "^6.0",
     "php-http/psr7-integration-tests": "dev-master"
   },
   "provide": {
