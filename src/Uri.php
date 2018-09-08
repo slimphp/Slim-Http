@@ -275,7 +275,7 @@ class Uri implements UriInterface
             throw new InvalidArgumentException('Uri scheme must be a string');
         }
 
-        $scheme = str_replace('://', '', strtolower((string)$scheme));
+        $scheme = str_replace('://', '', strtolower($scheme));
         if (!isset($valid[$scheme])) {
             throw new InvalidArgumentException('Uri scheme must be one of: "", "https", "http"');
         }
@@ -656,7 +656,7 @@ class Uri implements UriInterface
         if (!is_string($query) && !method_exists($query, '__toString')) {
             throw new InvalidArgumentException('Uri query must be a string');
         }
-        $query = ltrim((string)$query, '?');
+        $query = ltrim($query, '?');
         $clone = clone $this;
         $clone->query = $this->filterQuery($query);
 
@@ -724,7 +724,7 @@ class Uri implements UriInterface
         if (!is_string($fragment) && !method_exists($fragment, '__toString')) {
             throw new InvalidArgumentException('Uri fragment must be a string');
         }
-        $fragment = ltrim((string)$fragment, '#');
+        $fragment = ltrim($fragment, '#');
         $clone = clone $this;
         $clone->fragment = $this->filterQuery($fragment);
 

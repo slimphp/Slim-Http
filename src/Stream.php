@@ -40,35 +40,35 @@ class Stream implements StreamInterface
     /**
      * The underlying stream resource
      *
-     * @var resource
+     * @var resource|null
      */
     protected $stream;
 
     /**
      * Stream metadata
      *
-     * @var array
+     * @var array|null
      */
     protected $meta;
 
     /**
      * Is this stream readable?
      *
-     * @var bool
+     * @var bool|null
      */
     protected $readable;
 
     /**
      * Is this stream writable?
      *
-     * @var bool
+     * @var bool|null
      */
     protected $writable;
 
     /**
      * Is this stream seekable?
      *
-     * @var bool
+     * @var bool|null
      */
     protected $seekable;
 
@@ -82,7 +82,7 @@ class Stream implements StreamInterface
     /**
      * Is this stream a pipe?
      *
-     * @var bool
+     * @var bool|null
      */
     protected $isPipe;
 

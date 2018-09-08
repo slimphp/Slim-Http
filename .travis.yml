@@ -20,6 +20,7 @@ script:
   - if [[ "$TRAVIS_PHP_VERSION" == '7.0' ]]; then mkdir -p build/logs && phpunit --coverage-clover build/logs/clover.xml ; fi
   - if [[ "$TRAVIS_PHP_VERSION" != '7.0' ]]; then vendor/bin/phpunit ; fi
   - if [[ "$TRAVIS_PHP_VERSION" == '7.0' ]]; then vendor/bin/phpcs ; fi
+  - vendor/bin/phpstan analyse -l 3 src/
 
 after_script:
   - if [[ "$TRAVIS_PHP_VERSION" == '7.0' ]]; then php vendor/bin/coveralls -v ; fi

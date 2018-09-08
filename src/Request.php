@@ -74,14 +74,14 @@ class Request extends Message implements ServerRequestInterface
     /**
      * The request attributes (route segment names and values)
      *
-     * @var \Slim\Collection
+     * @var Collection
      */
     protected $attributes;
 
     /**
      * The request body parsed (if possible) into a PHP array or object
      *
-     * @var null|array|object
+     * @var null|array|object|false
      */
     protected $bodyParsed = false;
 
@@ -263,13 +263,13 @@ class Request extends Message implements ServerRequestInterface
      * Validate the HTTP method
      *
      * @param  null|string $method
-     * @return null|string
+     * @return string
      * @throws \InvalidArgumentException on invalid HTTP method.
      */
     protected function filterMethod($method)
     {
         if ($method === null) {
-            return $method;
+            return '';
         }
 
         if (!is_string($method)) {
@@ -1051,7 +1051,7 @@ class Request extends Message implements ServerRequestInterface
         if ($callable instanceof Closure) {
             $callable = $callable->bindTo($this);
         }
-        $this->bodyParsers[(string)$mediaType] = $callable;
+        $this->bodyParsers[$mediaType] = $callable;
     }
 
     /*******************************************************************************
