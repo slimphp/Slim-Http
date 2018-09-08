@@ -313,7 +313,7 @@ class Uri implements UriInterface
         $host = $this->getHost();
         $port = $this->getPort();
 
-        return ($userInfo ? $userInfo . '@' : '') . $host . ($port !== null ? ':' . $port : '');
+        return ($userInfo !== '' ? $userInfo . '@' : '') . $host . ($port !== null ? ':' . $port : '');
     }
 
     /**
@@ -333,7 +333,13 @@ class Uri implements UriInterface
      */
     public function getUserInfo()
     {
-        return $this->user . ($this->password ? ':' . $this->password : '');
+        $info = $this->user;
+
+        if (isset($this->password) && $this->password !== '') {
+            $info .= ':' . $this->password;
+        }
+
+        return $info;
     }
 
     /**
@@ -354,8 +360,8 @@ class Uri implements UriInterface
     {
         $clone = clone $this;
         $clone->user = $this->filterUserInfo($user);
-        if ($clone->user) {
-            $clone->password = $password ? $this->filterUserInfo($password) : '';
+        if ($clone->user !== '') {
+            $clone->password = isset($password) ? $this->filterUserInfo($password) : '';
         } else {
             $clone->password = '';
         }
@@ -767,8 +773,8 @@ class Uri implements UriInterface
         return ($scheme ? $scheme . ':' : '')
             . ($authority ? '//' . $authority : '')
             . $path
-            . ($query ? '?' . $query : '')
-            . ($fragment ? '#' . $fragment : '');
+            . ($query !== '' ? '?' . $query : '')
+            . ($fragment !== '' ? '#' . $fragment : '');
     }
 
     /**
