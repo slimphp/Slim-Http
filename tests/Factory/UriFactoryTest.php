@@ -52,7 +52,9 @@ class UriFactoryTest extends UriFactoryTestCase
 
     public function testGetUserInfoWithUsernameAndPasswordEncodesCorrectly()
     {
-        $uri = $this->createUriFactory()->createUri('https://bob%40example.com:pass%3Aword@example.com:443/foo/bar?abc=123#section3');
+        $uri = $this
+            ->createUriFactory()
+            ->createUri('https://bob%40example.com:pass%3Aword@example.com:443/foo/bar?abc=123#section3');
 
         $this->assertEquals('bob%40example.com:pass%3Aword', $uri->getUserInfo());
     }
