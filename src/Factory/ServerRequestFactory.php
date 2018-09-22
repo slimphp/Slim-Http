@@ -13,6 +13,8 @@ namespace Slim\Http\Factory;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 use Slim\Http\Cookies;
 use Slim\Http\Headers;
@@ -20,6 +22,24 @@ use Slim\Http\Request;
 
 class ServerRequestFactory implements ServerRequestFactoryInterface
 {
+    /** @var StreamFactoryInterface */
+    protected $streamFactory;
+    /** @var UriFactoryInterface */
+    protected $uriFactory;
+
+    public function __construct(StreamFactoryInterface $streamFactory = null, UriFactoryInterface $uriFactory = null)
+    {
+        if (!isset($streamFactory)) {
+            $streamFactory = new StreamFactory();
+        }
+        if (!isset($uriFactory)) {
+            $uriFactory = new UriFactory();
+        }
+
+        $this->streamFactory = $streamFactory;
+        $this->uriFactory = $uriFactory;
+    }
+
     /**
      * Create a new server request.
      *
@@ -39,12 +59,12 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     public function createServerRequest(string $method, $uri, array $serverParams = []): ServerRequestInterface
     {
         if (is_string($uri)) {
-            $uri = (new UriFactory())->createUri($uri);
+            $uri = $this->uriFactory->createUri($uri);
         } elseif (!$uri instanceof UriInterface) {
             throw new \InvalidArgumentException('URI must either be string or instance of ' . UriInterface::class);
         }
 
-        $body = (new StreamFactory())->createStream();
+        $body = $this->streamFactory->createStream();
         $headers = new Headers();
         $cookies = [];
 
