@@ -12,13 +12,14 @@ matrix:
     - php: nightly
 
 before_script:
-  - composer require php-coveralls/php-coveralls:^2.1.0 squizlabs/php_codesniffer:^3.3.2 -n
+  - composer require php-coveralls/php-coveralls:^2.1.0
   - composer install -n
 
 script:
   - mkdir -p build/logs && phpunit --coverage-clover build/logs/clover.xml
   - vendor/bin/phpunit
   - vendor/bin/phpcs
+  - vendor/bin/phpstan analyse -l 3 src/
 
 after_script:
   - php vendor/bin/coveralls -v
