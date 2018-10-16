@@ -50,8 +50,8 @@ class ResponseDecorator implements ResponseInterface
 
     /**
      * Disable magic setter to ensure immutability
-     * @param $name
-     * @param $value
+     * @param mixed $name
+     * @param mixed $value
      */
     public function __set($name, $value)
     {
