@@ -32,10 +32,8 @@
     "php-http/message-factory": "^1.0"
   },
   "require-dev": {
-    "http-interop/http-factory-tests": "dev-master",
     "nyholm/psr7": "^1.0",
     "phpunit/phpunit": "^7.0",
-    "php-http/psr7-integration-tests": "dev-master",
     "phpstan/phpstan": "^0.10.3",
     "squizlabs/php_codesniffer": "^3.3.2",
     "zendframework/zend-diactoros": "^2.0"
