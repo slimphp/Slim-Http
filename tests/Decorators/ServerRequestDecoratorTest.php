@@ -1150,7 +1150,7 @@ class ServerRequestDecoratorTest extends Test
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
             $request = $request
-                ->withHeader('Content-Length', 150)
+                ->withHeader('Content-Length', '150')
                 ->withHeader('Content-Type', 'application/json');
 
             $this->assertEquals(true, $request->hasHeader('Content-Length'));

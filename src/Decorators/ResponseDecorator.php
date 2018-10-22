@@ -345,7 +345,7 @@ class ResponseDecorator implements ResponseInterface
     {
         $json = json_encode($data, $options, $depth);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if ($json === false || json_last_error() !== JSON_ERROR_NONE) {
             throw new RuntimeException(json_last_error_msg(), json_last_error());
         }
 
@@ -375,7 +375,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function withRedirect(string $url, $status = null): ResponseInterface
     {
-        $response = $this->withHeader('Location', (string) $url);
+        $response = $this->withHeader('Location', $url);
 
         if (!is_null($status)) {
             return $response->withStatus($status);

@@ -256,6 +256,9 @@ class ServerRequestDecorator implements ServerRequestInterface
         }
 
         $mediaType = $this->getMediaType();
+        if ($mediaType === null) {
+            return null;
+        }
 
         // look for a media type with a structured syntax suffix (RFC 6839)
         $parts = explode('+', $mediaType);
@@ -837,6 +840,9 @@ class ServerRequestDecorator implements ServerRequestInterface
         $contentType = $this->getContentType();
         if ($contentType) {
             $contentTypeParts = preg_split('/\s*[;,]\s*/', $contentType);
+            if ($contentTypeParts === false) {
+                return null;
+            }
             return strtolower($contentTypeParts[0]);
         }
 
@@ -856,10 +862,12 @@ class ServerRequestDecorator implements ServerRequestInterface
         $contentTypeParams = [];
         if ($contentType) {
             $contentTypeParts = preg_split('/\s*[;,]\s*/', $contentType);
-            $contentTypePartsLength = count($contentTypeParts);
-            for ($i = 1; $i < $contentTypePartsLength; $i++) {
-                $paramParts = explode('=', $contentTypeParts[$i]);
-                $contentTypeParams[strtolower($paramParts[0])] = $paramParts[1];
+            if ($contentTypeParts !== false) {
+                $contentTypePartsLength = count($contentTypeParts);
+                for ($i = 1; $i < $contentTypePartsLength; $i++) {
+                    $paramParts = explode('=', $contentTypeParts[$i]);
+                    $contentTypeParams[strtolower($paramParts[0])] = $paramParts[1];
+                }
             }
         }
 
