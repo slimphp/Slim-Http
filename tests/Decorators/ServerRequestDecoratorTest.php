@@ -796,7 +796,9 @@ class ServerRequestDecoratorTest extends Test
                 ->withHeader('Content-Type', 'application/hal+xml;charset=utf8')
                 ->withBody($stream);
 
-            $this->assertEquals('John', $request->getParsedBody()->name);
+            /** @var \stdClass $obj */
+            $obj = $request->getParsedBody();
+            $this->assertEquals('John', $obj->name);
         }
     }
 
@@ -815,7 +817,9 @@ class ServerRequestDecoratorTest extends Test
                 ->withHeader('Content-Type', 'application/xml;charset=utf8')
                 ->withBody($stream);
 
-            $this->assertEquals('John', $request->getParsedBody()->name);
+            /** @var \stdClass $obj */
+            $obj = $request->getParsedBody();
+            $this->assertEquals('John', $obj->name);
         }
     }
 
@@ -834,7 +838,9 @@ class ServerRequestDecoratorTest extends Test
                 ->withHeader('Content-Type', 'text/xml')
                 ->withBody($stream);
 
-            $this->assertEquals('John', $request->getParsedBody()->name);
+            /** @var \stdClass $obj */
+            $obj = $request->getParsedBody();
+            $this->assertEquals('John', $obj->name);
         }
     }
 

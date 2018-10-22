@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 abstract class Test extends TestCase
 {
     /**
-     * @var Psr17FactoryProvider[]
+     * @var string[]
      */
     protected $factoryProviders = [
         NyholmPsr17FactoryProvider::class,
