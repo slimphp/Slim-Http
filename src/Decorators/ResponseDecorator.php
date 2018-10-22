@@ -345,13 +345,13 @@ class ResponseDecorator implements ResponseInterface
     {
         $json = json_encode($data, $options, $depth);
 
-        if ($json === false || json_last_error() !== JSON_ERROR_NONE) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new RuntimeException(json_last_error_msg(), json_last_error());
         }
 
         $response = $this
             ->withHeader('Content-Type', 'application/json;charset=utf-8')
-            ->withBody($this->streamFactory->createStream($json));
+            ->withBody($this->streamFactory->createStream((string)$json));
 
         if ($status !== null) {
             $response = $response->withStatus($status);
