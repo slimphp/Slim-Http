@@ -231,8 +231,7 @@ class UriDecorator implements UriInterface
     public function withFragment($fragment)
     {
         $uri = $this->uri->withFragment($fragment);
-        $clone = clone $uri;
-        return new UriDecorator($clone);
+        return new UriDecorator($uri);
     }
 
     /**
@@ -250,8 +249,7 @@ class UriDecorator implements UriInterface
     public function withHost($host)
     {
         $uri = $this->uri->withHost($host);
-        $clone = clone $uri;
-        return new UriDecorator($clone);
+        return new UriDecorator($uri);
     }
 
     /**
@@ -279,8 +277,7 @@ class UriDecorator implements UriInterface
     public function withPath($path)
     {
         $uri = $this->uri->withPath($path);
-        $clone = clone $uri;
-        return new UriDecorator($clone);
+        return new UriDecorator($uri);
     }
 
     /**
@@ -303,8 +300,7 @@ class UriDecorator implements UriInterface
     public function withPort($port)
     {
         $uri = $this->uri->withPort($port);
-        $clone = clone $uri;
-        return new UriDecorator($clone);
+        return new UriDecorator($uri);
     }
 
     /**
@@ -325,8 +321,7 @@ class UriDecorator implements UriInterface
     public function withQuery($query)
     {
         $uri = $this->uri->withQuery($query);
-        $clone = clone $uri;
-        return new UriDecorator($clone);
+        return new UriDecorator($uri);
     }
 
     /**
@@ -347,8 +342,7 @@ class UriDecorator implements UriInterface
     public function withScheme($scheme)
     {
         $uri = $this->uri->withScheme($scheme);
-        $clone = clone $uri;
-        return new UriDecorator($clone);
+        return new UriDecorator($uri);
     }
 
     /**
@@ -368,8 +362,7 @@ class UriDecorator implements UriInterface
     public function withUserInfo($user, $password = null)
     {
         $uri = $this->uri->withUserInfo($user, $password);
-        $clone = clone $uri;
-        return new UriDecorator($clone);
+        return new UriDecorator($uri);
     }
 
     /**
@@ -411,8 +404,8 @@ class UriDecorator implements UriInterface
      */
     public function getBaseUrl()
     {
-        $scheme = $this->getScheme();
-        $authority = $this->getAuthority();
+        $scheme = $this->uri->getScheme();
+        $authority = $this->uri->getAuthority();
         return ($scheme !== '' ? $scheme . ':' : '') . ($authority !== '' ? '//' . $authority : '');
     }
 }

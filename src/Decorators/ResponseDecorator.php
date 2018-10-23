@@ -215,8 +215,7 @@ class ResponseDecorator implements ResponseInterface
     public function withAddedHeader($name, $value)
     {
         $response = $this->response->withAddedHeader($name, $value);
-        $clone = clone $response;
-        return new ResponseDecorator($clone, $this->streamFactory);
+        return new ResponseDecorator($response, $this->streamFactory);
     }
 
     /**
@@ -235,8 +234,7 @@ class ResponseDecorator implements ResponseInterface
     public function withBody(StreamInterface $body)
     {
         $response = $this->response->withBody($body);
-        $clone = clone $response;
-        return new ResponseDecorator($clone, $this->streamFactory);
+        return new ResponseDecorator($response, $this->streamFactory);
     }
 
     /**
@@ -257,8 +255,7 @@ class ResponseDecorator implements ResponseInterface
     public function withHeader($name, $value)
     {
         $response = $this->response->withHeader($name, $value);
-        $clone = clone $response;
-        return new ResponseDecorator($clone, $this->streamFactory);
+        return new ResponseDecorator($response, $this->streamFactory);
     }
 
     /**
@@ -276,8 +273,7 @@ class ResponseDecorator implements ResponseInterface
     public function withoutHeader($name)
     {
         $response = $this->response->withoutHeader($name);
-        $clone = clone $response;
-        return new ResponseDecorator($clone, $this->streamFactory);
+        return new ResponseDecorator($response, $this->streamFactory);
     }
 
     /**
@@ -296,8 +292,7 @@ class ResponseDecorator implements ResponseInterface
     public function withProtocolVersion($version)
     {
         $response = $this->response->withProtocolVersion($version);
-        $clone = clone $response;
-        return new ResponseDecorator($clone, $this->streamFactory);
+        return new ResponseDecorator($response, $this->streamFactory);
     }
 
     /**
@@ -323,8 +318,7 @@ class ResponseDecorator implements ResponseInterface
     public function withStatus($code, $reasonPhrase = '')
     {
         $response = $this->response->withStatus($code, $reasonPhrase);
-        $clone = clone $response;
-        return new ResponseDecorator($clone, $this->streamFactory);
+        return new ResponseDecorator($response, $this->streamFactory);
     }
 
     /**
@@ -343,22 +337,21 @@ class ResponseDecorator implements ResponseInterface
      */
     public function withJson($data, int $status = null, int $options = 0, int $depth = 512): ResponseInterface
     {
-        $json = json_encode($data, $options, $depth);
+        $json = (string) json_encode($data, $options, $depth);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new RuntimeException(json_last_error_msg(), json_last_error());
         }
 
-        $response = $this
+        $response = $this->response
             ->withHeader('Content-Type', 'application/json;charset=utf-8')
-            ->withBody($this->streamFactory->createStream((string)$json));
+            ->withBody($this->streamFactory->createStream($json));
 
         if ($status !== null) {
             $response = $response->withStatus($status);
         }
 
-        $clone = clone $response;
-        return new ResponseDecorator($clone, $this->streamFactory);
+        return new ResponseDecorator($response, $this->streamFactory);
     }
 
     /**
@@ -371,11 +364,11 @@ class ResponseDecorator implements ResponseInterface
      *
      * @param string $url The redirect destination.
      * @param int|null $status The redirect HTTP status code.
-     * @return ResponseDecorator
+     * @return ResponseInterface
      */
     public function withRedirect(string $url, $status = null): ResponseInterface
     {
-        $response = $this->withHeader('Location', $url);
+        $response = $this->response->withHeader('Location', $url);
 
         if (!is_null($status)) {
             return $response->withStatus($status);
@@ -396,7 +389,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function write($data)
     {
-        $this->getBody()->write($data);
+        $this->response->getBody()->write($data);
         return $this;
     }
 
@@ -409,7 +402,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function isClientError(): bool
     {
-        return $this->getStatusCode() >= 400 && $this->getStatusCode() < 500;
+        return $this->response->getStatusCode() >= 400 && $this->response->getStatusCode() < 500;
     }
 
     /**
@@ -421,7 +414,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function isEmpty(): bool
     {
-        return in_array($this->getStatusCode(), [204, 205, 304]);
+        return in_array($this->response->getStatusCode(), [204, 205, 304]);
     }
 
     /**
@@ -434,7 +427,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function isForbidden(): bool
     {
-        return $this->getStatusCode() === 403;
+        return $this->response->getStatusCode() === 403;
     }
 
     /**
@@ -446,7 +439,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function isInformational(): bool
     {
-        return $this->getStatusCode() >= 100 && $this->getStatusCode() < 200;
+        return $this->response->getStatusCode() >= 100 && $this->response->getStatusCode() < 200;
     }
 
     /**
@@ -458,7 +451,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function isOk(): bool
     {
-        return $this->getStatusCode() === 200;
+        return $this->response->getStatusCode() === 200;
     }
 
     /**
@@ -470,7 +463,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function isNotFound(): bool
     {
-        return $this->getStatusCode() === 404;
+        return $this->response->getStatusCode() === 404;
     }
 
     /**
@@ -482,7 +475,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function isRedirect(): bool
     {
-        return in_array($this->getStatusCode(), [301, 302, 303, 307, 308]);
+        return in_array($this->response->getStatusCode(), [301, 302, 303, 307, 308]);
     }
 
     /**
@@ -494,7 +487,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function isRedirection(): bool
     {
-        return $this->getStatusCode() >= 300 && $this->getStatusCode() < 400;
+        return $this->response->getStatusCode() >= 300 && $this->response->getStatusCode() < 400;
     }
 
     /**
@@ -506,7 +499,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function isServerError(): bool
     {
-        return $this->getStatusCode() >= 500 && $this->getStatusCode() < 600;
+        return $this->response->getStatusCode() >= 500 && $this->response->getStatusCode() < 600;
     }
 
     /**
@@ -518,7 +511,7 @@ class ResponseDecorator implements ResponseInterface
      */
     public function isSuccessful(): bool
     {
-        return $this->getStatusCode() >= 200 && $this->getStatusCode() < 300;
+        return $this->response->getStatusCode() >= 200 && $this->response->getStatusCode() < 300;
     }
 
     /**
@@ -532,18 +525,18 @@ class ResponseDecorator implements ResponseInterface
     {
         $output = sprintf(
             'HTTP/%s %s %s%s',
-            $this->getProtocolVersion(),
-            $this->getStatusCode(),
-            $this->getReasonPhrase(),
+            $this->response->getProtocolVersion(),
+            $this->response->getStatusCode(),
+            $this->response->getReasonPhrase(),
             self::EOL
         );
 
-        foreach ($this->getHeaders() as $name => $values) {
-            $output .= sprintf('%s: %s', $name, $this->getHeaderLine($name)) . self::EOL;
+        foreach ($this->response->getHeaders() as $name => $values) {
+            $output .= sprintf('%s: %s', $name, $this->response->getHeaderLine($name)) . self::EOL;
         }
 
         $output .= self::EOL;
-        $output .= (string) $this->getBody();
+        $output .= (string) $this->response->getBody();
 
         return $output;
     }

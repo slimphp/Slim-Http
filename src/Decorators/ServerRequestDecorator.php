@@ -41,9 +41,11 @@ class ServerRequestDecorator implements ServerRequestInterface
 
         $this->registerMediaTypeParser('application/json', function ($input) {
             $result = json_decode($input, true);
+
             if (!is_array($result)) {
                 return null;
             }
+
             return $result;
         });
 
@@ -51,12 +53,15 @@ class ServerRequestDecorator implements ServerRequestInterface
             $backup = libxml_disable_entity_loader(true);
             $backup_errors = libxml_use_internal_errors(true);
             $result = simplexml_load_string($input);
+
             libxml_disable_entity_loader($backup);
             libxml_clear_errors();
             libxml_use_internal_errors($backup_errors);
+
             if ($result === false) {
                 return null;
             }
+
             return $result;
         });
 
@@ -64,12 +69,15 @@ class ServerRequestDecorator implements ServerRequestInterface
             $backup = libxml_disable_entity_loader(true);
             $backup_errors = libxml_use_internal_errors(true);
             $result = simplexml_load_string($input);
+
             libxml_disable_entity_loader($backup);
             libxml_clear_errors();
             libxml_use_internal_errors($backup_errors);
+
             if ($result === false) {
                 return null;
             }
+
             return $result;
         });
 
@@ -260,7 +268,7 @@ class ServerRequestDecorator implements ServerRequestInterface
             return null;
         }
 
-        // look for a media type with a structured syntax suffix (RFC 6839)
+        // Look for a media type with a structured syntax suffix (RFC 6839)
         $parts = explode('+', $mediaType);
         if (count($parts) >= 2) {
             $mediaType = 'application/' . $parts[count($parts)-1];
@@ -418,8 +426,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withAddedHeader($name, $value)
     {
         $serverRequest = $this->serverRequest->withAddedHeader($name, $value);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -440,8 +447,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withAttribute($name, $value)
     {
         $serverRequest = $this->serverRequest->withAttribute($name, $value);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -457,18 +463,17 @@ class ServerRequestDecorator implements ServerRequestInterface
      * updated attributes.
      *
      * @param  array $attributes New attributes
-     * @return static
+     * @return ServerRequestDecorator
      */
     public function withAttributes(array $attributes)
     {
         $serverRequest = $this->serverRequest;
-        $clone = clone $serverRequest;
 
         foreach ($attributes as $attribute => $value) {
-            $clone = $clone->withAttribute($attribute, $value);
+            $serverRequest = $serverRequest->withAttribute($attribute, $value);
         }
 
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -488,8 +493,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withoutAttribute($name)
     {
         $serverRequest = $this->serverRequest->withoutAttribute($name);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -508,8 +512,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withBody(StreamInterface $body)
     {
         $serverRequest = $this->serverRequest->withBody($body);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -532,8 +535,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withCookieParams(array $cookies)
     {
         $serverRequest = $this->serverRequest->withCookieParams($cookies);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -554,8 +556,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withHeader($name, $value)
     {
         $serverRequest = $this->serverRequest->withHeader($name, $value);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -573,8 +574,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withoutHeader($name)
     {
         $serverRequest = $this->serverRequest->withoutHeader($name);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -595,8 +595,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withMethod($method)
     {
         $serverRequest = $this->serverRequest->withMethod($method);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -630,8 +629,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withParsedBody($data)
     {
         $serverRequest = $this->serverRequest->withParsedBody($data);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -650,8 +648,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withProtocolVersion($version)
     {
         $serverRequest = $this->serverRequest->withProtocolVersion($version);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -679,8 +676,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withQueryParams(array $query)
     {
         $serverRequest = $this->serverRequest->withQueryParams($query);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -703,8 +699,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withRequestTarget($requestTarget)
     {
         $serverRequest = $this->serverRequest->withRequestTarget($requestTarget);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -721,8 +716,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withUploadedFiles(array $uploadedFiles)
     {
         $serverRequest = $this->serverRequest->withUploadedFiles($uploadedFiles);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -758,8 +752,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function withUri(UriInterface $uri, $preserveHost = false)
     {
         $serverRequest = $this->serverRequest->withUri($uri, $preserveHost);
-        $clone = clone $serverRequest;
-        return new ServerRequestDecorator($clone);
+        return new ServerRequestDecorator($serverRequest);
     }
 
     /**
@@ -772,6 +765,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function getContentCharset()
     {
         $mediaTypeParams = $this->getMediaTypeParams();
+
         if (isset($mediaTypeParams['charset'])) {
             return $mediaTypeParams['charset'];
         }
@@ -788,8 +782,7 @@ class ServerRequestDecorator implements ServerRequestInterface
      */
     public function getContentType()
     {
-        $result = $this->getHeader('Content-Type');
-
+        $result = $this->serverRequest->getHeader('Content-Type');
         return $result ? $result[0] : null;
     }
 
@@ -802,8 +795,7 @@ class ServerRequestDecorator implements ServerRequestInterface
      */
     public function getContentLength()
     {
-        $result = $this->getHeader('Content-Length');
-
+        $result = $this->serverRequest->getHeader('Content-Length');
         return $result ? (int) $result[0] : null;
     }
 
@@ -819,8 +811,9 @@ class ServerRequestDecorator implements ServerRequestInterface
      */
     public function getCookieParam($key, $default = null)
     {
-        $cookies = $this->getCookieParams();
+        $cookies = $this->serverRequest->getCookieParams();
         $result = $default;
+
         if (isset($cookies[$key])) {
             $result = $cookies[$key];
         }
@@ -838,6 +831,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     public function getMediaType()
     {
         $contentType = $this->getContentType();
+
         if ($contentType) {
             $contentTypeParts = preg_split('/\s*[;,]\s*/', $contentType);
             if ($contentTypeParts === false) {
@@ -860,6 +854,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     {
         $contentType = $this->getContentType();
         $contentTypeParams = [];
+
         if ($contentType) {
             $contentTypeParts = preg_split('/\s*[;,]\s*/', $contentType);
             if ($contentTypeParts !== false) {
@@ -889,6 +884,7 @@ class ServerRequestDecorator implements ServerRequestInterface
         $postParams = $this->getParsedBody();
         $getParams = $this->getQueryParams();
         $result = $default;
+
         if (is_array($postParams) && isset($postParams[$key])) {
             $result = $postParams[$key];
         } elseif (is_object($postParams) && property_exists($postParams, $key)) {
@@ -911,6 +907,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     {
         $params = $this->getQueryParams();
         $postParams = $this->getParsedBody();
+
         if ($postParams) {
             $params = array_merge($params, (array)$postParams);
         }
@@ -932,6 +929,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     {
         $postParams = $this->getParsedBody();
         $result = $default;
+
         if (is_array($postParams) && isset($postParams[$key])) {
             $result = $postParams[$key];
         } elseif (is_object($postParams) && property_exists($postParams, $key)) {
@@ -955,6 +953,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     {
         $getParams = $this->getQueryParams();
         $result = $default;
+
         if (isset($getParams[$key])) {
             $result = $getParams[$key];
         }
@@ -973,8 +972,7 @@ class ServerRequestDecorator implements ServerRequestInterface
      */
     public function getServerParam($key, $default = null)
     {
-        $serverParams = $this->getServerParams();
-
+        $serverParams = $this->serverRequest->getServerParams();
         return isset($serverParams[$key]) ? $serverParams[$key] : $default;
     }
 
@@ -992,6 +990,7 @@ class ServerRequestDecorator implements ServerRequestInterface
         if ($callable instanceof Closure) {
             $callable = $callable->bindTo($this);
         }
+
         $this->bodyParsers[$mediaType] = $callable;
 
         return $this;
@@ -1043,7 +1042,7 @@ class ServerRequestDecorator implements ServerRequestInterface
      */
     public function isMethod($method)
     {
-        return $this->getMethod() === $method;
+        return $this->serverRequest->getMethod() === $method;
     }
 
     /**
@@ -1103,6 +1102,6 @@ class ServerRequestDecorator implements ServerRequestInterface
      */
     public function isXhr()
     {
-        return $this->getHeaderLine('X-Requested-With') === 'XMLHttpRequest';
+        return $this->serverRequest->getHeaderLine('X-Requested-With') === 'XMLHttpRequest';
     }
 }
