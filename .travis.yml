@@ -19,7 +19,7 @@ script:
   - mkdir -p build/logs && phpunit --coverage-clover build/logs/clover.xml
   - vendor/bin/phpunit
   - vendor/bin/phpcs
-  - php -d memory_limit=-1 vendor/bin/phpstan analyse src tests
+  - vendor/bin/phpstan analyse src tests
 
 after_script:
   - php vendor/bin/coveralls -v
