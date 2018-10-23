@@ -9,7 +9,6 @@
 namespace Slim\Tests\Http;
 
 use Slim\Tests\Http\Providers\NyholmPsr17FactoryProvider;
-use Slim\Tests\Http\Providers\Psr17FactoryProvider;
 use Slim\Tests\Http\Providers\ZendDiactorosPsr17FactoryProvider;
 use PHPUnit\Framework\TestCase;
 
