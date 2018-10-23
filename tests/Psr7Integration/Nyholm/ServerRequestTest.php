@@ -12,7 +12,6 @@ use Http\Psr7Test\ServerRequestIntegrationTest;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Slim\Http\Factory\DecoratedServerRequestFactory;
 use Slim\Tests\Http\Providers\NyholmPsr17FactoryProvider;
-use Slim\Tests\Http\Providers\Psr17FactoryProvider;
 
 class ServerRequestTest extends ServerRequestIntegrationTest
 {

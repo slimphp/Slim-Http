@@ -12,7 +12,6 @@ use Http\Psr7Test\UriIntegrationTest;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Slim\Http\Factory\DecoratedUriFactory;
 use Slim\Tests\Http\Providers\NyholmPsr17FactoryProvider;
-use Slim\Tests\Http\Providers\Psr17FactoryProvider;
 
 class UriTest extends UriIntegrationTest
 {
