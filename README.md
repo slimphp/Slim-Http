@@ -31,9 +31,9 @@ $ composer test
 ## Usage
 
 The Decoration Repo Provides 3 Factories which instantiate the Decorators. They respectively return PSR-7 Compatible Interfaces
-- DecoratedResponseFactory
-- DecoratedServerRequestFactory
-- DecoratedUriFactory
+- `DecoratedResponseFactory`
+- `DecoratedServerRequestFactory`
+- `DecoratedUriFactory`
 
 ## Example For Instantiating a Decorated Nyholm/Psr7 Response
 ```php
@@ -257,6 +257,13 @@ Asserts that the request method is `PUT`
 
 #### `ServerRequestDecorator::isXhr()` ####
 Asserts that the header `X-Requested-With` is `XMLHttpRequest`
+
+## Decoratored Uri Object Methods
+The decorated `UriInterface` provides the following additional methods:
+
+#### `UriDecorator::getBaseUrl()` ####
+Returns the fully qualified base URL
+
 
 ## Contributing
 
