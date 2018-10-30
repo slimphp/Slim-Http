@@ -3,7 +3,6 @@ sudo: false
 language: php
 
 php:
-  - 7.0
   - 7.1
   - 7.2
   - nightly
@@ -13,14 +12,14 @@ matrix:
     - php: nightly
 
 before_script:
-  - if [[ "$TRAVIS_PHP_VERSION" == '7.0' ]]; then composer require satooshi/php-coveralls:^0.7 squizlabs/php_codesniffer:^2.5 -n ; fi
-  - if [[ "$TRAVIS_PHP_VERSION" != '7.0' ]]; then composer install -n ; fi
+  - composer require php-coveralls/php-coveralls:^2.1.0
+  - composer install -n
 
 script:
-  - if [[ "$TRAVIS_PHP_VERSION" == '7.0' ]]; then mkdir -p build/logs && phpunit --coverage-clover build/logs/clover.xml ; fi
-  - if [[ "$TRAVIS_PHP_VERSION" != '7.0' ]]; then vendor/bin/phpunit ; fi
-  - if [[ "$TRAVIS_PHP_VERSION" == '7.0' ]]; then vendor/bin/phpcs ; fi
-  - vendor/bin/phpstan analyse -l 3 src/
+  - mkdir -p build/logs && phpunit --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit
+  - vendor/bin/phpcs
+  - vendor/bin/phpstan analyse src tests
 
 after_script:
-  - if [[ "$TRAVIS_PHP_VERSION" == '7.0' ]]; then php vendor/bin/coveralls -v ; fi
+  - php vendor/bin/coveralls -v

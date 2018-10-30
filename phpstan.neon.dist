@@ -1,0 +1,7 @@
+parameters:
+  level: max
+  ignoreErrors:
+    - '#Access to an undefined property Slim\\Http\\Decorators\\ResponseDecorator::\$foo#'
+    - '#Access to an undefined property Slim\\Http\\Decorators\\ServerRequestDecorator::\$foo#'
+    - '#Access to an undefined property Slim\\Http\\Decorators\\UriDecorator::\$foo#'
+    - '#Parameter \#1 \$port of method Slim\\Http\\Decorators\\UriDecorator::withPort() expects int|null, string given#'

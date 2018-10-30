@@ -1,7 +1,6 @@
 # Slim-Http
 
-Strict PSR-7 implementation used by the Slim Framework, but you may use it
-separately with any framework compatible with the PSR-7 standard.
+Slim PSR-7 Object Decorators
 
 [![Build Status](https://travis-ci.org/slimphp/Slim-Http.svg?branch=master)](https://travis-ci.org/slimphp/Slim-Http)
 [![Coverage Status](https://coveralls.io/repos/slimphp/Slim-Http/badge.svg?branch=master&service=github)](https://coveralls.io/github/slimphp/Slim-Http?branch=master)
@@ -18,7 +17,7 @@ $ composer require slim/http "^0.1"
 ```
 
 This will install the `slim/http` component and all required dependencies.
-PHP 7.0, or newer, is required.
+PHP 7.1, or newer, is required.
 
 ## Usage
 
