@@ -96,14 +96,14 @@ The decorated `ResponseInterface` provides the following additional methods:
 | Parameter | Type     | Description             |
 |-----------|----------|-------------------------|
 | **$data**     | `mixed`   | The data to encode      |
-| **$status**   | `int|null` | The HTTP Status Code    |
+| **$status**   | `int` | The HTTP Status Code    |
 | **$depth**    | `int`      | JSON encoding max depth |
 
 #### `ResponseDecorator::withRedirect($url, $status)` ####
 | Parameter | Type     | Description             |
 |-----------|----------|-------------------------|
 | **$url**     | `string`   | The redirect destination url      |
-| **$status**   | `int|null` | The HTTP Status Code    |
+| **$status**   | `int` | The HTTP Status Code    |
 
 #### `ResponseDecorator::write($data)` ####
 | Parameter | Type     | Description             |
@@ -168,7 +168,7 @@ Returns the value from the `Content-Length` header. Returns `null` if no value i
 | Parameter | Type     | Description             |
 |-----------|----------|-------------------------|
 | **$key**     | `string`   | The attribute name     |
-| **$default**     | `mixed|null`   | Default value to return if the attribute does not exist     |
+| **$default**     | `mixed`   | Default value to return if the attribute does not exist     |
 
 #### `ServerRequestDecorator::getMediaType()` ####
 Returns the first detected value from the `Content-Type` header. Returns `null` if no value is present.
@@ -182,7 +182,7 @@ Returns the value from key in `$_POST` or `$_GET`
 | Parameter | Type     | Description             |
 |-----------|----------|-------------------------|
 | **$key**     | `string`   | The attribute name     |
-| **$default**     | `mixed|null`   | Default value to return if the attribute does not exist     |
+| **$default**     | `mixed`   | Default value to return if the attribute does not exist     |
 
 #### `ServerRequestDecorator::getParams()` ####
 Returns a merged associative array of the `$_POST` and `$_GET` parameters.
@@ -203,7 +203,7 @@ Returns the value from key in the parsed `ServerRequest` body
 | Parameter | Type     | Description             |
 |-----------|----------|-------------------------|
 | **$key**     | `string`   | The attribute name     |
-| **$default**     | `mixed|null`   | Default value to return if the attribute does not exist     |
+| **$default**     | `mixed`   | Default value to return if the attribute does not exist     |
 
 #### `ServerRequestDecorator::getQueryParam($key, $default)` ####
 Returns the value from key in the parsed `ServerRequest` query string
@@ -211,7 +211,7 @@ Returns the value from key in the parsed `ServerRequest` query string
 | Parameter | Type     | Description             |
 |-----------|----------|-------------------------|
 | **$key**     | `string`   | The attribute name     |
-| **$default**     | `mixed|null`   | Default value to return if the attribute does not exist     |
+| **$default**     | `mixed`   | Default value to return if the attribute does not exist     |
 
 #### `ServerRequestDecorator::getServerParam($key, $default)` ####
 Returns the value from key in parsed server parameters from the underlying `ServerRequest` object
@@ -219,7 +219,7 @@ Returns the value from key in parsed server parameters from the underlying `Serv
 | Parameter | Type     | Description             |
 |-----------|----------|-------------------------|
 | **$key**     | `string`   | The attribute name     |
-| **$default**     | `mixed|null`   | Default value to return if the attribute does not exist     |
+| **$default**     | `mixed`   | Default value to return if the attribute does not exist     |
 
 #### `ServerRequestDecorator::registerMediaTypeParser($key, $default)` ####
 Returns the value from key in parsed server parameters from the underlying `ServerRequest` object
