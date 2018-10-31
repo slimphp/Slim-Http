@@ -18,7 +18,7 @@ $ composer require slim/http "^0.5"
 
 This will install the `slim/http` component and all required dependencies.
 PHP 7.1, or newer, is required.
-
+<br/><br/>
 ## Tests
 
 To execute the test suite, you'll need to install all development dependencies
@@ -27,8 +27,9 @@ To execute the test suite, you'll need to install all development dependencies
 $ composer install
 $ composer test
 ```
+<br/>
 
-## Usage
+## Usage 
 
 The Decoration Repo Provides 3 Factories which instantiate the Decorators. They respectively return PSR-7 Compatible Interfaces
 - `DecoratedResponseFactory`
@@ -60,6 +61,7 @@ $response = $decoratedResponseFactory->createResponse(200, 'OK');
 $response = $response->withJson(['data' => [1, 2, 3]]);
 
 ```
+<br/>
 
 ## Example For Instantiating a Decorated Zend Diactoros Response
 ```php
@@ -87,28 +89,28 @@ $response = $decoratedResponseFactory->createResponse(200, 'OK');
 $response = $response->withJson(['data' => [1, 2, 3]]);
 
 ```
+<br/>
 
 ## Decoratored Response Object Methods
 The decorated `ResponseInterface` provides the following additional methods:
 
-
 #### `ResponseDecorator::withJson($data, $status, $options, $depth)` ####
-| Parameter | Type     | Description             |
-|-----------|----------|-------------------------|
-| **$data**     | `mixed`   | The data to encode      |
-| **$status**   | `int` | The HTTP Status Code    |
-| **$depth**    | `int`      | JSON encoding max depth |
+| Parameter   | Type    | Description             |
+|-------------|---------|-------------------------|
+| **$data**   | `mixed` | The data to encode      |
+| **$status** | `int`   | The HTTP Status Code    |
+| **$depth**  | `int`   | JSON encoding max depth |
 
 #### `ResponseDecorator::withRedirect($url, $status)` ####
-| Parameter | Type     | Description             |
-|-----------|----------|-------------------------|
-| **$url**     | `string`   | The redirect destination url      |
-| **$status**   | `int` | The HTTP Status Code    |
+| Parameter   | Type     | Description                  |
+|-------------|----------|------------------------------|
+| **$url**    | `string` | The redirect destination url |
+| **$status** | `int`    | The HTTP Status Code         |
 
 #### `ResponseDecorator::write($data)` ####
-| Parameter | Type     | Description             |
-|-----------|----------|-------------------------|
-| **$url**     | `string`   | The data to write to the `Response` body      |
+| Parameter | Type     | Description                              |
+|-----------|----------|------------------------------------------|
+| **$url**  | `string` | The data to write to the `Response` body |
 
 #### `ResponseDecorator::isClientError()` ####
 Assert the current `Response` status code is between **400** and **500**
@@ -145,18 +147,18 @@ Content-Type: application/json;charset=utf-8
 
 {"Hello": "World"}
 ```
+<br/>
 
 ## Decoratored ServerRequest Object Methods
 The decorated `ServerRequestInterface` provides the following additional methods:
 
-
 #### `ServerRequestDecorator::withAttributes($attributes)` ####
-| Parameter | Type     | Description             |
-|-----------|----------|-------------------------|
-| **$attributes**     | `array`   | Attributes to be appended to the request      |
+| Parameter       | Type      | Description                              |
+|-----------------|-----------|------------------------------------------|
+| **$attributes** | `array`   | Attributes to be appended to the request |
 
 #### `ServerRequestDecorator::getContentCharset()` ####
-Returns the detected charset from the `Content-Type` header.Returns `null` if no value is present.
+Returns the detected charset from the `Content-Type` header. Returns `null` if no value is present.
 
 #### `ServerRequestDecorator::getContentType()` ####
 Returns the value from the `Content-Type` header. Returns `null` if no value is present.
@@ -257,32 +259,32 @@ Asserts that the request method is `PUT`
 
 #### `ServerRequestDecorator::isXhr()` ####
 Asserts that the header `X-Requested-With` is `XMLHttpRequest`
-
+<br/>
+<br/>
 ## Decoratored Uri Object Methods
 The decorated `UriInterface` provides the following additional methods:
 
 #### `UriDecorator::getBaseUrl()` ####
 Returns the fully qualified base URL
-
-
+<br/>
+<br/>
 ## Contributing
-
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
+<br/>
+<br/>
 ## Security
-
 If you discover security related issues, please email security@slimframework.com 
 instead of using the issue tracker.
-
+<br/>
+<br/>
 ## Credits
-
 - [Josh Lockhart](https://github.com/codeguy)
 - [Andrew Smith](https://github.com/silentworks)
 - [Rob Allen](https://github.com/akrabat)
 - [Pierre Bérubé](https://github.com/l0gicgate)
 - [All Contributors](../../contributors)
-
+<br/>
+<br/>
 ## License
-
 This component is licensed under the MIT license. See [License File](LICENSE.md) 
 for more information.
