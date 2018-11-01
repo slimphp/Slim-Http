@@ -18,7 +18,7 @@ $ composer require slim/http "^0.5"
 
 This will install the `slim/http` component and all required dependencies.
 PHP 7.1, or newer, is required.
-<br/><br/>
+
 ## Tests
 
 To execute the test suite, you'll need to install all development dependencies.
@@ -28,7 +28,7 @@ $ git clone https://github.com/slimphp/Slim-Http
 $ composer install
 $ composer test
 ```
-<br/>
+
 
 ## Usage 
 
@@ -37,7 +37,7 @@ The Decoration Repo Provides 3 Factories which instantiate the Decorators. They 
 - `DecoratedServerRequestFactory`
 - `DecoratedUriFactory`
 
-## Example For Instantiating a Decorated Nyholm/Psr7 Response
+## Example for Instantiating a Decorated Nyholm/Psr7 Response
 ```php
 <?php
 
@@ -62,9 +62,9 @@ $response = $decoratedResponseFactory->createResponse(200, 'OK');
 $response = $response->withJson(['data' => [1, 2, 3]]);
 
 ```
-<br/>
 
-## Example For Instantiating a Decorated Zend Diactoros Response
+
+## Example for Instantiating a Decorated Zend Diactoros Response
 ```php
 <?php
 
@@ -90,7 +90,7 @@ $response = $decoratedResponseFactory->createResponse(200, 'OK');
 $response = $response->withJson(['data' => [1, 2, 3]]);
 
 ```
-<br/>
+
 
 ## Decoratored Response Object Methods
 The decorated `ResponseInterface` provides the following additional methods:
@@ -148,7 +148,7 @@ Content-Type: application/json;charset=utf-8
 
 {"Hello": "World"}
 ```
-<br/>
+
 
 ## Decoratored ServerRequest Object Methods
 The decorated `ServerRequestInterface` provides the following additional methods:
@@ -260,32 +260,28 @@ Asserts that the underlying server request's method is `PUT`
 
 #### `ServerRequestDecorator::isXhr()` ####
 Asserts that the header `X-Requested-With` from the underlying server request is `XMLHttpRequest`
-<br/>
-<br/>
-## Decoratored Uri Object Methods
+
+## Decorated Uri Object Methods
 The decorated `UriInterface` provides the following additional methods:
 
 #### `UriDecorator::getBaseUrl()` ####
 Returns the fully qualified base URL of the underlying uri object.
-<br/>
-<br/>
+
 ## Contributing
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-<br/>
-<br/>
+
 ## Security
 If you discover security related issues, please email security@slimframework.com 
 instead of using the issue tracker.
-<br/>
-<br/>
+
 ## Credits
 - [Josh Lockhart](https://github.com/codeguy)
 - [Andrew Smith](https://github.com/silentworks)
 - [Rob Allen](https://github.com/akrabat)
 - [Pierre Bérubé](https://github.com/l0gicgate)
 - [All Contributors](../../contributors)
-<br/>
-<br/>
+
 ## License
-This component is licensed under the MIT license. See [License File](LICENSE.md) 
+
+This component is licensed under the MIT license. See [License File](LICENSE) 
 for more information.
