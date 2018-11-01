@@ -42,7 +42,7 @@ The Decoration Repo Provides 3 Factories which instantiate the Decorators. They 
 <?php
 
 use Nyholm\Psr7\Factory\Psr17Factory;
-use Slim\Http\Decorators\Factory\DecoratedResponseFactory;
+use Slim\Http\Factory\DecoratedResponseFactory;
 
 $nyholmFactory = new Psr17Factory();
 
@@ -55,8 +55,8 @@ $nyholmFactory = new Psr17Factory();
 $decoratedResponseFactory = new DecoratedResponseFactory($nyholmFactory, $nyholmFactory);
 
 /**
- * @var \Slim\Http\Decorators\DecoratedResponse $response
- * The returned variable is a DecoratedResponse which has methods like withJson()
+ * @var \Slim\Http\Decorators\ResponseDecorator $response
+ * The returned variable is a ResponseDecorator which has methods like withJson()
  */
 $response = $decoratedResponseFactory->createResponse(200, 'OK');
 $response = $response->withJson(['data' => [1, 2, 3]]);
@@ -70,7 +70,7 @@ $response = $response->withJson(['data' => [1, 2, 3]]);
 
 use Zend\Diactoros\ResponseFactory;
 use Zend\Diactoros\StreamFactory;
-use Slim\Http\Decorators\Factory\DecoratedResponseFactory;
+use Slim\Http\Factory\DecoratedResponseFactory;
 
 $responseFactory = new ResponseFactory();
 $streamFactory = new StreamFactory();
@@ -83,8 +83,8 @@ $streamFactory = new StreamFactory();
 $decoratedResponseFactory = new DecoratedResponseFactory($responseFactory, $streamFactory);
 
 /**
- * @var \Slim\Http\Decorators\DecoratedResponse $response
- * The returned variable is a DecoratedResponse which has methods like withJson()
+ * @var \Slim\Http\Decorators\ResponseDecorator $response
+ * The returned variable is a ResponseDecorator which has methods like withJson()
  */
 $response = $decoratedResponseFactory->createResponse(200, 'OK');
 $response = $response->withJson(['data' => [1, 2, 3]]);
