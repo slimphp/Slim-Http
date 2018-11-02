@@ -25,4 +25,4 @@ script:
 - vendor/bin/phpstan analyse src tests
 
 after_success:
-- if [[ "$ANALYSIS" == 'true' ]]; then vendor/bin/php-coveralls --clover=clover.xml -v ; fi
+- if [[ "$ANALYSIS" == 'true' ]]; then vendor/bin/php-coveralls --coverage_clover=clover.xml -v ; fi
