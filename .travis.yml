@@ -2,25 +2,27 @@ sudo: false
 
 language: php
 
-php:
-  - 7.1
-  - 7.2
-  - 7.3
-  - nightly
+dist: trusty
 
 matrix:
+  include:
+  - php: 7.1
+    env: ANALYSIS='true'
+  - php: 7.2
+  - php: 7.3
+  - php: nightly
   allow_failures:
-    - php: nightly
+  - php: nightly
 
 before_script:
-  - composer require php-coveralls/php-coveralls:^2.1.0
-  - composer install -n
+- composer require php-coveralls/php-coveralls:^2.1.0
+- composer install -n
 
 script:
-  - mkdir -p build/logs && phpunit --coverage-clover build/logs/clover.xml
-  - vendor/bin/phpunit
-  - vendor/bin/phpcs
-  - vendor/bin/phpstan analyse src tests
+- if [[ "$ANALYSIS" == 'true' ]]; then vendor/bin/phpunit --coverage-clover clover.xml ; fi
+- vendor/bin/phpunit
+- vendor/bin/phpcs
+- vendor/bin/phpstan analyse src tests
 
-after_script:
-  - php vendor/bin/coveralls -v
+after_success:
+- if [[ "$ANALYSIS" == 'true' ]]; then vendor/bin/php-coveralls --coverage_clover=clover.xml -v ; fi
