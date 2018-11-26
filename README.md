@@ -55,8 +55,8 @@ $nyholmFactory = new Psr17Factory();
 $decoratedResponseFactory = new DecoratedResponseFactory($nyholmFactory, $nyholmFactory);
 
 /**
- * @var \Slim\Http\Decorators\ResponseDecorator $response
- * The returned variable is a ResponseDecorator which has methods like withJson()
+ * @var \Slim\Http\Response $response
+ * The returned variable is a Response which has methods like withJson()
  */
 $response = $decoratedResponseFactory->createResponse(200, 'OK');
 $response = $response->withJson(['data' => [1, 2, 3]]);
@@ -83,8 +83,8 @@ $streamFactory = new StreamFactory();
 $decoratedResponseFactory = new DecoratedResponseFactory($responseFactory, $streamFactory);
 
 /**
- * @var \Slim\Http\Decorators\ResponseDecorator $response
- * The returned variable is a ResponseDecorator which has methods like withJson()
+ * @var \Slim\Http\Response $response
+ * The returned variable is a Response which has methods like withJson()
  */
 $response = $decoratedResponseFactory->createResponse(200, 'OK');
 $response = $response->withJson(['data' => [1, 2, 3]]);
@@ -95,52 +95,52 @@ $response = $response->withJson(['data' => [1, 2, 3]]);
 ## Decoratored Response Object Methods
 The decorated `ResponseInterface` provides the following additional methods:
 
-#### `ResponseDecorator::withJson($data, $status, $options, $depth)` ####
+#### `Response::withJson($data, $status, $options, $depth)` ####
 | Parameter   | Type    | Description             |
 |-------------|---------|-------------------------|
 | **$data**   | `mixed` | The data to encode      |
 | **$status** | `int`   | The HTTP Status Code    |
 | **$depth**  | `int`   | JSON encoding max depth |
 
-#### `ResponseDecorator::withRedirect($url, $status)` ####
+#### `Response::withRedirect($url, $status)` ####
 | Parameter   | Type     | Description                  |
 |-------------|----------|------------------------------|
 | **$url**    | `string` | The redirect destination url |
 | **$status** | `int`    | The HTTP Status Code         |
 
-#### `ResponseDecorator::write($data)` ####
+#### `Response::write($data)` ####
 | Parameter | Type     | Description                              |
 |-----------|----------|------------------------------------------|
 | **$url**  | `string` | The data to write to the `Response` body |
 
-#### `ResponseDecorator::isClientError()` ####
+#### `Response::isClientError()` ####
 Assert the underlying response's status code is between **400** and **500**.
 
-#### `ResponseDecorator::isEmpty()` ####
+#### `Response::isEmpty()` ####
 Assert the underlying response's status code is **204, 205** or **304**.
 
-#### `ResponseDecorator::isForbidden()` ####
+#### `Response::isForbidden()` ####
 Assert the underlying response's status code is **403**.
 
-#### `ResponseDecorator::isInformational()` ####
+#### `Response::isInformational()` ####
 Assert the underlying response's status code is between **100** and **200**.
 
-#### `ResponseDecorator::isOk()` ####
+#### `Response::isOk()` ####
 Assert the underlying response's status code is **200**.
 
-#### `ResponseDecorator::isNotFound()` ####
+#### `Response::isNotFound()` ####
 Assert the underlying response's status code is **404**.
 
-#### `ResponseDecorator::isRedirection()` ####
+#### `Response::isRedirection()` ####
 Assert the underlying response's status code is between **300** and **400**.
 
-#### `ResponseDecorator::isServerError()` ####
+#### `Response::isServerError()` ####
 Assert the underlying response's status code is between **500** and **600**.
 
-#### `ResponseDecorator::isSuccessful()` ####
+#### `Response::isSuccessful()` ####
 Assert the underlying response's status code is between **200** and **300**.
 
-#### `ResponseDecorator::__toString()` ####
+#### `Response::__toString()` ####
 Will return a string formatted representation of the underlying response object.
 ```
 HTTP/1.1 200 OK
@@ -153,33 +153,33 @@ Content-Type: application/json;charset=utf-8
 ## Decoratored ServerRequest Object Methods
 The decorated `ServerRequestInterface` provides the following additional methods:
 
-#### `ServerRequestDecorator::withAttributes($attributes)` ####
+#### `ServerRequest::withAttributes($attributes)` ####
 | Parameter       | Type      | Description                              |
 |-----------------|-----------|------------------------------------------|
 | **$attributes** | `array`   | Attributes to be appended to the request |
 
-#### `ServerRequestDecorator::getContentCharset()` ####
+#### `ServerRequest::getContentCharset()` ####
 Returns the detected charset from the `Content-Type` header of the underlying server request object. Returns `null` if no value is present.
 
-#### `ServerRequestDecorator::getContentType()` ####
+#### `ServerRequest::getContentType()` ####
 Returns the value from the `Content-Type` header of the underlying server request object. Returns `null` if no value is present.
 
-#### `ServerRequestDecorator::getContentLength()` ####
+#### `ServerRequest::getContentLength()` ####
 Returns the value from the `Content-Length` header of the underlying server request object. Returns `null` if no value is present.
 
-#### `ServerRequestDecorator::getCookieParam($key, $default)` ####
+#### `ServerRequest::getCookieParam($key, $default)` ####
 | Parameter     | Type     | Description                                            |
 |---------------|----------|--------------------------------------------------------|
 | **$key**      | `string` | The attribute name                                     |
 | **$default**  | `mixed`  | Default value to return if the attribute does not exist |
 
-#### `ServerRequestDecorator::getMediaType()` ####
+#### `ServerRequest::getMediaType()` ####
 Returns the first detected value from the `Content-Type` header of the underlying server request object. Returns `null` if no value is present.
 
-#### `ServerRequestDecorator::getMediaTypeParams()` ####
+#### `ServerRequest::getMediaTypeParams()` ####
 Returns an array of detected values from the `Content-Type` header of the underlying server request object. Returns an empty array if no values are present.
 
-#### `ServerRequestDecorator::getParam($key, $default)` ####
+#### `ServerRequest::getParam($key, $default)` ####
 Returns the value from key in `$_POST` or `$_GET`
 
 | Parameter    | Type     | Description                                             |
@@ -187,20 +187,20 @@ Returns the value from key in `$_POST` or `$_GET`
 | **$key**     | `string` | The attribute name                                      |
 | **$default** | `mixed`  | Default value to return if the attribute does not exist |
 
-#### `ServerRequestDecorator::getParams()` ####
+#### `ServerRequest::getParams()` ####
 Returns a merged associative array of the `$_POST` and `$_GET` parameters.
 
-#### `ServerRequestDecorator::getParsedBody()` ####
+#### `ServerRequest::getParsedBody()` ####
 Returns the parsed body from the underlying server request object if it already has been parsed by the underlying PSR-7 implementation. If the parsed body is empty, our decorator attempts to detect the content type and parse the body using one of the registered media type parsers.
 
 The default media type parsers support:
 - JSON
 - XML
 
-You can register your own media type parser using the `ServerRequestDecorator::registerMediaTypeParser()` method.
+You can register your own media type parser using the `ServerRequest::registerMediaTypeParser()` method.
 
 
-#### `ServerRequestDecorator::getParsedBodyParam($key, $default)` ####
+#### `ServerRequest::getParsedBodyParam($key, $default)` ####
 Returns the value from key in the parsed body of the underlying server request object.
 
 | Parameter    | Type     | Description                                             |
@@ -208,7 +208,7 @@ Returns the value from key in the parsed body of the underlying server request o
 | **$key**     | `string` | The attribute name                                      |
 | **$default** | `mixed`  | Default value to return if the attribute does not exist |
 
-#### `ServerRequestDecorator::getQueryParam($key, $default)` ####
+#### `ServerRequest::getQueryParam($key, $default)` ####
 Returns the value from key in the parsed `ServerRequest` query string
 
 | Parameter     | Type     | Description                                             |
@@ -216,7 +216,7 @@ Returns the value from key in the parsed `ServerRequest` query string
 | **$key**      | `string` | The attribute name                                      |
 | **$default**  | `mixed`  | Default value to return if the attribute does not exist |
 
-#### `ServerRequestDecorator::getServerParam($key, $default)` ####
+#### `ServerRequest::getServerParam($key, $default)` ####
 Returns the value from key in parsed server parameters from the underlying underlying server request object.
 
 | Parameter    | Type     | Description                                              |
@@ -224,7 +224,7 @@ Returns the value from key in parsed server parameters from the underlying under
 | **$key**     | `string` | The attribute name                                       |
 | **$default** | `mixed`  | Default value to return if the attribute does not exist  |
 
-#### `ServerRequestDecorator::registerMediaTypeParser($key, $default)` ####
+#### `ServerRequest::registerMediaTypeParser($key, $default)` ####
 Returns the value from key in parsed server parameters from the underlying server request object.
 
 | Parameter      | Type       | Description                                            |
@@ -232,39 +232,39 @@ Returns the value from key in parsed server parameters from the underlying serve
 | **$mediaType** | `string`   | A HTTP media type (excluding content-type params)      |
 | **$callable**  | `callable` | A callable that returns parsed contents for media type |
 
-#### `ServerRequestDecorator::isMethod($method)` ####
+#### `ServerRequest::isMethod($method)` ####
 | Parameter   | Type     | Description     |
 |-------------|----------|-----------------|
 | **$method** | `string` | The method name |
 
-#### `ServerRequestDecorator::isDelete()` ####
+#### `ServerRequest::isDelete()` ####
 Asserts that the underlying server request's method is `DELETE`
 
-#### `ServerRequestDecorator::isGet()` ####
+#### `ServerRequest::isGet()` ####
 Asserts that the underlying server request's method is `GET`
 
-#### `ServerRequestDecorator::isHead()` ####
+#### `ServerRequest::isHead()` ####
 Asserts that the underlying server request's method is `HEAD`
 
-#### `ServerRequestDecorator::isOptions()` ####
+#### `ServerRequest::isOptions()` ####
 Asserts that the underlying server request's method is `OPTIONS`
 
-#### `ServerRequestDecorator::isPatch()` ####
+#### `ServerRequest::isPatch()` ####
 Asserts that the underlying server request's method is `PATCH`
 
-#### `ServerRequestDecorator::isPost()` ####
+#### `ServerRequest::isPost()` ####
 Asserts that the underlying server request's method is `POST`
 
-#### `ServerRequestDecorator::isPut()` ####
+#### `ServerRequest::isPut()` ####
 Asserts that the underlying server request's method is `PUT`
 
-#### `ServerRequestDecorator::isXhr()` ####
+#### `ServerRequest::isXhr()` ####
 Asserts that the header `X-Requested-With` from the underlying server request is `XMLHttpRequest`
 
 ## Decorated Uri Object Methods
 The decorated `UriInterface` provides the following additional methods:
 
-#### `UriDecorator::getBaseUrl()` ####
+#### `Uri::getBaseUrl()` ####
 Returns the fully qualified base URL of the underlying uri object.
 
 ## Contributing
