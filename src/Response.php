@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2011-2018 Josh Lockhart
  * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
  */
-namespace Slim\Http\Decorators;
+namespace Slim\Http;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -15,10 +15,10 @@ use InvalidArgumentException;
 use RuntimeException;
 
 /**
- * Class ResponseDecorator
- * @package Slim\Http\Decorators
+ * Class Response
+ * @package Slim\Http
  */
-class ResponseDecorator implements ResponseInterface
+class Response implements ResponseInterface
 {
     /**
      * @var ResponseInterface;
@@ -38,7 +38,7 @@ class ResponseDecorator implements ResponseInterface
     const EOL = "\r\n";
 
     /**
-     * ResponseDecorator constructor.
+     * Response constructor.
      * @param ResponseInterface $response
      * @param StreamFactoryInterface $streamFactory
      */
@@ -209,13 +209,13 @@ class ResponseDecorator implements ResponseInterface
      *
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
-     * @return ResponseDecorator
+     * @return Response
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withAddedHeader($name, $value)
     {
         $response = $this->response->withAddedHeader($name, $value);
-        return new ResponseDecorator($response, $this->streamFactory);
+        return new Response($response, $this->streamFactory);
     }
 
     /**
@@ -228,13 +228,13 @@ class ResponseDecorator implements ResponseInterface
      * new body stream.
      *
      * @param StreamInterface $body Body.
-     * @return ResponseDecorator
+     * @return Response
      * @throws InvalidArgumentException When the body is not valid.
      */
     public function withBody(StreamInterface $body)
     {
         $response = $this->response->withBody($body);
-        return new ResponseDecorator($response, $this->streamFactory);
+        return new Response($response, $this->streamFactory);
     }
 
     /**
@@ -249,13 +249,13 @@ class ResponseDecorator implements ResponseInterface
      *
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
-     * @return ResponseDecorator
+     * @return Response
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withHeader($name, $value)
     {
         $response = $this->response->withHeader($name, $value);
-        return new ResponseDecorator($response, $this->streamFactory);
+        return new Response($response, $this->streamFactory);
     }
 
     /**
@@ -268,12 +268,12 @@ class ResponseDecorator implements ResponseInterface
      * the named header.
      *
      * @param string $name Case-insensitive header field name to remove.
-     * @return ResponseDecorator
+     * @return Response
      */
     public function withoutHeader($name)
     {
         $response = $this->response->withoutHeader($name);
-        return new ResponseDecorator($response, $this->streamFactory);
+        return new Response($response, $this->streamFactory);
     }
 
     /**
@@ -287,12 +287,12 @@ class ResponseDecorator implements ResponseInterface
      * new protocol version.
      *
      * @param string $version HTTP protocol version
-     * @return ResponseDecorator
+     * @return Response
      */
     public function withProtocolVersion($version)
     {
         $response = $this->response->withProtocolVersion($version);
-        return new ResponseDecorator($response, $this->streamFactory);
+        return new Response($response, $this->streamFactory);
     }
 
     /**
@@ -312,13 +312,13 @@ class ResponseDecorator implements ResponseInterface
      * @param string $reasonPhrase The reason phrase to use with the
      *     provided status code; if none is provided, implementations MAY
      *     use the defaults as suggested in the HTTP specification.
-     * @return ResponseDecorator
+     * @return Response
      * @throws InvalidArgumentException For invalid status code arguments.
      */
     public function withStatus($code, $reasonPhrase = '')
     {
         $response = $this->response->withStatus($code, $reasonPhrase);
-        return new ResponseDecorator($response, $this->streamFactory);
+        return new Response($response, $this->streamFactory);
     }
 
     /**
@@ -333,7 +333,7 @@ class ResponseDecorator implements ResponseInterface
      * @param  int    $status The HTTP status code.
      * @param  int    $options Json encoding options
      * @param  int    $depth Json encoding max depth
-     * @return ResponseDecorator
+     * @return Response
      */
     public function withJson($data, int $status = null, int $options = 0, int $depth = 512): ResponseInterface
     {
@@ -351,7 +351,7 @@ class ResponseDecorator implements ResponseInterface
             $response = $response->withStatus($status);
         }
 
-        return new ResponseDecorator($response, $this->streamFactory);
+        return new Response($response, $this->streamFactory);
     }
 
     /**

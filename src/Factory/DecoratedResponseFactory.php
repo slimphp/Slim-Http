@@ -11,7 +11,7 @@ namespace Slim\Http\Factory;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Slim\Http\Decorators\ResponseDecorator;
+use Slim\Http\Response;
 
 /**
  * Class DecoratedResponseFactory
@@ -43,11 +43,11 @@ class DecoratedResponseFactory implements ResponseFactoryInterface
     /**
      * @param int $code
      * @param string $reasonPhrase
-     * @return ResponseDecorator
+     * @return Response
      */
     public function createResponse(int $code = 200, string $reasonPhrase = ''): ResponseInterface
     {
         $response = $this->responseFactory->createResponse($code, $reasonPhrase);
-        return new ResponseDecorator($response, $this->streamFactory);
+        return new Response($response, $this->streamFactory);
     }
 }

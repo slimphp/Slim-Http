@@ -10,13 +10,13 @@ namespace Slim\Tests\Http;
 
 use Slim\Tests\Http\Providers\NyholmPsr17FactoryProvider;
 use Slim\Tests\Http\Providers\ZendDiactorosPsr17FactoryProvider;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
- * Class Test
+ * Class TestCase
  * @package Tests\SlimPsr7Decorators
  */
-abstract class Test extends TestCase
+abstract class TestCase extends PHPUnitTestCase
 {
     /**
      * @var string[]

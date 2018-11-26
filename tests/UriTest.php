@@ -6,17 +6,16 @@
  * @copyright Copyright (c) 2011-2018 Josh Lockhart
  * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
  */
-namespace Slim\Tests\Http\Decorators;
+namespace Slim\Tests\Http;
 
 use Slim\Http\Factory\DecoratedUriFactory;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
-use Slim\Tests\Http\Test;
 
 /**
- * Class UriDecoratorTest
- * @package Slim\Tests\Http\Decorators
+ * Class UriTest
+ * @package Slim\Tests\Http
  */
-class UriDecoratorTest extends Test
+class UriTest extends TestCase
 {
     public function testDisableSetter()
     {
