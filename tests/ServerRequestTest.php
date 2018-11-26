@@ -6,17 +6,16 @@
  * @copyright Copyright (c) 2011-2018 Josh Lockhart
  * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
  */
-namespace Slim\Tests\Http\Decorators;
+namespace Slim\Tests\Http;
 
 use Slim\Http\Factory\DecoratedServerRequestFactory;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
-use Slim\Tests\Http\Test;
 
 /**
- * Class ServerRequestDecoratorTest
- * @package Slim\Tests\Http\Decorators
+ * Class ServerRequestTest
+ * @package Slim\Tests\Http
  */
-class ServerRequestDecoratorTest extends Test
+class ServerRequestTest extends TestCase
 {
     public function testDisableSetter()
     {

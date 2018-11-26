@@ -6,14 +6,13 @@
  * @copyright Copyright (c) 2011-2018 Josh Lockhart
  * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
  */
-namespace Slim\Tests\Http\Decorators;
+namespace Slim\Tests\Http;
 
-use Slim\Http\Decorators\ResponseDecorator;
+use Slim\Http\Response;
 use Slim\Http\Factory\DecoratedResponseFactory;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
-use Slim\Tests\Http\Test;
 
-class ResponseDecoratorTest extends Test
+class ResponseTest extends TestCase
 {
     public function testDisableSetter()
     {
@@ -354,8 +353,8 @@ class ResponseDecoratorTest extends Test
 
     public function testToString()
     {
-        $output = 'HTTP/1.1 404 Not Found' . ResponseDecorator::EOL .
-            'X-Foo: Bar' . ResponseDecorator::EOL . ResponseDecorator::EOL .
+        $output = 'HTTP/1.1 404 Not Found' . Response::EOL .
+            'X-Foo: Bar' . Response::EOL . Response::EOL .
             'Where am I?';
 
         $expectedOutputString = '';
@@ -391,7 +390,7 @@ class ResponseDecoratorTest extends Test
                 $provider->getStreamFactory()
             );
 
-            /** @var ResponseDecorator $originalResponse */
+            /** @var Response $originalResponse */
             $originalResponse = $decoratedResponseFactory->createResponse(503);
             $response = $originalResponse->withJson($data, 201);
 
