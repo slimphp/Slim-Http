@@ -10,7 +10,7 @@ namespace Slim\Http\Factory;
 
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Http\Decorators\ServerRequestDecorator;
+use Slim\Http\ServerRequest;
 
 /**
  * Class DecoratedServerRequestFactory
@@ -36,11 +36,11 @@ class DecoratedServerRequestFactory implements ServerRequestFactoryInterface
      * @param string $method
      * @param \Psr\Http\Message\UriInterface|string $uri
      * @param array $serverParams
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      */
     public function createServerRequest(string $method, $uri, array $serverParams = []): ServerRequestInterface
     {
         $serverRequest = $this->serverRequestFactory->createServerRequest($method, $uri, $serverParams);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 }

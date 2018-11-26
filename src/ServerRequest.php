@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2011-2018 Josh Lockhart
  * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
  */
-namespace Slim\Http\Decorators;
+namespace Slim\Http;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -16,10 +16,10 @@ use InvalidArgumentException;
 use RuntimeException;
 
 /**
- * Class ServerRequestDecorator
- * @package Slim\Http\Decorators
+ * Class ServerRequest
+ * @package Slim\Http
  */
-class ServerRequestDecorator implements ServerRequestInterface
+class ServerRequest implements ServerRequestInterface
 {
     /**
      * @var ServerRequestInterface
@@ -32,7 +32,7 @@ class ServerRequestDecorator implements ServerRequestInterface
     private $bodyParsers;
 
     /**
-     * ServerRequestDecorator constructor.
+     * ServerRequest constructor.
      * @param ServerRequestInterface $serverRequest
      */
     public function __construct(ServerRequestInterface $serverRequest)
@@ -420,13 +420,13 @@ class ServerRequestDecorator implements ServerRequestInterface
      *
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withAddedHeader($name, $value)
     {
         $serverRequest = $this->serverRequest->withAddedHeader($name, $value);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -442,12 +442,12 @@ class ServerRequestDecorator implements ServerRequestInterface
      * @see getAttributes()
      * @param string $name The attribute name.
      * @param mixed $value The value of the attribute.
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      */
     public function withAttribute($name, $value)
     {
         $serverRequest = $this->serverRequest->withAttribute($name, $value);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -463,7 +463,7 @@ class ServerRequestDecorator implements ServerRequestInterface
      * updated attributes.
      *
      * @param  array $attributes New attributes
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      */
     public function withAttributes(array $attributes)
     {
@@ -473,7 +473,7 @@ class ServerRequestDecorator implements ServerRequestInterface
             $serverRequest = $serverRequest->withAttribute($attribute, $value);
         }
 
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -488,12 +488,12 @@ class ServerRequestDecorator implements ServerRequestInterface
      *
      * @see getAttributes()
      * @param string $name The attribute name.
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      */
     public function withoutAttribute($name)
     {
         $serverRequest = $this->serverRequest->withoutAttribute($name);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -506,13 +506,13 @@ class ServerRequestDecorator implements ServerRequestInterface
      * new body stream.
      *
      * @param StreamInterface $body Body.
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      * @throws InvalidArgumentException When the body is not valid.
      */
     public function withBody(StreamInterface $body)
     {
         $serverRequest = $this->serverRequest->withBody($body);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -530,12 +530,12 @@ class ServerRequestDecorator implements ServerRequestInterface
      * updated cookie values.
      *
      * @param array $cookies Array of key/value pairs representing cookies.
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      */
     public function withCookieParams(array $cookies)
     {
         $serverRequest = $this->serverRequest->withCookieParams($cookies);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -550,13 +550,13 @@ class ServerRequestDecorator implements ServerRequestInterface
      *
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withHeader($name, $value)
     {
         $serverRequest = $this->serverRequest->withHeader($name, $value);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -569,12 +569,12 @@ class ServerRequestDecorator implements ServerRequestInterface
      * the named header.
      *
      * @param string $name Case-insensitive header field name to remove.
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      */
     public function withoutHeader($name)
     {
         $serverRequest = $this->serverRequest->withoutHeader($name);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -589,13 +589,13 @@ class ServerRequestDecorator implements ServerRequestInterface
      * changed request method.
      *
      * @param string $method Case-sensitive method.
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      * @throws InvalidArgumentException for invalid HTTP methods.
      */
     public function withMethod($method)
     {
         $serverRequest = $this->serverRequest->withMethod($method);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -622,14 +622,14 @@ class ServerRequestDecorator implements ServerRequestInterface
      *
      * @param null|array|object $data The deserialized body data. This will
      *     typically be in an array or object.
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      * @throws InvalidArgumentException if an unsupported argument type is
      *     provided.
      */
     public function withParsedBody($data)
     {
         $serverRequest = $this->serverRequest->withParsedBody($data);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -643,12 +643,12 @@ class ServerRequestDecorator implements ServerRequestInterface
      * new protocol version.
      *
      * @param string $version HTTP protocol version
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      */
     public function withProtocolVersion($version)
     {
         $serverRequest = $this->serverRequest->withProtocolVersion($version);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -671,12 +671,12 @@ class ServerRequestDecorator implements ServerRequestInterface
      *
      * @param array $query Array of query string arguments, typically from
      *     $_GET.
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      */
     public function withQueryParams(array $query)
     {
         $serverRequest = $this->serverRequest->withQueryParams($query);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -694,12 +694,12 @@ class ServerRequestDecorator implements ServerRequestInterface
      * @link http://tools.ietf.org/html/rfc7230#section-5.3 (for the various
      *     request-target forms allowed in request messages)
      * @param mixed $requestTarget
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      */
     public function withRequestTarget($requestTarget)
     {
         $serverRequest = $this->serverRequest->withRequestTarget($requestTarget);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -710,13 +710,13 @@ class ServerRequestDecorator implements ServerRequestInterface
      * updated body parameters.
      *
      * @param array $uploadedFiles An array tree of UploadedFileInterface instances.
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      * @throws InvalidArgumentException if an invalid structure is provided.
      */
     public function withUploadedFiles(array $uploadedFiles)
     {
         $serverRequest = $this->serverRequest->withUploadedFiles($uploadedFiles);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**
@@ -747,12 +747,12 @@ class ServerRequestDecorator implements ServerRequestInterface
      * @link http://tools.ietf.org/html/rfc3986#section-4.3
      * @param UriInterface $uri New request URI to use.
      * @param bool $preserveHost Preserve the original state of the Host header.
-     * @return ServerRequestDecorator
+     * @return ServerRequest
      */
     public function withUri(UriInterface $uri, $preserveHost = false)
     {
         $serverRequest = $this->serverRequest->withUri($uri, $preserveHost);
-        return new ServerRequestDecorator($serverRequest);
+        return new ServerRequest($serverRequest);
     }
 
     /**

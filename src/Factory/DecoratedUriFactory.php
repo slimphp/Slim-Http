@@ -10,7 +10,7 @@ namespace Slim\Http\Factory;
 
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
-use Slim\Http\Decorators\UriDecorator;
+use Slim\Http\Uri;
 
 /**
  * Class DecoratedUriFactory
@@ -34,11 +34,11 @@ class DecoratedUriFactory implements UriFactoryInterface
 
     /**
      * @param string $uri
-     * @return UriDecorator
+     * @return Uri
      */
     public function createUri(string $uri = ''): UriInterface
     {
         $uri = $this->uriFactory->createUri($uri);
-        return new UriDecorator($uri);
+        return new Uri($uri);
     }
 }

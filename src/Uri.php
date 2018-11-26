@@ -6,16 +6,16 @@
  * @copyright Copyright (c) 2011-2018 Josh Lockhart
  * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
  */
-namespace Slim\Http\Decorators;
+namespace Slim\Http;
 
 use Psr\Http\Message\UriInterface;
 use InvalidArgumentException;
 
 /**
- * Class UriDecorator
- * @package Slim\Http\Decorators
+ * Class Uri
+ * @package Slim\Http
  */
-class UriDecorator implements UriInterface
+class Uri implements UriInterface
 {
     /**
      * @var UriInterface
@@ -23,7 +23,7 @@ class UriDecorator implements UriInterface
     private $uri;
 
     /**
-     * UriDecorator constructor.
+     * Uri constructor.
      * @param UriInterface $uri
      */
     public function __construct(UriInterface $uri)
@@ -226,12 +226,12 @@ class UriDecorator implements UriInterface
      * An empty fragment value is equivalent to removing the fragment.
      *
      * @param string $fragment The fragment to use with the new instance.
-     * @return UriDecorator A new instance with the specified fragment.
+     * @return Uri A new instance with the specified fragment.
      */
     public function withFragment($fragment)
     {
         $uri = $this->uri->withFragment($fragment);
-        return new UriDecorator($uri);
+        return new Uri($uri);
     }
 
     /**
@@ -243,13 +243,13 @@ class UriDecorator implements UriInterface
      * An empty host value is equivalent to removing the host.
      *
      * @param string $host The hostname to use with the new instance.
-     * @return UriDecorator A new instance with the specified host.
+     * @return Uri A new instance with the specified host.
      * @throws InvalidArgumentException for invalid hostnames.
      */
     public function withHost($host)
     {
         $uri = $this->uri->withHost($host);
-        return new UriDecorator($uri);
+        return new Uri($uri);
     }
 
     /**
@@ -271,13 +271,13 @@ class UriDecorator implements UriInterface
      * Implementations ensure the correct encoding as outlined in getPath().
      *
      * @param string $path The path to use with the new instance.
-     * @return UriDecorator A new instance with the specified path.
+     * @return Uri A new instance with the specified path.
      * @throws InvalidArgumentException for invalid paths.
      */
     public function withPath($path)
     {
         $uri = $this->uri->withPath($path);
-        return new UriDecorator($uri);
+        return new Uri($uri);
     }
 
     /**
@@ -294,13 +294,13 @@ class UriDecorator implements UriInterface
      *
      * @param null|int $port The port to use with the new instance; a null value
      *     removes the port information.
-     * @return UriDecorator A new instance with the specified port.
+     * @return Uri A new instance with the specified port.
      * @throws InvalidArgumentException for invalid ports.
      */
     public function withPort($port)
     {
         $uri = $this->uri->withPort($port);
-        return new UriDecorator($uri);
+        return new Uri($uri);
     }
 
     /**
@@ -315,13 +315,13 @@ class UriDecorator implements UriInterface
      * An empty query string value is equivalent to removing the query string.
      *
      * @param string $query The query string to use with the new instance.
-     * @return UriDecorator A new instance with the specified query string.
+     * @return Uri A new instance with the specified query string.
      * @throws InvalidArgumentException for invalid query strings.
      */
     public function withQuery($query)
     {
         $uri = $this->uri->withQuery($query);
-        return new UriDecorator($uri);
+        return new Uri($uri);
     }
 
     /**
@@ -336,13 +336,13 @@ class UriDecorator implements UriInterface
      * An empty scheme is equivalent to removing the scheme.
      *
      * @param string $scheme The scheme to use with the new instance.
-     * @return UriDecorator A new instance with the specified scheme.
+     * @return Uri A new instance with the specified scheme.
      * @throws InvalidArgumentException for invalid or unsupported schemes.
      */
     public function withScheme($scheme)
     {
         $uri = $this->uri->withScheme($scheme);
-        return new UriDecorator($uri);
+        return new Uri($uri);
     }
 
     /**
@@ -357,12 +357,12 @@ class UriDecorator implements UriInterface
      *
      * @param string $user The user name to use for authority.
      * @param null|string $password The password associated with $user.
-     * @return UriDecorator A new instance with the specified user information.
+     * @return Uri A new instance with the specified user information.
      */
     public function withUserInfo($user, $password = null)
     {
         $uri = $this->uri->withUserInfo($user, $password);
-        return new UriDecorator($uri);
+        return new Uri($uri);
     }
 
     /**
