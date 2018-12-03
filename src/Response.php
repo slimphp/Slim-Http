@@ -364,7 +364,7 @@ class Response implements ResponseInterface
      *
      * @param string $url The redirect destination.
      * @param int|null $status The redirect HTTP status code.
-     * @return ResponseInterface
+     * @return Response
      */
     public function withRedirect(string $url, $status = null): ResponseInterface
     {
