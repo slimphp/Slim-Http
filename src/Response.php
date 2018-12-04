@@ -209,13 +209,13 @@ class Response implements ResponseInterface
      *
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
-     * @return Response
+     * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withAddedHeader($name, $value)
     {
         $response = $this->response->withAddedHeader($name, $value);
-        return new Response($response, $this->streamFactory);
+        return new static($response, $this->streamFactory);
     }
 
     /**
@@ -228,13 +228,13 @@ class Response implements ResponseInterface
      * new body stream.
      *
      * @param StreamInterface $body Body.
-     * @return Response
+     * @return static
      * @throws InvalidArgumentException When the body is not valid.
      */
     public function withBody(StreamInterface $body)
     {
         $response = $this->response->withBody($body);
-        return new Response($response, $this->streamFactory);
+        return new static($response, $this->streamFactory);
     }
 
     /**
@@ -249,13 +249,13 @@ class Response implements ResponseInterface
      *
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
-     * @return Response
+     * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withHeader($name, $value)
     {
         $response = $this->response->withHeader($name, $value);
-        return new Response($response, $this->streamFactory);
+        return new static($response, $this->streamFactory);
     }
 
     /**
@@ -268,12 +268,12 @@ class Response implements ResponseInterface
      * the named header.
      *
      * @param string $name Case-insensitive header field name to remove.
-     * @return Response
+     * @return static
      */
     public function withoutHeader($name)
     {
         $response = $this->response->withoutHeader($name);
-        return new Response($response, $this->streamFactory);
+        return new static($response, $this->streamFactory);
     }
 
     /**
@@ -287,12 +287,12 @@ class Response implements ResponseInterface
      * new protocol version.
      *
      * @param string $version HTTP protocol version
-     * @return Response
+     * @return static
      */
     public function withProtocolVersion($version)
     {
         $response = $this->response->withProtocolVersion($version);
-        return new Response($response, $this->streamFactory);
+        return new static($response, $this->streamFactory);
     }
 
     /**
@@ -312,13 +312,13 @@ class Response implements ResponseInterface
      * @param string $reasonPhrase The reason phrase to use with the
      *     provided status code; if none is provided, implementations MAY
      *     use the defaults as suggested in the HTTP specification.
-     * @return Response
+     * @return static
      * @throws InvalidArgumentException For invalid status code arguments.
      */
     public function withStatus($code, $reasonPhrase = '')
     {
         $response = $this->response->withStatus($code, $reasonPhrase);
-        return new Response($response, $this->streamFactory);
+        return new static($response, $this->streamFactory);
     }
 
     /**
@@ -333,7 +333,7 @@ class Response implements ResponseInterface
      * @param  int    $status The HTTP status code.
      * @param  int    $options Json encoding options
      * @param  int    $depth Json encoding max depth
-     * @return Response
+     * @return static
      */
     public function withJson($data, int $status = null, int $options = 0, int $depth = 512): ResponseInterface
     {
@@ -351,7 +351,7 @@ class Response implements ResponseInterface
             $response = $response->withStatus($status);
         }
 
-        return new Response($response, $this->streamFactory);
+        return new static($response, $this->streamFactory);
     }
 
     /**
@@ -364,7 +364,7 @@ class Response implements ResponseInterface
      *
      * @param string $url The redirect destination.
      * @param int|null $status The redirect HTTP status code.
-     * @return ResponseInterface
+     * @return static
      */
     public function withRedirect(string $url, $status = null): ResponseInterface
     {

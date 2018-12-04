@@ -420,13 +420,13 @@ class ServerRequest implements ServerRequestInterface
      *
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
-     * @return ServerRequest
+     * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withAddedHeader($name, $value)
     {
         $serverRequest = $this->serverRequest->withAddedHeader($name, $value);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -442,12 +442,12 @@ class ServerRequest implements ServerRequestInterface
      * @see getAttributes()
      * @param string $name The attribute name.
      * @param mixed $value The value of the attribute.
-     * @return ServerRequest
+     * @return static
      */
     public function withAttribute($name, $value)
     {
         $serverRequest = $this->serverRequest->withAttribute($name, $value);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -463,7 +463,7 @@ class ServerRequest implements ServerRequestInterface
      * updated attributes.
      *
      * @param  array $attributes New attributes
-     * @return ServerRequest
+     * @return static
      */
     public function withAttributes(array $attributes)
     {
@@ -473,7 +473,7 @@ class ServerRequest implements ServerRequestInterface
             $serverRequest = $serverRequest->withAttribute($attribute, $value);
         }
 
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -488,12 +488,12 @@ class ServerRequest implements ServerRequestInterface
      *
      * @see getAttributes()
      * @param string $name The attribute name.
-     * @return ServerRequest
+     * @return static
      */
     public function withoutAttribute($name)
     {
         $serverRequest = $this->serverRequest->withoutAttribute($name);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -506,13 +506,13 @@ class ServerRequest implements ServerRequestInterface
      * new body stream.
      *
      * @param StreamInterface $body Body.
-     * @return ServerRequest
+     * @return static
      * @throws InvalidArgumentException When the body is not valid.
      */
     public function withBody(StreamInterface $body)
     {
         $serverRequest = $this->serverRequest->withBody($body);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -530,12 +530,12 @@ class ServerRequest implements ServerRequestInterface
      * updated cookie values.
      *
      * @param array $cookies Array of key/value pairs representing cookies.
-     * @return ServerRequest
+     * @return static
      */
     public function withCookieParams(array $cookies)
     {
         $serverRequest = $this->serverRequest->withCookieParams($cookies);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -550,13 +550,13 @@ class ServerRequest implements ServerRequestInterface
      *
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
-     * @return ServerRequest
+     * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      */
     public function withHeader($name, $value)
     {
         $serverRequest = $this->serverRequest->withHeader($name, $value);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -569,12 +569,12 @@ class ServerRequest implements ServerRequestInterface
      * the named header.
      *
      * @param string $name Case-insensitive header field name to remove.
-     * @return ServerRequest
+     * @return static
      */
     public function withoutHeader($name)
     {
         $serverRequest = $this->serverRequest->withoutHeader($name);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -589,13 +589,13 @@ class ServerRequest implements ServerRequestInterface
      * changed request method.
      *
      * @param string $method Case-sensitive method.
-     * @return ServerRequest
+     * @return static
      * @throws InvalidArgumentException for invalid HTTP methods.
      */
     public function withMethod($method)
     {
         $serverRequest = $this->serverRequest->withMethod($method);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -622,14 +622,14 @@ class ServerRequest implements ServerRequestInterface
      *
      * @param null|array|object $data The deserialized body data. This will
      *     typically be in an array or object.
-     * @return ServerRequest
+     * @return static
      * @throws InvalidArgumentException if an unsupported argument type is
      *     provided.
      */
     public function withParsedBody($data)
     {
         $serverRequest = $this->serverRequest->withParsedBody($data);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -643,12 +643,12 @@ class ServerRequest implements ServerRequestInterface
      * new protocol version.
      *
      * @param string $version HTTP protocol version
-     * @return ServerRequest
+     * @return static
      */
     public function withProtocolVersion($version)
     {
         $serverRequest = $this->serverRequest->withProtocolVersion($version);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -671,12 +671,12 @@ class ServerRequest implements ServerRequestInterface
      *
      * @param array $query Array of query string arguments, typically from
      *     $_GET.
-     * @return ServerRequest
+     * @return static
      */
     public function withQueryParams(array $query)
     {
         $serverRequest = $this->serverRequest->withQueryParams($query);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -694,12 +694,12 @@ class ServerRequest implements ServerRequestInterface
      * @link http://tools.ietf.org/html/rfc7230#section-5.3 (for the various
      *     request-target forms allowed in request messages)
      * @param mixed $requestTarget
-     * @return ServerRequest
+     * @return static
      */
     public function withRequestTarget($requestTarget)
     {
         $serverRequest = $this->serverRequest->withRequestTarget($requestTarget);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -710,13 +710,13 @@ class ServerRequest implements ServerRequestInterface
      * updated body parameters.
      *
      * @param array $uploadedFiles An array tree of UploadedFileInterface instances.
-     * @return ServerRequest
+     * @return static
      * @throws InvalidArgumentException if an invalid structure is provided.
      */
     public function withUploadedFiles(array $uploadedFiles)
     {
         $serverRequest = $this->serverRequest->withUploadedFiles($uploadedFiles);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**
@@ -747,12 +747,12 @@ class ServerRequest implements ServerRequestInterface
      * @link http://tools.ietf.org/html/rfc3986#section-4.3
      * @param UriInterface $uri New request URI to use.
      * @param bool $preserveHost Preserve the original state of the Host header.
-     * @return ServerRequest
+     * @return static
      */
     public function withUri(UriInterface $uri, $preserveHost = false)
     {
         $serverRequest = $this->serverRequest->withUri($uri, $preserveHost);
-        return new ServerRequest($serverRequest);
+        return new static($serverRequest);
     }
 
     /**

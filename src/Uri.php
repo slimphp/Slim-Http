@@ -226,12 +226,12 @@ class Uri implements UriInterface
      * An empty fragment value is equivalent to removing the fragment.
      *
      * @param string $fragment The fragment to use with the new instance.
-     * @return Uri A new instance with the specified fragment.
+     * @return static A new instance with the specified fragment.
      */
     public function withFragment($fragment)
     {
         $uri = $this->uri->withFragment($fragment);
-        return new Uri($uri);
+        return new static($uri);
     }
 
     /**
@@ -243,13 +243,13 @@ class Uri implements UriInterface
      * An empty host value is equivalent to removing the host.
      *
      * @param string $host The hostname to use with the new instance.
-     * @return Uri A new instance with the specified host.
+     * @return static A new instance with the specified host.
      * @throws InvalidArgumentException for invalid hostnames.
      */
     public function withHost($host)
     {
         $uri = $this->uri->withHost($host);
-        return new Uri($uri);
+        return new static($uri);
     }
 
     /**
@@ -271,13 +271,13 @@ class Uri implements UriInterface
      * Implementations ensure the correct encoding as outlined in getPath().
      *
      * @param string $path The path to use with the new instance.
-     * @return Uri A new instance with the specified path.
+     * @return static A new instance with the specified path.
      * @throws InvalidArgumentException for invalid paths.
      */
     public function withPath($path)
     {
         $uri = $this->uri->withPath($path);
-        return new Uri($uri);
+        return new static($uri);
     }
 
     /**
@@ -294,13 +294,13 @@ class Uri implements UriInterface
      *
      * @param null|int $port The port to use with the new instance; a null value
      *     removes the port information.
-     * @return Uri A new instance with the specified port.
+     * @return static A new instance with the specified port.
      * @throws InvalidArgumentException for invalid ports.
      */
     public function withPort($port)
     {
         $uri = $this->uri->withPort($port);
-        return new Uri($uri);
+        return new static($uri);
     }
 
     /**
@@ -315,13 +315,13 @@ class Uri implements UriInterface
      * An empty query string value is equivalent to removing the query string.
      *
      * @param string $query The query string to use with the new instance.
-     * @return Uri A new instance with the specified query string.
+     * @return static A new instance with the specified query string.
      * @throws InvalidArgumentException for invalid query strings.
      */
     public function withQuery($query)
     {
         $uri = $this->uri->withQuery($query);
-        return new Uri($uri);
+        return new static($uri);
     }
 
     /**
@@ -336,13 +336,13 @@ class Uri implements UriInterface
      * An empty scheme is equivalent to removing the scheme.
      *
      * @param string $scheme The scheme to use with the new instance.
-     * @return Uri A new instance with the specified scheme.
+     * @return static A new instance with the specified scheme.
      * @throws InvalidArgumentException for invalid or unsupported schemes.
      */
     public function withScheme($scheme)
     {
         $uri = $this->uri->withScheme($scheme);
-        return new Uri($uri);
+        return new static($uri);
     }
 
     /**
@@ -357,12 +357,12 @@ class Uri implements UriInterface
      *
      * @param string $user The user name to use for authority.
      * @param null|string $password The password associated with $user.
-     * @return Uri A new instance with the specified user information.
+     * @return static A new instance with the specified user information.
      */
     public function withUserInfo($user, $password = null)
     {
         $uri = $this->uri->withUserInfo($user, $password);
-        return new Uri($uri);
+        return new static($uri);
     }
 
     /**
