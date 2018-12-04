@@ -335,7 +335,7 @@ class Response implements ResponseInterface
      * @param  int    $depth Json encoding max depth
      * @return static
      */
-    public function withJson($data, int $status = null, int $options = 0, int $depth = 512)
+    public function withJson($data, int $status = null, int $options = 0, int $depth = 512): ResponseInterface
     {
         $json = (string) json_encode($data, $options, $depth);
 
@@ -366,7 +366,7 @@ class Response implements ResponseInterface
      * @param int|null $status The redirect HTTP status code.
      * @return static
      */
-    public function withRedirect(string $url, $status = null)
+    public function withRedirect(string $url, $status = null): ResponseInterface
     {
         $response = $this->response->withHeader('Location', $url);
 
@@ -388,7 +388,7 @@ class Response implements ResponseInterface
      * @param string $data
      * @return static
      */
-    public function write($data)
+    public function write($data): ResponseInterface
     {
         $this->response->getBody()->write($data);
         return $this;
