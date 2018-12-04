@@ -370,11 +370,12 @@ class Response implements ResponseInterface
     {
         $response = $this->response->withHeader('Location', $url);
 
-        if (!is_null($status)) {
-            return $response->withStatus($status);
+        if ($status === null) {
+            $status = 302;
         }
+        $response = $response->withStatus($status);
 
-        return $response->withStatus(302);
+        return new Response($response, $this->streamFactory);
     }
 
     /**
