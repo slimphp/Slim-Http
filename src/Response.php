@@ -386,7 +386,7 @@ class Response implements ResponseInterface
      * Proxies to the underlying stream and writes the provided data to it.
      *
      * @param string $data
-     * @return self
+     * @return static
      */
     public function write($data)
     {
