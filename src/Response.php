@@ -375,7 +375,7 @@ class Response implements ResponseInterface
         }
         $response = $response->withStatus($status);
 
-        return new Response($response, $this->streamFactory);
+        return new static($response, $this->streamFactory);
     }
 
     /**
