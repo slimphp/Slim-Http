@@ -983,9 +983,9 @@ class ServerRequest implements ServerRequestInterface
      *
      * @param string   $mediaType A HTTP media type (excluding content-type params).
      * @param callable $callable  A callable that returns parsed contents for media type.
-     * @return self
+     * @return static
      */
-    public function registerMediaTypeParser($mediaType, callable $callable)
+    public function registerMediaTypeParser($mediaType, callable $callable): ServerRequestInterface
     {
         if ($callable instanceof Closure) {
             $callable = $callable->bindTo($this);
