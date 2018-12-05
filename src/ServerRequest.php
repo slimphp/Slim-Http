@@ -903,7 +903,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return mixed[]
      */
-    public function getParams(): ?array
+    public function getParams(): array
     {
         $params = $this->getQueryParams();
         $postParams = $this->getParsedBody();
