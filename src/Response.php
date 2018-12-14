@@ -364,17 +364,18 @@ class Response implements ResponseInterface
      *
      * @param string $url The redirect destination.
      * @param int|null $status The redirect HTTP status code.
-     * @return ResponseInterface
+     * @return Response
      */
     public function withRedirect(string $url, $status = null): ResponseInterface
     {
         $response = $this->response->withHeader('Location', $url);
 
-        if (!is_null($status)) {
-            return $response->withStatus($status);
+        if ($status === null) {
+            $status = 302;
         }
+        $response = $response->withStatus($status);
 
-        return $response->withStatus(302);
+        return new Response($response, $this->streamFactory);
     }
 
     /**
