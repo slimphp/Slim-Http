@@ -780,6 +780,29 @@ class ServerRequestTest extends TestCase
         }
     }
 
+    public function testGetParsedBodyWithJsonStructuredSuffixAndRegisteredParser()
+    {
+        foreach ($this->factoryProviders as $factoryProvider) {
+            /** @var Psr17FactoryProvider $provider */
+            $provider = new $factoryProvider;
+            $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
+
+            $streamFactory = $provider->getStreamFactory();
+            $stream = $streamFactory->createStream('{"foo":"bar"}');
+
+            $request = $decoratedServerRequestFactory->createServerRequest('POST', 'https://google.com');
+            $request = $request
+                ->withHeader('Content-Type', 'application/vnd.api+json;charset=utf8')
+                ->withBody($stream);
+
+            $request->registerMediaTypeParser('application/vnd.api+json', function ($input) {
+                return ['data' => $input];
+            });
+
+            $this->assertEquals(['data' => '{"foo":"bar"}'], $request->getParsedBody());
+        }
+    }
+
     public function testGetParsedBodyXml()
     {
         foreach ($this->factoryProviders as $factoryProvider) {

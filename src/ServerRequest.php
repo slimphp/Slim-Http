@@ -268,14 +268,17 @@ class ServerRequest implements ServerRequestInterface
             return null;
         }
 
-        // Look for a media type with a structured syntax suffix (RFC 6839)
-        $parts = explode('+', $mediaType);
-        if (count($parts) >= 2) {
-            $mediaType = 'application/' . $parts[count($parts)-1];
+        // Check if this specific media type has a parser registered first
+        if (!isset($this->bodyParsers[$mediaType])) {
+            // If not, look for a media type with a structured syntax suffix (RFC 6839)
+            $parts = explode('+', $mediaType);
+            if (count($parts) >= 2) {
+                $mediaType = 'application/' . $parts[count($parts) - 1];
+            }
         }
 
-        if (isset($this->bodyParsers[$mediaType]) === true) {
-            $body = (string) $this->getBody();
+        if (isset($this->bodyParsers[$mediaType])) {
+            $body = (string)$this->getBody();
             $parsed = $this->bodyParsers[$mediaType]($body);
 
             if (!is_null($parsed) && !is_object($parsed) && !is_array($parsed)) {
@@ -762,7 +765,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return string|null
      */
-    public function getContentCharset()
+    public function getContentCharset(): ?string
     {
         $mediaTypeParams = $this->getMediaTypeParams();
 
@@ -780,7 +783,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return string|null The serverRequest content type, if known
      */
-    public function getContentType()
+    public function getContentType(): ?string
     {
         $result = $this->serverRequest->getHeader('Content-Type');
         return $result ? $result[0] : null;
@@ -793,7 +796,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return int|null
      */
-    public function getContentLength()
+    public function getContentLength(): ?int
     {
         $result = $this->serverRequest->getHeader('Content-Length');
         return $result ? (int) $result[0] : null;
@@ -828,7 +831,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return string|null The serverRequest media type, minus content-type params
      */
-    public function getMediaType()
+    public function getMediaType(): ?string
     {
         $contentType = $this->getContentType();
 
@@ -848,9 +851,9 @@ class ServerRequest implements ServerRequestInterface
      *
      * Note: This method is not part of the PSR-7 standard.
      *
-     * @return array
+     * @return mixed[]
      */
-    public function getMediaTypeParams()
+    public function getMediaTypeParams(): array
     {
         $contentType = $this->getContentType();
         $contentTypeParams = [];
@@ -901,9 +904,9 @@ class ServerRequest implements ServerRequestInterface
      *
      * Note: This method is not part of the PSR-7 standard.
      *
-     * @return array
+     * @return mixed[]
      */
-    public function getParams()
+    public function getParams(): array
     {
         $params = $this->getQueryParams();
         $postParams = $this->getParsedBody();
@@ -1003,7 +1006,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return bool
      */
-    public function isDelete()
+    public function isDelete(): bool
     {
         return $this->isMethod('DELETE');
     }
@@ -1015,7 +1018,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return bool
      */
-    public function isGet()
+    public function isGet(): bool
     {
         return $this->isMethod('GET');
     }
@@ -1027,7 +1030,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return bool
      */
-    public function isHead()
+    public function isHead(): bool
     {
         return $this->isMethod('HEAD');
     }
@@ -1040,7 +1043,7 @@ class ServerRequest implements ServerRequestInterface
      * @param  string $method HTTP method
      * @return bool
      */
-    public function isMethod($method)
+    public function isMethod($method): bool
     {
         return $this->serverRequest->getMethod() === $method;
     }
@@ -1052,7 +1055,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return bool
      */
-    public function isOptions()
+    public function isOptions(): bool
     {
         return $this->isMethod('OPTIONS');
     }
@@ -1064,7 +1067,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return bool
      */
-    public function isPatch()
+    public function isPatch(): bool
     {
         return $this->isMethod('PATCH');
     }
@@ -1076,7 +1079,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return bool
      */
-    public function isPost()
+    public function isPost(): bool
     {
         return $this->isMethod('POST');
     }
@@ -1088,7 +1091,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return bool
      */
-    public function isPut()
+    public function isPut(): bool
     {
         return $this->isMethod('PUT');
     }
@@ -1100,7 +1103,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return bool
      */
-    public function isXhr()
+    public function isXhr(): bool
     {
         return $this->serverRequest->getHeaderLine('X-Requested-With') === 'XMLHttpRequest';
     }
