@@ -2,10 +2,11 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2018 Josh Lockhart
- * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
+ * @license https://github.com/slimphp/Slim-Http/blob/master/LICENSE.md (MIT License)
  */
+
+declare(strict_types=1);
+
 namespace Slim\Http\Factory;
 
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -13,10 +14,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Slim\Http\Response;
 
-/**
- * Class DecoratedResponseFactory
- * @package Slim\Http\Factory
- */
 class DecoratedResponseFactory implements ResponseFactoryInterface
 {
     /**
@@ -30,7 +27,6 @@ class DecoratedResponseFactory implements ResponseFactoryInterface
     private $streamFactory;
 
     /**
-     * DecoratedResponseFactory constructor.
      * @param ResponseFactoryInterface $responseFactory
      * @param StreamFactoryInterface $streamFactory
      */

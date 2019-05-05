@@ -2,20 +2,17 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2018 Josh Lockhart
- * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
+ * @license https://github.com/slimphp/Slim-Http/blob/master/LICENSE.md (MIT License)
  */
+
+declare(strict_types=1);
+
 namespace Slim\Tests\Http;
 
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Slim\Tests\Http\Providers\NyholmPsr17FactoryProvider;
 use Slim\Tests\Http\Providers\ZendDiactorosPsr17FactoryProvider;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-/**
- * Class TestCase
- * @package Tests\SlimPsr7Decorators
- */
 abstract class TestCase extends PHPUnitTestCase
 {
     /**

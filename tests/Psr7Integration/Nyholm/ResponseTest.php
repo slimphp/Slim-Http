@@ -2,10 +2,11 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2018 Josh Lockhart
- * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
+ * @license https://github.com/slimphp/Slim-Http/blob/master/LICENSE.md (MIT License)
  */
+
+declare(strict_types=1);
+
 namespace Slim\Tests\Http\Psr7Integration\Nyholm;
 
 use Http\Psr7Test\ResponseIntegrationTest;
@@ -21,6 +22,7 @@ class ResponseTest extends ResponseIntegrationTest
             define('STREAM_FACTORY', Psr17Factory::class);
         }
     }
+
     public function createSubject()
     {
         $provider = new NyholmPsr17FactoryProvider();

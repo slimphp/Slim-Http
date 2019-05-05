@@ -2,20 +2,18 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2018 Josh Lockhart
- * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
+ * @license https://github.com/slimphp/Slim-Http/blob/master/LICENSE.md (MIT License)
  */
+
+declare(strict_types=1);
+
 namespace Slim\Http\Factory;
 
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 use Slim\Http\ServerRequest;
 
-/**
- * Class DecoratedServerRequestFactory
- * @package Slim\Http\Factory
- */
 class DecoratedServerRequestFactory implements ServerRequestFactoryInterface
 {
     /**
@@ -24,7 +22,6 @@ class DecoratedServerRequestFactory implements ServerRequestFactoryInterface
     private $serverRequestFactory;
 
     /**
-     * DecoratedServerRequestFactory constructor.
      * @param ServerRequestFactoryInterface $serverRequestFactory
      */
     public function __construct(ServerRequestFactoryInterface $serverRequestFactory)
@@ -34,7 +31,7 @@ class DecoratedServerRequestFactory implements ServerRequestFactoryInterface
 
     /**
      * @param string $method
-     * @param \Psr\Http\Message\UriInterface|string $uri
+     * @param UriInterface|string $uri
      * @param array $serverParams
      * @return ServerRequest
      */

@@ -2,10 +2,11 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2018 Josh Lockhart
- * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
+ * @license https://github.com/slimphp/Slim-Http/blob/master/LICENSE.md (MIT License)
  */
+
+declare(strict_types=1);
+
 namespace Slim\Tests\Http\Psr7Integration\Nyholm;
 
 use Http\Psr7Test\ServerRequestIntegrationTest;
@@ -23,7 +24,7 @@ class ServerRequestTest extends ServerRequestIntegrationTest
     }
     public function createSubject()
     {
-        $provider = new NyholmPsr17FactoryProvider;
+        $provider = new NyholmPsr17FactoryProvider();
         $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
         return $decoratedServerRequestFactory->createServerRequest('GET', 'http://foo.com', $_SERVER);
