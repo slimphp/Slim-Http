@@ -20,6 +20,11 @@
       "name": "Rob Allen",
       "email": "rob@akrabat.com",
       "homepage": "http://akrabat.com"
+    },
+    {
+      "name": "Pierre Berube",
+      "email": "pierre@lgse.com",
+      "homepage": "http://www.lgse.com"
     }
   ],
   "require": {
@@ -32,11 +37,11 @@
   },
   "require-dev": {
     "nyholm/psr7": "^1.0",
-    "phpunit/phpunit": "^7.0",
     "phpstan/phpstan": "^0.10.3",
+    "phpunit/phpunit": "^7.0",
+    "php-http/psr7-integration-tests": "dev-master",
     "squizlabs/php_codesniffer": "^3.3.2",
-    "zendframework/zend-diactoros": "^2.0",
-    "php-http/psr7-integration-tests": "dev-master"
+    "zendframework/zend-diactoros": "^2.0"
   },
   "provide": {
     "psr/http-factory": "^1.0"

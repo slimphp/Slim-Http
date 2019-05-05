@@ -2,19 +2,17 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2018 Josh Lockhart
- * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
+ * @license https://github.com/slimphp/Slim-Http/blob/master/LICENSE.md (MIT License)
  */
+
+declare(strict_types=1);
+
 namespace Slim\Tests\Http;
 
+use InvalidArgumentException;
 use Slim\Http\Factory\DecoratedUriFactory;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
 
-/**
- * Class UriTest
- * @package Slim\Tests\Http
- */
 class UriTest extends TestCase
 {
     public function testDisableSetter()
@@ -228,7 +226,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testWithPortInvalidInt()
     {
@@ -243,7 +241,7 @@ class UriTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testWithPortInvalidString()
     {

@@ -2,14 +2,16 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2018 Josh Lockhart
- * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
+ * @license https://github.com/slimphp/Slim-Http/blob/master/LICENSE.md (MIT License)
  */
+
+declare(strict_types=1);
+
 namespace Slim\Tests\Http;
 
-use Slim\Http\Response;
+use RuntimeException;
 use Slim\Http\Factory\DecoratedResponseFactory;
+use Slim\Http\Response;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
 
 class ResponseTest extends TestCase
@@ -426,7 +428,7 @@ class ResponseTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException RuntimeException
      */
     public function testWithInvalidJsonThrowsException()
     {

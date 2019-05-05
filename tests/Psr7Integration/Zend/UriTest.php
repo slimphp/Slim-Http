@@ -2,10 +2,11 @@
 /**
  * Slim Framework (https://slimframework.com)
  *
- * @link      https://github.com/slimphp/Slim-Http
- * @copyright Copyright (c) 2011-2018 Josh Lockhart
- * @license   https://github.com/slimphp/Slim-Http/blob/master/LICENSE (MIT License)
+ * @license https://github.com/slimphp/Slim-Http/blob/master/LICENSE.md (MIT License)
  */
+
+declare(strict_types=1);
+
 namespace Slim\Tests\Http\Psr7Integration\Zend;
 
 use Http\Psr7Test\UriIntegrationTest;
@@ -21,9 +22,10 @@ class UriTest extends UriIntegrationTest
             define('STREAM_FACTORY', StreamFactory::class);
         }
     }
+
     public function createUri($uri)
     {
-        $provider = new ZendDiactorosPsr17FactoryProvider;
+        $provider = new ZendDiactorosPsr17FactoryProvider();
         $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
         return $decoratedUriFactory->createUri($uri);
