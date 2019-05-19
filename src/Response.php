@@ -204,6 +204,35 @@ class Response implements ResponseInterface
     }
 
     /**
+     * Write File to Response Body.
+     *
+     * Note: This method is not part of the PSR-7 standard.
+     *
+     * This method prepares the response object to return a file response to the
+     * client.
+     *
+     * @param string $path
+     *
+     * @return static
+     */
+    public function withFile(string $path): ResponseInterface
+    {
+        $response = $this->response
+          ->withHeader('Content-Type', 'application/force-download')
+          ->withHeader('Content-Type', 'application/octet-stream')
+          ->withHeader('Content-Type', 'application/download')
+          ->withHeader('Content-Description', 'File Transfer')
+          ->withHeader('Content-Transfer-Encoding', 'binary')
+          ->withHeader('Content-Disposition', 'attachment; filename="' . basename($path) . '"')
+          ->withHeader('Expires', '0')
+          ->withHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+          ->withHeader('Pragma', 'public')
+          ->withBody($this->streamFactory->createStreamFromFile($path, 'rb'));
+
+        return new static($response, $this->streamFactory);
+    }
+
+    /**
      * Redirect to specified location
      *
      * Note: This method is not part of the PSR-7 standard.
