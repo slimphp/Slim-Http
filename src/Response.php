@@ -17,7 +17,7 @@ use RuntimeException;
 class Response implements ResponseInterface
 {
     /**
-     * @var ResponseInterface;
+     * @var ResponseInterface
      */
     private $response;
 
