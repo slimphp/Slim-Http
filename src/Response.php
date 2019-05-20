@@ -215,14 +215,14 @@ class Response implements ResponseInterface
      *
      * @param FileInterface  $file
      * @param string|null    $fileName
-     * @param array|null     $headers
+     * @param array          $headers
      *
      * @return static
      */
     public function withFileDownload(
         FileInterface $file,
         ?string $fileName = null,
-        ?array $headers = null
+        array $headers = []
     ): ResponseInterface {
         return $this->withFile('attachment', $file, $fileName, $headers);
     }
@@ -230,14 +230,14 @@ class Response implements ResponseInterface
     /**
      * @param FileInterface  $file
      * @param string|null    $fileName
-     * @param array|null     $headers
+     * @param array          $headers
      *
      * @return static
      */
     public function withFileStream(
         FileInterface $file,
         ?string $fileName = null,
-        ?array $headers = null
+        array $headers = []
     ): ResponseInterface {
         return $this->withFile('inline', $file, $fileName, $headers);
     }
@@ -246,7 +246,7 @@ class Response implements ResponseInterface
      * @param string         $contentDisposition
      * @param FileInterface  $file
      * @param string|null    $fileName
-     * @param array|null     $headers
+     * @param array          $headers
      *
      * @return static
      */
@@ -254,7 +254,7 @@ class Response implements ResponseInterface
         string $contentDisposition,
         FileInterface $file,
         ?string $fileName = null,
-        ?array $headers = null
+        array $headers = []
     ): ResponseInterface {
         if ($fileName === null) {
             $fileName = $file->getFileName();
@@ -269,18 +269,21 @@ class Response implements ResponseInterface
             $contentDispositionHeader .= '; filename="' . $fileName . '"';
         }
 
-        if (!$headers) {
-            $headers = [
-                'Content-Type' => [
-                    'application/force-download',
-                    'application/octet-stream',
-                    'application/download'
-                ],
-                'Content-Disposition' => $contentDispositionHeader,
-                'Expires' => 0,
-                'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-                'Pragma' => 'public'
-            ];
+        if (!isset($headers['Content-Type'])) {
+            $contentType = $file->getContentType();
+            if ($contentType === null) {
+                $contentType = $contentDisposition === 'inline' ?
+                    'application/octet-stream' : 'application/force-download';
+            }
+            $headers['Content-Type'] = $contentType;
+        }
+
+        if (!isset($headers['Content-Disposition'])) {
+            $headers['Content-Disposition'] = $contentDispositionHeader;
+        }
+
+        if (!isset($headers['Cache-Control'])) {
+            $headers['Cache-Control'] = 'no-cache';
         }
 
         $response = $this->response;
