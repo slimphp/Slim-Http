@@ -447,4 +447,30 @@ class ResponseTest extends TestCase
             $response->withJson($data, 200);
         }
     }
+
+    public function testWithFileDownload()
+    {
+        foreach ($this->factoryProviders as $factoryProvider) {
+            /** @var Psr17FactoryProvider $provider */
+            $provider = new $factoryProvider;
+
+            $responseFactory = $provider->getResponseFactory();
+            $streamFactory = $provider->getStreamFactory();
+            $decoratedResponseFactory = new DecoratedResponseFactory(
+                $responseFactory,
+                $streamFactory
+            );
+
+            $file = $streamFactory->createStreamFromFile(__DIR__.'/Assets/plain.txt', 'rb');
+            $response = $decoratedResponseFactory->createResponse(200);
+            $response = $response->withFileDownload($file);
+
+            $body = $response->getBody();
+            $body->rewind();
+            $bodyContents = $body->getContents();
+
+            $this->assertEquals('12345678', $bodyContents);
+            $this->assertEquals(['attachment; filename="plain.txt"'], $response->getHeader('Content-Disposition'));
+        }
+    }
 }

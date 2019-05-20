@@ -211,23 +211,27 @@ class Response implements ResponseInterface
      * This method prepares the response object to return a file response to the
      * client.
      *
-     * @param string $path
+     * @param StreamInterface $file
+     * @param string|null     $filename
      *
      * @return static
      */
-    public function withFile(string $path): ResponseInterface
+    public function withFileDownload(StreamInterface $file, ?string $filename = null): ResponseInterface
     {
+        if (is_null($filename)) {
+            $uri = $file->getMetadata('uri');
+            $filename = pathinfo($uri, PATHINFO_BASENAME);
+        }
+
         $response = $this->response
-          ->withHeader('Content-Type', 'application/force-download')
-          ->withHeader('Content-Type', 'application/octet-stream')
-          ->withHeader('Content-Type', 'application/download')
-          ->withHeader('Content-Description', 'File Transfer')
-          ->withHeader('Content-Transfer-Encoding', 'binary')
-          ->withHeader('Content-Disposition', 'attachment; filename="' . basename($path) . '"')
-          ->withHeader('Expires', '0')
-          ->withHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
-          ->withHeader('Pragma', 'public')
-          ->withBody($this->streamFactory->createStreamFromFile($path, 'rb'));
+            ->withHeader('Content-Type', 'application/force-download')
+            ->withHeader('Content-Type', 'application/octet-stream')
+            ->withHeader('Content-Type', 'application/download')
+            ->withHeader('Content-Disposition', 'attachment; filename="'.$filename.'"')
+            ->withHeader('Expires', '0')
+            ->withHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+            ->withHeader('Pragma', 'public')
+            ->withBody($file);
 
         return new static($response, $this->streamFactory);
     }
