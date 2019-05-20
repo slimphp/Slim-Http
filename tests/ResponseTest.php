@@ -11,6 +11,7 @@ namespace Slim\Tests\Http;
 
 use RuntimeException;
 use Slim\Http\Factory\DecoratedResponseFactory;
+use Slim\Http\File;
 use Slim\Http\Response;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
 
@@ -461,9 +462,8 @@ class ResponseTest extends TestCase
                 $streamFactory
             );
 
-            $file = $streamFactory->createStreamFromFile(__DIR__.'/Assets/plain.txt', 'rb');
             $response = $decoratedResponseFactory->createResponse(200);
-            $response = $response->withFileDownload($file);
+            $response = $response->withFileDownload(File::fromPath(__DIR__ . '/Assets/plain.txt'));
 
             $body = $response->getBody();
             $body->rewind();

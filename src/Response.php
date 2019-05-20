@@ -14,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
+use Slim\Http\Interfaces\FileInterface;
 
 class Response implements ResponseInterface
 {
@@ -212,31 +213,61 @@ class Response implements ResponseInterface
      * This method prepares the response object to return a file response to the
      * client.
      *
-     * @param StreamInterface $file
-     * @param string|null     $filename
+     * @param FileInterface  $file
+     * @param string|null    $fileName
      *
      * @return static
      */
-    public function withFileDownload(StreamInterface $file, ?string $filename = null): ResponseInterface
+    public function withFileDownload(FileInterface $file, ?string $fileName = null): ResponseInterface
     {
-        if (is_null($filename)) {
-            $uri = $file->getMetadata('uri');
-            $filename = pathinfo($uri, PATHINFO_BASENAME);
+        return $this->withFile('attachment', $file, $fileName);
+    }
+
+    /**
+     * @param FileInterface  $file
+     * @param string|null    $fileName
+     *
+     * @return static
+     */
+    public function withFileStream(FileInterface $file, ?string $fileName = null): ResponseInterface
+    {
+        return $this->withFile('inline', $file, $fileName);
+    }
+
+    /**
+     * @param string         $contentDisposition
+     * @param FileInterface  $file
+     * @param string|null    $fileName
+     *
+     * @return static
+     */
+    private function withFile(
+        string $contentDisposition,
+        FileInterface $file,
+        ?string $fileName = null
+    ): ResponseInterface {
+        if (is_null($fileName)) {
+            $fileName = $file->getFileName();
         }
 
-        if (false !== strpos($filename, '/') || false !== strpos($filename, '\\')) {
+        if (false !== strpos($fileName, '/') || false !== strpos($fileName, '\\')) {
             throw new InvalidArgumentException('The filename must not contain the "/" and "\\" characters.');
+        }
+
+        $contentDispositionHeader = $contentDisposition;
+        if (!empty($fileName)) {
+            $contentDispositionHeader .= '; filename="' . $fileName . '"';
         }
 
         $response = $this->response
             ->withHeader('Content-Type', 'application/force-download')
             ->withHeader('Content-Type', 'application/octet-stream')
             ->withHeader('Content-Type', 'application/download')
-            ->withHeader('Content-Disposition', 'attachment; filename="'.$filename.'"')
+            ->withHeader('Content-Disposition', $contentDispositionHeader)
             ->withHeader('Expires', '0')
             ->withHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
             ->withHeader('Pragma', 'public')
-            ->withBody($file);
+            ->withBody($this->streamFactory->createStreamFromFile($file->getPath()));
 
         return new static($response, $this->streamFactory);
     }
