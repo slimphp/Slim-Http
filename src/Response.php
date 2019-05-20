@@ -119,7 +119,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function withAddedHeader($name, $value): self
+    public function withAddedHeader($name, $value)
     {
         $response = $this->response->withAddedHeader($name, $value);
         return new static($response, $this->streamFactory);
@@ -128,7 +128,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function withBody(StreamInterface $body): self
+    public function withBody(StreamInterface $body)
     {
         $response = $this->response->withBody($body);
         return new static($response, $this->streamFactory);
@@ -137,7 +137,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function withHeader($name, $value): self
+    public function withHeader($name, $value)
     {
         $response = $this->response->withHeader($name, $value);
         return new static($response, $this->streamFactory);
@@ -146,7 +146,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function withoutHeader($name): self
+    public function withoutHeader($name)
     {
         $response = $this->response->withoutHeader($name);
         return new static($response, $this->streamFactory);
@@ -155,7 +155,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function withProtocolVersion($version): self
+    public function withProtocolVersion($version)
     {
         $response = $this->response->withProtocolVersion($version);
         return new static($response, $this->streamFactory);
@@ -164,7 +164,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function withStatus($code, $reasonPhrase = ''): self
+    public function withStatus($code, $reasonPhrase = '')
     {
         $response = $this->response->withStatus($code, $reasonPhrase);
         return new static($response, $this->streamFactory);
