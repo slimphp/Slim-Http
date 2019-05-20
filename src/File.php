@@ -117,7 +117,7 @@ class File implements FileInterface
         $contentType = mime_content_type($path);
         $contents = file_get_contents($path);
 
-        return new File($fileName, $path, $contentType, $contents);
+        return new File($fileName, $path, $contentType ?: null, $contents);
     }
 
     /**
@@ -133,6 +133,6 @@ class File implements FileInterface
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $contentType = $finfo->buffer($contents);
 
-        return new File($fileName, null, $contentType, $contents);
+        return new File($fileName, null, $contentType ?: null, $contents);
     }
 }
