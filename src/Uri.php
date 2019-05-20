@@ -102,7 +102,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function withFragment($fragment): self
+    public function withFragment($fragment)
     {
         $uri = $this->uri->withFragment($fragment);
         return new static($uri);
@@ -111,7 +111,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function withHost($host): self
+    public function withHost($host)
     {
         $uri = $this->uri->withHost($host);
         return new static($uri);
@@ -120,7 +120,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function withPath($path): self
+    public function withPath($path)
     {
         $uri = $this->uri->withPath($path);
         return new static($uri);
@@ -129,7 +129,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function withPort($port): self
+    public function withPort($port)
     {
         $uri = $this->uri->withPort($port);
         return new static($uri);
@@ -138,7 +138,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function withQuery($query): self
+    public function withQuery($query)
     {
         $uri = $this->uri->withQuery($query);
         return new static($uri);
@@ -147,7 +147,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function withScheme($scheme): self
+    public function withScheme($scheme)
     {
         $uri = $this->uri->withScheme($scheme);
         return new static($uri);
@@ -156,7 +156,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function withUserInfo($user, $password = null): self
+    public function withUserInfo($user, $password = null)
     {
         $uri = $this->uri->withUserInfo($user, $password);
         return new static($uri);
