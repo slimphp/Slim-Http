@@ -55,7 +55,7 @@ class File implements FileInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getFileName(): string
     {
@@ -63,7 +63,7 @@ class File implements FileInterface
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getPath(): ?string
     {
@@ -71,7 +71,7 @@ class File implements FileInterface
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getContentType(): ?string
     {
@@ -91,7 +91,7 @@ class File implements FileInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getContents(): string
     {
