@@ -102,6 +102,20 @@ The decorated `ResponseInterface` provides the following additional methods:
 | **$status** | `int`   | The HTTP Status Code    |
 | **$depth**  | `int`   | JSON encoding max depth |
 
+#### `Response::withFileDownload($file, $fileName, $headers)` ####
+| Parameter     | Type    | Description                  |
+|---------------|---------|------------------------------|
+| **$file**     | `FileInterface` | The file to send     |
+| **$fileName** | `string`        | The file name        |
+| **$headers**  | `array`         | The HTTP headers     |
+
+#### `Response::withFileStream($file, $fileName, $headers)` ####
+| Parameter     | Type    | Description                  |
+|---------------|---------|------------------------------|
+| **$file**     | `FileInterface` | The file to send     |
+| **$fileName** | `string`        | The file name        |
+| **$headers**  | `array`         | The HTTP headers     |
+
 #### `Response::withRedirect($url, $status)` ####
 | Parameter   | Type     | Description                  |
 |-------------|----------|------------------------------|
