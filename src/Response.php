@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Slim\Http;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
@@ -221,6 +222,10 @@ class Response implements ResponseInterface
         if (is_null($filename)) {
             $uri = $file->getMetadata('uri');
             $filename = pathinfo($uri, PATHINFO_BASENAME);
+        }
+
+        if (false !== strpos($filename, '/') || false !== strpos($filename, '\\')) {
+            throw new InvalidArgumentException('The filename must not contain the "/" and "\\" characters.');
         }
 
         $response = $this->response
