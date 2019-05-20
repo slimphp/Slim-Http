@@ -256,7 +256,7 @@ class Response implements ResponseInterface
         ?string $fileName = null,
         ?array $headers = null
     ): ResponseInterface {
-        if (is_null($fileName)) {
+        if ($fileName === null) {
             $fileName = $file->getFileName();
         }
 
