@@ -267,7 +267,7 @@ class Response implements ResponseInterface
             ->withHeader('Expires', '0')
             ->withHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
             ->withHeader('Pragma', 'public')
-            ->withBody($this->streamFactory->createStreamFromFile($file->getPath()));
+            ->withBody($this->streamFactory->createStream($file->getContents()));
 
         return new static($response, $this->streamFactory);
     }
