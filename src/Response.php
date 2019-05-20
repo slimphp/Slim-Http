@@ -264,11 +264,6 @@ class Response implements ResponseInterface
             throw new InvalidArgumentException('The filename must not contain the "/" and "\\" characters.');
         }
 
-        $contentDispositionHeader = $contentDisposition;
-        if (!empty($fileName)) {
-            $contentDispositionHeader .= '; filename="' . $fileName . '"';
-        }
-
         if (!isset($headers['Content-Type'])) {
             $contentType = $file->getContentType();
             if ($contentType === null) {
@@ -279,6 +274,10 @@ class Response implements ResponseInterface
         }
 
         if (!isset($headers['Content-Disposition'])) {
+            $contentDispositionHeader = $contentDisposition;
+            if (!empty($fileName)) {
+                $contentDispositionHeader .= '; filename="' . $fileName . '"';
+            }
             $headers['Content-Disposition'] = $contentDispositionHeader;
         }
 
