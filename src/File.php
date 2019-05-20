@@ -116,6 +116,9 @@ class File implements FileInterface
         $fileName = basename($path);
         $contentType = mime_content_type($path);
         $contents = file_get_contents($path);
+        if ($contents === false) {
+            throw new RuntimeException(sprintf('Failed to read `%s`.', $path));
+        }
 
         return new File($fileName, $path, $contentType ?: null, $contents);
     }
