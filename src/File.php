@@ -109,6 +109,10 @@ class File implements FileInterface
             throw new RuntimeException(sprintf('`%s` does not exist.', $path));
         }
 
+        if (!is_readable($path)) {
+            throw new RuntimeException(sprintf('`%s` is not readable.', $path));
+        }
+
         $fileName = basename($path);
         $contentType = mime_content_type($path);
         $contents = file_get_contents($path);
