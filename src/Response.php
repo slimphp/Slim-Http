@@ -273,8 +273,8 @@ class Response implements ResponseInterface
             $headers = [
                 'Content-Type' => [
                     'application/force-download',
-                    'application/force-download',
-                    'application/force-download'
+                    'application/octet-stream',
+                    'application/download'
                 ],
                 'Content-Disposition' => $contentDispositionHeader,
                 'Expires' => 0,
