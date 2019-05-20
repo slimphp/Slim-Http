@@ -215,36 +215,46 @@ class Response implements ResponseInterface
      *
      * @param FileInterface  $file
      * @param string|null    $fileName
+     * @param array|null     $headers
      *
      * @return static
      */
-    public function withFileDownload(FileInterface $file, ?string $fileName = null): ResponseInterface
-    {
-        return $this->withFile('attachment', $file, $fileName);
+    public function withFileDownload(
+        FileInterface $file,
+        ?string $fileName = null,
+        ?array $headers = null
+    ): ResponseInterface {
+        return $this->withFile('attachment', $file, $fileName, $headers);
     }
 
     /**
      * @param FileInterface  $file
      * @param string|null    $fileName
+     * @param array|null     $headers
      *
      * @return static
      */
-    public function withFileStream(FileInterface $file, ?string $fileName = null): ResponseInterface
-    {
-        return $this->withFile('inline', $file, $fileName);
+    public function withFileStream(
+        FileInterface $file,
+        ?string $fileName = null,
+        ?array $headers = null
+    ): ResponseInterface {
+        return $this->withFile('inline', $file, $fileName, $headers);
     }
 
     /**
      * @param string         $contentDisposition
      * @param FileInterface  $file
      * @param string|null    $fileName
+     * @param array|null     $headers
      *
      * @return static
      */
     private function withFile(
         string $contentDisposition,
         FileInterface $file,
-        ?string $fileName = null
+        ?string $fileName = null,
+        ?array $headers = null
     ): ResponseInterface {
         if (is_null($fileName)) {
             $fileName = $file->getFileName();
@@ -259,15 +269,27 @@ class Response implements ResponseInterface
             $contentDispositionHeader .= '; filename="' . $fileName . '"';
         }
 
-        $response = $this->response
-            ->withHeader('Content-Type', 'application/force-download')
-            ->withHeader('Content-Type', 'application/octet-stream')
-            ->withHeader('Content-Type', 'application/download')
-            ->withHeader('Content-Disposition', $contentDispositionHeader)
-            ->withHeader('Expires', '0')
-            ->withHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
-            ->withHeader('Pragma', 'public')
-            ->withBody($this->streamFactory->createStream($file->getContents()));
+        if (!$headers) {
+            $headers = [
+                'Content-Type' => [
+                    'application/force-download',
+                    'application/force-download',
+                    'application/force-download'
+                ],
+                'Content-Disposition' => $contentDispositionHeader,
+                'Expires' => 0,
+                'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+                'Pragma' => 'public'
+            ];
+        }
+
+        $response = $this->response;
+        foreach ($headers as $name => $value) {
+            $response = $response->withHeader($name, $value);
+        }
+
+        $body = $this->streamFactory->createStream($file->getContents());
+        $response = $response->withBody($body);
 
         return new static($response, $this->streamFactory);
     }
