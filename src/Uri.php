@@ -38,7 +38,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function getAuthority()
+    public function getAuthority(): string
     {
         return $this->uri->getAuthority();
     }
@@ -46,7 +46,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function getFragment()
+    public function getFragment(): string
     {
         return $this->uri->getFragment();
     }
@@ -54,7 +54,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function getHost()
+    public function getHost(): string
     {
         return $this->uri->getHost();
     }
@@ -62,7 +62,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->uri->getPath();
     }
@@ -70,7 +70,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function getPort()
+    public function getPort(): ?int
     {
         return $this->uri->getPort();
     }
@@ -78,7 +78,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function getQuery()
+    public function getQuery(): string
     {
         return $this->uri->getQuery();
     }
@@ -86,7 +86,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function getScheme()
+    public function getScheme(): string
     {
         return $this->uri->getScheme();
     }
@@ -94,7 +94,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserInfo()
+    public function getUserInfo(): string
     {
         return $this->uri->getUserInfo();
     }
@@ -165,7 +165,7 @@ class Uri implements UriInterface
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->uri->__toString();
     }
@@ -179,7 +179,7 @@ class Uri implements UriInterface
      *
      * @return string
      */
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         $scheme = $this->uri->getScheme();
         $authority = $this->uri->getAuthority();

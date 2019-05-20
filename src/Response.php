@@ -18,7 +18,7 @@ use RuntimeException;
 class Response implements ResponseInterface
 {
     /**
-     * @var ResponseInterface;
+     * @var ResponseInterface
      */
     private $response;
 
@@ -64,7 +64,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function getHeader($name)
+    public function getHeader($name): array
     {
         return $this->response->getHeader($name);
     }
@@ -72,7 +72,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function getHeaderLine($name)
+    public function getHeaderLine($name): string
     {
         return $this->response->getHeaderLine($name);
     }
@@ -80,7 +80,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->response->getHeaders();
     }
@@ -88,7 +88,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function getProtocolVersion()
+    public function getProtocolVersion(): string
     {
         return $this->response->getProtocolVersion();
     }
@@ -96,7 +96,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function getReasonPhrase()
+    public function getReasonPhrase(): string
     {
         return $this->response->getReasonPhrase();
     }
@@ -104,7 +104,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->response->getStatusCode();
     }
@@ -112,7 +112,7 @@ class Response implements ResponseInterface
     /**
      * {@inheritdoc}
      */
-    public function hasHeader($name)
+    public function hasHeader($name): bool
     {
         return $this->response->hasHeader($name);
     }
@@ -179,13 +179,13 @@ class Response implements ResponseInterface
      * This method prepares the response object to return an HTTP Json
      * response to the client.
      *
-     * @param  mixed  $data   The data
-     * @param  int    $status The HTTP status code.
-     * @param  int    $options Json encoding options
-     * @param  int    $depth Json encoding max depth
+     * @param  mixed     $data   The data
+     * @param  int|null  $status The HTTP status code
+     * @param  int       $options Json encoding options
+     * @param  int       $depth Json encoding max depth
      * @return static
      */
-    public function withJson($data, int $status = null, int $options = 0, int $depth = 512): ResponseInterface
+    public function withJson($data, ?int $status = null, int $options = 0, int $depth = 512): ResponseInterface
     {
         $json = (string) json_encode($data, $options, $depth);
 
@@ -249,11 +249,11 @@ class Response implements ResponseInterface
      * This method prepares the response object to return an HTTP Redirect
      * response to the client.
      *
-     * @param string $url The redirect destination.
-     * @param int|null $status The redirect HTTP status code.
+     * @param string    $url The redirect destination.
+     * @param int|null  $status The redirect HTTP status code.
      * @return static
      */
-    public function withRedirect(string $url, $status = null): ResponseInterface
+    public function withRedirect(string $url, ?int $status = null): ResponseInterface
     {
         $response = $this->response->withHeader('Location', $url);
 
@@ -275,7 +275,7 @@ class Response implements ResponseInterface
      * @param string $data
      * @return static
      */
-    public function write($data): ResponseInterface
+    public function write(string $data): ResponseInterface
     {
         $this->response->getBody()->write($data);
         return $this;

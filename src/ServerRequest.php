@@ -102,7 +102,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->serverRequest->getAttributes();
     }
@@ -110,7 +110,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getBody()
+    public function getBody(): StreamInterface
     {
         return $this->serverRequest->getBody();
     }
@@ -118,7 +118,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getCookieParams()
+    public function getCookieParams(): array
     {
         return $this->serverRequest->getCookieParams();
     }
@@ -126,7 +126,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getHeader($name)
+    public function getHeader($name): array
     {
         return $this->serverRequest->getHeader($name);
     }
@@ -134,7 +134,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getHeaderLine($name)
+    public function getHeaderLine($name): string
     {
         return $this->serverRequest->getHeaderLine($name);
     }
@@ -142,7 +142,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->serverRequest->getHeaders();
     }
@@ -150,7 +150,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->serverRequest->getMethod();
     }
@@ -199,7 +199,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getProtocolVersion()
+    public function getProtocolVersion(): string
     {
         return $this->serverRequest->getProtocolVersion();
     }
@@ -207,7 +207,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getQueryParams()
+    public function getQueryParams(): array
     {
         $queryParams = $this->serverRequest->getQueryParams();
 
@@ -224,7 +224,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getRequestTarget()
+    public function getRequestTarget(): string
     {
         return $this->serverRequest->getRequestTarget();
     }
@@ -232,7 +232,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getServerParams()
+    public function getServerParams(): array
     {
         return $this->serverRequest->getServerParams();
     }
@@ -240,7 +240,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getUploadedFiles()
+    public function getUploadedFiles(): array
     {
         return $this->serverRequest->getUploadedFiles();
     }
@@ -248,7 +248,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getUri()
+    public function getUri(): UriInterface
     {
         return $this->serverRequest->getUri();
     }
@@ -256,7 +256,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * {@inheritdoc}
      */
-    public function hasHeader($name)
+    public function hasHeader($name): bool
     {
         return $this->serverRequest->hasHeader($name);
     }
@@ -467,7 +467,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return mixed
      */
-    public function getCookieParam($key, $default = null)
+    public function getCookieParam(string $key, $default = null)
     {
         $cookies = $this->serverRequest->getCookieParams();
         $result = $default;
@@ -537,7 +537,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return mixed The parameter value.
      */
-    public function getParam($key, $default = null)
+    public function getParam(string $key, $default = null)
     {
         $postParams = $this->getParsedBody();
         $getParams = $this->getQueryParams();
@@ -583,7 +583,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return mixed
      */
-    public function getParsedBodyParam($key, $default = null)
+    public function getParsedBodyParam(string $key, $default = null)
     {
         $postParams = $this->getParsedBody();
         $result = $default;
@@ -607,7 +607,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * @return mixed
      */
-    public function getQueryParam($key, $default = null)
+    public function getQueryParam(string $key, $default = null)
     {
         $getParams = $this->getQueryParams();
         $result = $default;
@@ -624,11 +624,11 @@ class ServerRequest implements ServerRequestInterface
      *
      * Note: This method is not part of the PSR-7 standard.
      *
-     * @param  string $key
-     * @param  mixed  $default
+     * @param string $key
+     * @param mixed  $default
      * @return mixed
      */
-    public function getServerParam($key, $default = null)
+    public function getServerParam(string $key, $default = null)
     {
         $serverParams = $this->serverRequest->getServerParams();
         return isset($serverParams[$key]) ? $serverParams[$key] : $default;
@@ -643,7 +643,7 @@ class ServerRequest implements ServerRequestInterface
      * @param callable $callable  A callable that returns parsed contents for media type.
      * @return static
      */
-    public function registerMediaTypeParser($mediaType, callable $callable): ServerRequestInterface
+    public function registerMediaTypeParser(string $mediaType, callable $callable): ServerRequestInterface
     {
         if ($callable instanceof Closure) {
             $callable = $callable->bindTo($this);
@@ -698,7 +698,7 @@ class ServerRequest implements ServerRequestInterface
      * @param  string $method HTTP method
      * @return bool
      */
-    public function isMethod($method): bool
+    public function isMethod(string $method): bool
     {
         return $this->serverRequest->getMethod() === $method;
     }
