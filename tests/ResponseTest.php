@@ -9,10 +9,11 @@ declare(strict_types=1);
 
 namespace Slim\Tests\Http;
 
-use Psr\Http\Message\StreamFactoryInterface;
+use InvalidArgumentException;
 use RuntimeException;
 use Slim\Http\Factory\DecoratedResponseFactory;
 use Slim\Http\File;
+use Slim\Http\Interfaces\FileInterface;
 use Slim\Http\Response;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
 
@@ -457,24 +458,53 @@ class ResponseTest extends TestCase
      */
     public function provideFileDownloads(): array
     {
+        $fileWithoutContentTypeProphecy = $this->prophesize(FileInterface::class);
+        /** @noinspection PhpUndefinedMethodInspection */
+        $fileWithoutContentTypeProphecy->getFileName()
+            ->willReturn('.unknown');
+        /** @noinspection PhpUndefinedMethodInspection */
+        $fileWithoutContentTypeProphecy->getContentType()
+            ->willReturn(null);
+        /** @noinspection PhpUndefinedMethodInspection */
+        $fileWithoutContentTypeProphecy->getContents()
+            ->willReturn('.');
+
+        /** @var FileInterface $fileWithoutContentType */
+        $fileWithoutContentType = $fileWithoutContentTypeProphecy->reveal();
+
         return [
+            // Simple Test.
             [
-                function (Response $response, StreamFactoryInterface $streamFactory): Response {
-                    return $response->withFileDownload(File::fromPath(__DIR__.'/Assets/plain.txt'));
-                },
+                File::fromPath(__DIR__.'/Assets/plain.txt'),
+                null,
                 '12345678',
                 ['attachment; filename="plain.txt"'],
                 ['text/plain'],
             ],
+            // Set file name explicitly.
             [
-                function (Response $response, StreamFactoryInterface $streamFactory): Response {
-                    return $response->withFileDownload(
-                        File::fromStream($streamFactory->createStream('1234'), 'stream.txt')
-                    );
-                },
-                '1234',
-                ['attachment; filename="stream.txt"'],
+                File::fromPath(__DIR__.'/Assets/plain.txt'),
+                'new-name.txt',
+                '12345678',
+                ['attachment; filename="new-name.txt"'],
                 ['text/plain'],
+            ],
+            // Default content type if the file does not provide one.
+            [
+                $fileWithoutContentType,
+                null,
+                '.',
+                ['attachment; filename=".unknown"'],
+                ['application/force-download'],
+            ],
+            // Slashes are not allowed in file names.
+            [
+                File::fromPath(__DIR__.'/Assets/plain.txt'),
+                'directory/file.txt',
+                '',
+                [],
+                [],
+                InvalidArgumentException::class,
             ],
         ];
     }
@@ -482,16 +512,20 @@ class ResponseTest extends TestCase
     /**
      * @dataProvider provideFileDownloads
      *
-     * @param callable $responseCallback
-     * @param string   $expectedBodyContents
-     * @param array    $expectedContentDisposition
-     * @param array    $expectedContentType
+     * @param FileInterface $file                       File
+     * @param string|null   $fileName                   Desired file name
+     * @param string        $expectedBodyContents       Expected body contents
+     * @param array         $expectedContentDisposition Expected content disposition
+     * @param array         $expectedContentType        Expected content type
+     * @param string|null   $expectedException          Expected exception
      */
     public function testWithFileDownload(
-        callable $responseCallback,
+        FileInterface $file,
+        ?string $fileName,
         string $expectedBodyContents,
         array $expectedContentDisposition,
-        array $expectedContentType
+        array $expectedContentType,
+        ?string $expectedException = null
     ) {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
@@ -504,12 +538,78 @@ class ResponseTest extends TestCase
                 $streamFactory
             );
 
-            /** @var Response $response */
-            $response = call_user_func(
-                $responseCallback,
-                $decoratedResponseFactory->createResponse(200),
+            $response = $decoratedResponseFactory->createResponse(200);
+
+            if ($expectedException) {
+                $this->expectException($expectedException);
+            }
+
+            $response = $response->withFileDownload($file, $fileName);
+
+            $body = $response->getBody();
+            $body->rewind();
+            $bodyContents = $body->getContents();
+
+            $this->assertEquals($expectedBodyContents, $bodyContents);
+            $this->assertEquals($expectedContentDisposition, $response->getHeader('Content-Disposition'));
+            $this->assertEquals($expectedContentType, $response->getHeader('Content-Type'));
+        }
+    }
+
+    /**
+     * Provide file streams and their expected values.
+     *
+     * @return array
+     */
+    public function provideFileStreams(): array
+    {
+        return [
+            [
+                File::fromPath(__DIR__.'/Assets/plain.txt'),
+                null,
+                '12345678',
+                ['inline; filename="plain.txt"'],
+                ['text/plain'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideFileStreams
+     *
+     * @param FileInterface $file                       File
+     * @param string|null   $fileName                   Desired file name
+     * @param string        $expectedBodyContents       Expected body contents
+     * @param array         $expectedContentDisposition Expected content disposition
+     * @param array         $expectedContentType        Expected content type
+     * @param string|null   $expectedException          Expected exception
+     */
+    public function testWithFileStream(
+        FileInterface $file,
+        ?string $fileName,
+        string $expectedBodyContents,
+        array $expectedContentDisposition,
+        array $expectedContentType,
+        ?string $expectedException = null
+    ) {
+        foreach ($this->factoryProviders as $factoryProvider) {
+            /** @var Psr17FactoryProvider $provider */
+            $provider = new $factoryProvider;
+
+            $responseFactory = $provider->getResponseFactory();
+            $streamFactory = $provider->getStreamFactory();
+            $decoratedResponseFactory = new DecoratedResponseFactory(
+                $responseFactory,
                 $streamFactory
             );
+
+            $response = $decoratedResponseFactory->createResponse(200);
+
+            if ($expectedException) {
+                $this->expectException($expectedException);
+            }
+
+            $response = $response->withFileStream($file, $fileName);
 
             $body = $response->getBody();
             $body->rewind();
