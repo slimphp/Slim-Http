@@ -206,7 +206,7 @@ class Response implements ResponseInterface
     }
 
     /**
-     * Write File to Response Body.
+     * Write File to Response Body as Download.
      *
      * Note: This method is not part of the PSR-7 standard.
      *
@@ -228,6 +228,13 @@ class Response implements ResponseInterface
     }
 
     /**
+     * Write File to Response Body as Stream.
+     *
+     * Note: This method is not part of the PSR-7 standard.
+     *
+     * This method prepares the response object to return a file response to the
+     * client.
+     *
      * @param FileInterface  $file
      * @param string|null    $fileName
      * @param array          $headers
@@ -250,7 +257,7 @@ class Response implements ResponseInterface
      *
      * @return static
      */
-    private function withFile(
+    protected function withFile(
         string $contentDisposition,
         FileInterface $file,
         ?string $fileName = null,
