@@ -5,3 +5,4 @@ parameters:
     - '#Access to an undefined property Slim\\Http\\ServerRequest::\$foo#'
     - '#Access to an undefined property Slim\\Http\\Uri::\$foo#'
     - '#Parameter \#1 \$port of method Slim\\Http\\Uri::withPort() expects int|null, string given#'
+    - '#Call to an undefined method Prophecy\\Prophecy\\ObjectProphecy::[a-zA-Z0-9\\_]+\(\)#'
