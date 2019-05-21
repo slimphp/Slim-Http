@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Slim\Tests\Http;
 
+use Psr\Http\Message\StreamFactoryInterface;
 use RuntimeException;
 use Slim\Http\Factory\DecoratedResponseFactory;
 use Slim\Http\File;
@@ -449,8 +450,49 @@ class ResponseTest extends TestCase
         }
     }
 
-    public function testWithFileDownload()
+    /**
+     * Provide file downloads and their expected values.
+     *
+     * @return array
+     */
+    public function provideFileDownloads(): array
     {
+        return [
+            [
+                function (Response $response, StreamFactoryInterface $streamFactory): Response {
+                    return $response->withFileDownload(File::fromPath(__DIR__.'/Assets/plain.txt'));
+                },
+                '12345678',
+                ['attachment; filename="plain.txt"'],
+                ['text/plain'],
+            ],
+            [
+                function (Response $response, StreamFactoryInterface $streamFactory): Response {
+                    return $response->withFileDownload(
+                        File::fromStream($streamFactory->createStream('1234'), 'stream.txt')
+                    );
+                },
+                '1234',
+                ['attachment; filename="stream.txt"'],
+                ['text/plain'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideFileDownloads
+     *
+     * @param callable $responseCallback
+     * @param string   $expectedBodyContents
+     * @param array    $expectedContentDisposition
+     * @param array    $expectedContentType
+     */
+    public function testWithFileDownload(
+        callable $responseCallback,
+        string $expectedBodyContents,
+        array $expectedContentDisposition,
+        array $expectedContentType
+    ) {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
             $provider = new $factoryProvider;
@@ -462,15 +504,20 @@ class ResponseTest extends TestCase
                 $streamFactory
             );
 
-            $response = $decoratedResponseFactory->createResponse(200);
-            $response = $response->withFileDownload(File::fromPath(__DIR__ . '/Assets/plain.txt'));
+            /** @var Response $response */
+            $response = call_user_func(
+                $responseCallback,
+                $decoratedResponseFactory->createResponse(200),
+                $streamFactory
+            );
 
             $body = $response->getBody();
             $body->rewind();
             $bodyContents = $body->getContents();
 
-            $this->assertEquals('12345678', $bodyContents);
-            $this->assertEquals(['attachment; filename="plain.txt"'], $response->getHeader('Content-Disposition'));
+            $this->assertEquals($expectedBodyContents, $bodyContents);
+            $this->assertEquals($expectedContentDisposition, $response->getHeader('Content-Disposition'));
+            $this->assertEquals($expectedContentType, $response->getHeader('Content-Type'));
         }
     }
 }
