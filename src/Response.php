@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Slim\Http;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
@@ -223,6 +224,79 @@ class Response implements ResponseInterface
             $status = 302;
         }
         $response = $response->withStatus($status);
+
+        return new static($response, $this->streamFactory);
+    }
+
+    /**
+     * Note: This method is not part of the PSR-7 standard.
+     *
+     * This method will trigger the client to download the specified file
+     * It will append the `Content-Disposition` header to the response object
+     *
+     * @param string|resource|StreamInterface $file
+     * @param string|null                     $name
+     * @param bool|string                     $contentType
+     *
+     * @return static
+     */
+    public function withFileDownload($file, ?string $name = null, $contentType = true): ResponseInterface
+    {
+        $disposition = 'attachment';
+        $fileName = $name;
+
+        if (is_string($file)) {
+            $fileName = basename($file);
+        }
+
+        if (strlen($fileName)) {
+            $disposition .= '; filename="' . urlencode($fileName) . '"';
+        }
+
+        return $this->withFile($file, $contentType)
+            ->withHeader('Content-Disposition', $disposition);
+    }
+
+    /**
+     * Note: This method is not part of the PSR-7 standard.
+     *
+     * This method prepares the response object to return a file response to the
+     * client without `Content-Disposition` header which defaults to `inline`
+     *
+     * You control the behavior of the `Content-Type` header declaration via `$contentType`
+     * Use a string to override the header to a value of your choice. e.g.: `application/json`
+     * When set to `true` we attempt to detect the content type using `mime_content_type`
+     * When set to `false`
+     *
+     * @param string|resource|StreamInterface $file
+     * @param bool|string                     $contentType
+     *
+     * @return ResponseInterface
+     *
+     * @throws RuntimeException If the file cannot be opened.
+     * @throws InvalidArgumentException If the mode is invalid.
+     */
+    public function withFile($file, $contentType = true): ResponseInterface
+    {
+        $response = $this->response;
+
+        if (is_resource($file)) {
+            $response = $response->withBody($this->streamFactory->createStreamFromResource($file));
+        } elseif (is_string($file)) {
+            $response = $response->withBody($this->streamFactory->createStreamFromFile($file));
+        } elseif ($file instanceof StreamInterface) {
+            $response = $response->withBody($file);
+        } else {
+            throw new InvalidArgumentException('Parameter 1 of Response::withFile() must be a resource, a string or an instance of Psr\Http\Message\StreamInterface.');
+        }
+
+        if ($contentType === true) {
+            $contentType = is_string($file) ? mime_content_type($file) : 'application/octet-stream';
+        }
+
+        if (is_string($contentType)) {
+            $response = $response->withHeader('Content-Type', $contentType);
+        }
 
         return new static($response, $this->streamFactory);
     }
