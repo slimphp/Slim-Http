@@ -287,7 +287,10 @@ class Response implements ResponseInterface
         } elseif ($file instanceof StreamInterface) {
             $response = $response->withBody($file);
         } else {
-            throw new InvalidArgumentException('Parameter 1 of Response::withFile() must be a resource, a string or an instance of Psr\Http\Message\StreamInterface.');
+            throw new InvalidArgumentException(
+                'Parameter 1 of Response::withFile() must be a resource, a string ' .
+                'or an instance of Psr\Http\Message\StreamInterface.'
+            );
         }
 
         if ($contentType === true) {
