@@ -249,8 +249,18 @@ class Response implements ResponseInterface
             $fileName = basename($file);
         }
 
+        if ($file instanceof StreamInterface && $name === null) {
+            $metaData = $file->getMetadata();
+            if (is_array($metaData) && isset($metaData['uri'])) {
+                $uri = $metaData['uri'];
+                if ('php://' !== substr($uri, 0, 6)) {
+                    $fileName = $uri;
+                }
+            }
+        }
+
         if (is_string($fileName) && strlen($fileName)) {
-            $disposition .= '; filename="' . urlencode($fileName) . '"';
+            $disposition .= "; filename*=UTF-8''" . rawurlencode($fileName);
         }
 
         return $this->withFile($file, $contentType)
