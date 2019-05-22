@@ -28,6 +28,7 @@
     }
   ],
   "require": {
+    "ext-fileinfo": "*",
     "ext-json": "*",
     "ext-libxml": "*",
     "ext-SimpleXML": "*",
