@@ -245,11 +245,11 @@ class Response implements ResponseInterface
         $disposition = 'attachment';
         $fileName = $name;
 
-        if (is_string($file)) {
+        if (is_string($file) && $name === null) {
             $fileName = basename($file);
         }
 
-        if (strlen($fileName)) {
+        if (is_string($fileName) && strlen($fileName)) {
             $disposition .= '; filename="' . urlencode($fileName) . '"';
         }
 
@@ -271,7 +271,7 @@ class Response implements ResponseInterface
      * @param string|resource|StreamInterface $file
      * @param bool|string                     $contentType
      *
-     * @return ResponseInterface
+     * @return static
      *
      * @throws RuntimeException If the file cannot be opened.
      * @throws InvalidArgumentException If the mode is invalid.
