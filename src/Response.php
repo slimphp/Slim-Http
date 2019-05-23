@@ -260,6 +260,11 @@ class Response implements ResponseInterface
         }
 
         if (is_string($fileName) && strlen($fileName)) {
+            /*
+             * The regex used below is to ensure that the $fileName contains only
+             * characters ranging from ASCII 128-255 and ASCII 0-31 and 127 are replaced with an empty string
+             */
+            $disposition .= '; filename="' . preg_replace('/[\x00-\x1F\x7F\"]/', ' ', $fileName) . '"';
             $disposition .= "; filename*=UTF-8''" . rawurlencode($fileName);
         }
 
