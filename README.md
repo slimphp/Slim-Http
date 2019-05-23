@@ -104,14 +104,16 @@ The decorated `ResponseInterface` provides the following additional methods:
 
 #### `Response::withFileDownload($file, $name)` ####
 Triggers the client to download the specified file.
-| Parameter            | Type                              | Description                                                                 |
-|----------------------|-----------------------------------|-----------------------------------------------------------------------------|
-| **$file**            | `string|resource|StreamInterface` | The file to send to the client                                              |
-| **$name**            | `string|null`                     | The filename for the `Content-Disposition` header. Defaults to `attachment` |
-| **$contentType**     | `bool|string`                     | Set the `Content-Type` header. Defaults to true, which attempts to detect mime type from file extension, set to false to disable. |
+
+| Parameter        | Type                              | Description                                                                                                                       |
+|------------------|-----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| **$file**        | `string|resource|StreamInterface` | The file to send to the client                                                                                                    |
+| **$name**        | `string|null`                     | The filename for the `Content-Disposition` header. Defaults to `attachment`                                                       |
+| **$contentType** | `bool|string`                     | Set the `Content-Type` header. Defaults to true, which attempts to detect mime type from file extension, set to false to disable. |
 
 #### `Response::withFile($file, $contentType)` ####
 Response with file to client
+
 | Parameter            | Type                              | Description                                                                                                                       |
 |----------------------|-----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | **$file**            | `string|resource|StreamInterface` | The file to send to the client                                                                                                    |
