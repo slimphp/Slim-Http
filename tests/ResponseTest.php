@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace Slim\Tests\Http;
 
+use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 use Slim\Http\Factory\DecoratedResponseFactory;
 use Slim\Http\Response;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
+use Zend\Diactoros\StreamFactory;
 
 class ResponseTest extends TestCase
 {
@@ -20,7 +22,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -37,7 +39,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -54,7 +56,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -69,7 +71,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -87,7 +89,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -102,7 +104,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -117,7 +119,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -135,7 +137,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -155,7 +157,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -172,7 +174,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -200,11 +202,201 @@ class ResponseTest extends TestCase
         }
     }
 
+    public function fileProvider()
+    {
+        return [
+            'with resource and content type specified' => [
+                'text/plain',
+                'resource',
+                'Hello World',
+                'text/plain',
+            ],
+            'with resource and content type auto-detection on' => [
+                true,
+                'resource',
+                'Hello World',
+                'application/octet-stream',
+            ],
+            'with resource and content type auto-detection off' => [
+                false,
+                'resource',
+                'Hello World',
+                '',
+            ],
+            'with string and content type specified' => [
+                'text/plain',
+                'string',
+                'Hello World',
+                'text/plain',
+            ],
+            'with string and content type auto-detection on' => [
+                true,
+                'string',
+                'Hello World',
+                'text/plain',
+            ],
+            'with string and content type auto-detection off' => [
+                false,
+                'string',
+                'Hello World',
+                '',
+            ],
+            'with stream and content type specified' => [
+                'text/plain',
+                'stream',
+                'Hello World',
+                'text/plain',
+            ],
+            'with stream and content type auto-detection on' => [
+                true,
+                'stream',
+                'Hello World',
+                'application/octet-stream',
+            ],
+            'with stream and content type auto-detection off' => [
+                false,
+                'stream',
+                'Hello World',
+                '',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider fileProvider
+     * @param bool|string $contentType
+     * @param string      $openAs
+     * @param string      $expectedBody
+     * @param string      $expectedContentType
+     */
+    public function testWithFile($contentType, string $openAs, string $expectedBody, string $expectedContentType)
+    {
+        $path = __DIR__ . '/Assets/plain.txt';
+
+        foreach ($this->factoryProviders as $factoryProvider) {
+            /** @var Psr17FactoryProvider $provider */
+            $provider = new $factoryProvider();
+
+            $decoratedResponseFactory = new DecoratedResponseFactory(
+                $provider->getResponseFactory(),
+                $provider->getStreamFactory()
+            );
+
+            switch ($openAs) {
+                case 'resource';
+                    $file = fopen($path, 'r');
+                    break;
+
+                case 'stream':
+                    $file = $provider->getStreamFactory()->createStreamFromFile($path);
+                    break;
+
+                default;
+                case 'string':
+                    $file = $path;
+                    break;
+            }
+
+            $response = $decoratedResponseFactory
+                ->createResponse()
+                ->withFile($file, $contentType);
+
+            $this->assertEquals($expectedBody, (string) $response->getBody());
+            $this->assertEquals($expectedContentType, $response->getHeaderLine('Content-Type'));
+
+            if (is_resource($file)) {
+                fclose($file);
+            }
+        }
+    }
+
+    public function fileDownloadProvider()
+    {
+        return [
+            'with resource and file name specified' => [
+                'plain.txt',
+                'resource',
+                'attachment; filename="plain.txt"; filename*=UTF-8\'\'plain.txt',
+            ],
+            'with resource and file name not specified' => [
+                null,
+                'resource',
+                'attachment; filename="plain.txt"; filename*=UTF-8\'\'plain.txt',
+            ],
+            'with string and file name specified' => [
+                'plain.txt',
+                'string',
+                'attachment; filename="plain.txt"; filename*=UTF-8\'\'plain.txt',
+            ],
+            'with string and file name not specified' => [
+                null,
+                'string',
+                'attachment; filename="plain.txt"; filename*=UTF-8\'\'plain.txt',
+            ],
+            'with stream and file name specified' => [
+                'plain.txt',
+                'stream',
+                'attachment; filename="plain.txt"; filename*=UTF-8\'\'plain.txt',
+            ],
+            'with stream and file name not specified' => [
+                null,
+                'stream',
+                'attachment; filename="plain.txt"; filename*=UTF-8\'\'plain.txt',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider fileDownloadProvider
+     * @param string|null $name
+     * @param string      $openAs
+     * @param string      $expectedContentDisposition
+     */
+    public function testWithFileDownload(?string $name, string $openAs, string $expectedContentDisposition)
+    {
+        $path = __DIR__ . '/Assets/plain.txt';
+
+        foreach ($this->factoryProviders as $factoryProvider) {
+            /** @var Psr17FactoryProvider $provider */
+            $provider = new $factoryProvider();
+
+            $decoratedResponseFactory = new DecoratedResponseFactory(
+                $provider->getResponseFactory(),
+                $provider->getStreamFactory()
+            );
+
+            switch ($openAs) {
+                case 'resource';
+                    $file = fopen($path, 'r');
+                    break;
+
+                case 'stream':
+                    $file = $provider->getStreamFactory()->createStreamFromFile($path);
+                    break;
+
+                default;
+                case 'string':
+                    $file = $path;
+                    break;
+            }
+
+            $response = $decoratedResponseFactory
+                ->createResponse()
+                ->withFileDownload($file, $name);
+
+            $this->assertEquals($expectedContentDisposition, $response->getHeaderLine('Content-Disposition'));
+
+            if (is_resource($file)) {
+                fclose($file);
+            }
+        }
+    }
+
     public function testIsEmpty()
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -220,7 +412,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -236,7 +428,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -252,7 +444,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -267,7 +459,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -282,7 +474,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -297,7 +489,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -312,7 +504,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -327,7 +519,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -342,7 +534,7 @@ class ResponseTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -364,7 +556,7 @@ class ResponseTest extends TestCase
 
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -386,7 +578,7 @@ class ResponseTest extends TestCase
 
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
@@ -437,7 +629,7 @@ class ResponseTest extends TestCase
 
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedResponseFactory = new DecoratedResponseFactory(
                 $provider->getResponseFactory(),
                 $provider->getStreamFactory()
