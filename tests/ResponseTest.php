@@ -283,7 +283,7 @@ class ResponseTest extends TestCase
             );
 
             switch ($openAs) {
-                case 'resource';
+                case 'resource':
                     $file = fopen($path, 'r');
                     break;
 
@@ -291,7 +291,7 @@ class ResponseTest extends TestCase
                     $file = $provider->getStreamFactory()->createStreamFromFile($path);
                     break;
 
-                default;
+                default:
                 case 'string':
                     $file = $path;
                     break;
@@ -366,7 +366,7 @@ class ResponseTest extends TestCase
             );
 
             switch ($openAs) {
-                case 'resource';
+                case 'resource':
                     $file = fopen($path, 'r');
                     break;
 
@@ -374,7 +374,7 @@ class ResponseTest extends TestCase
                     $file = $provider->getStreamFactory()->createStreamFromFile($path);
                     break;
 
-                default;
+                default:
                 case 'string':
                     $file = $path;
                     break;
