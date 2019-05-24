@@ -20,7 +20,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', '/');
@@ -34,7 +34,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'http://example.com');
@@ -46,7 +46,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', '/');
@@ -58,7 +58,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', '/');
@@ -71,7 +71,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', '/');
@@ -84,7 +84,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', '/');
@@ -100,7 +100,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', '/');
@@ -112,7 +112,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', '/');
@@ -124,7 +124,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('POST', '/');
@@ -136,7 +136,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('PUT', '/');
@@ -148,7 +148,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('PATCH', '/');
@@ -160,7 +160,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('DELETE', '/');
@@ -172,7 +172,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('HEAD', '/');
@@ -184,7 +184,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('OPTIONS', '/');
@@ -196,7 +196,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', '/');
@@ -212,7 +212,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com/foo/bar?abc=123');
@@ -224,7 +224,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com/foo/bar?abc=123');
@@ -238,7 +238,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -250,7 +250,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $uriFactory = $provider->getUriFactory();
@@ -267,7 +267,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -281,7 +281,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -293,7 +293,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -307,7 +307,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -319,7 +319,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -333,7 +333,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -347,7 +347,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -359,7 +359,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -373,7 +373,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -387,7 +387,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -399,7 +399,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -413,7 +413,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -426,7 +426,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -440,7 +440,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -452,7 +452,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -466,7 +466,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -480,7 +480,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -494,7 +494,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -508,7 +508,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -524,7 +524,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -545,7 +545,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $serverParams = ['HTTP_AUTHORIZATION' => 'test'];
@@ -559,7 +559,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -571,7 +571,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $serverParams = ['HTTP_AUTHORIZATION' => 'test'];
@@ -585,7 +585,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -599,7 +599,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -615,7 +615,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -630,7 +630,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -644,7 +644,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -659,7 +659,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('POST', 'https://google.com');
@@ -673,7 +673,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('POST', 'https://google.com');
@@ -688,7 +688,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -707,7 +707,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -726,7 +726,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -745,7 +745,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -764,7 +764,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -783,7 +783,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -806,7 +806,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -827,7 +827,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -848,7 +848,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -872,7 +872,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -894,7 +894,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -913,7 +913,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('POST', 'https://google.com');
@@ -932,7 +932,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -955,7 +955,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('POST', 'https://google.com');
@@ -969,7 +969,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('POST', 'https://google.com');
@@ -982,7 +982,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('POST', 'https://google.com');
@@ -998,7 +998,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com?foo=bar');
@@ -1010,7 +1010,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com?foo=bar');
@@ -1022,7 +1022,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com?foo=bar&bar=baz');
@@ -1034,7 +1034,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -1053,7 +1053,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -1072,7 +1072,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $streamFactory = $provider->getStreamFactory();
@@ -1091,7 +1091,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -1105,7 +1105,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -1121,7 +1121,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -1136,7 +1136,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -1150,7 +1150,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
@@ -1166,7 +1166,7 @@ class ServerRequestTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
             $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
