@@ -20,7 +20,7 @@ script:
 - if [[ "$ANALYSIS" == 'true' ]]; then vendor/bin/phpunit --coverage-clover clover.xml ; fi
 - vendor/bin/phpunit
 - vendor/bin/phpcs
-- vendor/bin/phpstan analyse src tests
+- vendor/bin/phpstan analyse src
 
 after_success:
 - if [[ "$ANALYSIS" == 'true' ]]; then vendor/bin/php-coveralls --coverage_clover=clover.xml -v ; fi
