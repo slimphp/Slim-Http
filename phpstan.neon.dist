@@ -1,7 +1,2 @@
 parameters:
   level: max
-  ignoreErrors:
-    - '#Access to an undefined property Slim\\Http\\Response::\$foo#'
-    - '#Access to an undefined property Slim\\Http\\ServerRequest::\$foo#'
-    - '#Access to an undefined property Slim\\Http\\Uri::\$foo#'
-    - '#Parameter \#1 \$port of method Slim\\Http\\Uri::withPort() expects int|null, string given#'

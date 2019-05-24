@@ -19,7 +19,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -33,7 +33,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -45,7 +45,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -59,7 +59,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -73,7 +73,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -87,7 +87,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://user@google.com');
@@ -101,7 +101,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://user@google.com');
@@ -113,7 +113,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com:400');
@@ -125,7 +125,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -139,7 +139,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://user%40pass%3Aword@google.com');
@@ -151,7 +151,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://user@google.com');
@@ -163,7 +163,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -175,7 +175,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -187,7 +187,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -201,7 +201,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -215,7 +215,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -232,7 +232,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -247,7 +247,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
@@ -259,7 +259,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/path');
@@ -271,7 +271,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/path');
@@ -285,7 +285,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/path');
@@ -299,7 +299,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/path');
@@ -313,7 +313,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/path?foo=bar');
@@ -325,7 +325,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/path?foo=bar');
@@ -339,7 +339,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/path?foo=bar');
@@ -353,7 +353,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/#fragment');
@@ -365,7 +365,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/#fragment');
@@ -379,7 +379,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/#fragment');
@@ -393,7 +393,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://user@google.com/path/otherpath?foo=bar#fragment');
@@ -411,7 +411,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/path/otherpath?foo=bar#fragment');
@@ -423,7 +423,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com/index.php');
@@ -435,7 +435,7 @@ class UriTest extends TestCase
     {
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
-            $provider = new $factoryProvider;
+            $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://user:password@google.com/path/otherpath?foo=bar#fragment');

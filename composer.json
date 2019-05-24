@@ -28,6 +28,7 @@
     }
   ],
   "require": {
+    "ext-fileinfo": "*",
     "ext-json": "*",
     "ext-libxml": "*",
     "ext-SimpleXML": "*",
@@ -64,6 +65,6 @@
     ],
     "phpunit": "php vendor/bin/phpunit --process-isolation",
     "phpcs": "php vendor/bin/phpcs",
-    "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse src tests"
+    "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse src"
   }
 }
