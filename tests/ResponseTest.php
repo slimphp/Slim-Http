@@ -9,12 +9,11 @@ declare(strict_types=1);
 
 namespace Slim\Tests\Http;
 
-use Psr\Http\Message\StreamInterface;
+use InvalidArgumentException;
 use RuntimeException;
 use Slim\Http\Factory\DecoratedResponseFactory;
 use Slim\Http\Response;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
-use Zend\Diactoros\StreamFactory;
 
 class ResponseTest extends TestCase
 {
@@ -307,6 +306,24 @@ class ResponseTest extends TestCase
             if (is_resource($file)) {
                 fclose($file);
             }
+        }
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testWithFileThrowsInvalidArgumentException()
+    {
+        foreach ($this->factoryProviders as $factoryProvider) {
+            /** @var Psr17FactoryProvider $provider */
+            $provider = new $factoryProvider();
+
+            $decoratedResponseFactory = new DecoratedResponseFactory(
+                $provider->getResponseFactory(),
+                $provider->getStreamFactory()
+            );
+
+            $decoratedResponseFactory->createResponse()->withFile(1);
         }
     }
 
