@@ -13,7 +13,7 @@ It's recommended that you use [Composer](https://getcomposer.org/) to install
 this library.
 
 ```bash
-$ composer require slim/http "^0.7"
+$ composer require slim/http
 ```
 
 This will install the `slim/http` component and all required dependencies.
