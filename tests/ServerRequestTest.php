@@ -315,6 +315,22 @@ class ServerRequestTest extends TestCase
         }
     }
 
+    public function testGetMediaTypeInvalid()
+    {
+        foreach ($this->factoryProviders as $factoryProvider) {
+            /** @var Psr17FactoryProvider $provider */
+            $provider = new $factoryProvider();
+            $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
+
+            $request = $decoratedServerRequestFactory->createServerRequest('GET', 'https://google.com');
+            $request = $request->withHeader('Content-Type', 'application/pdf');
+
+            $GLOBALS['preg_split_return'] = false;
+            $this->assertNull($request->getMediaType());
+            unset($GLOBALS['preg_split_return']);
+        }
+    }
+
     public function testGetMediaTypeParams()
     {
         foreach ($this->factoryProviders as $factoryProvider) {
