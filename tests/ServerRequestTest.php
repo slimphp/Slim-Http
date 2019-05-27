@@ -865,6 +865,22 @@ class ServerRequestTest extends TestCase
         }
     }
 
+    public function testGetParsedBodyWithUnknownMediaTypeStructuredSyntaxSuffix()
+    {
+        foreach ($this->factoryProviders as $factoryProvider) {
+            /** @var Psr17FactoryProvider $provider */
+            $provider = new $factoryProvider();
+            $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
+
+            $request = $decoratedServerRequestFactory->createServerRequest('POST', 'https://google.com');
+            $request = $request
+                ->withHeader('Content-Type', 'text/foo+bar')
+                ->withParsedBody(null);
+
+            $this->assertNull($request->getParsedBody());
+        }
+    }
+
     /**
      * Will fail if a simple_xml warning is created
      */
