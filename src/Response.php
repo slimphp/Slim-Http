@@ -20,12 +20,12 @@ class Response implements ResponseInterface
     /**
      * @var ResponseInterface
      */
-    private $response;
+    protected $response;
 
     /**
      * @var StreamFactoryInterface
      */
-    private $streamFactory;
+    protected $streamFactory;
 
     /**
      * EOL characters used for HTTP response.

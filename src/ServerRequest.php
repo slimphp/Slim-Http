@@ -20,12 +20,12 @@ class ServerRequest implements ServerRequestInterface
     /**
      * @var ServerRequestInterface
      */
-    private $serverRequest;
+    protected $serverRequest;
 
     /**
      * @var array
      */
-    private $bodyParsers;
+    protected $bodyParsers;
 
     /**
      * @param ServerRequestInterface $serverRequest

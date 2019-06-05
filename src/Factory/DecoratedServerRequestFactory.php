@@ -19,7 +19,7 @@ class DecoratedServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * @var ServerRequestFactoryInterface
      */
-    private $serverRequestFactory;
+    protected $serverRequestFactory;
 
     /**
      * @param ServerRequestFactoryInterface $serverRequestFactory

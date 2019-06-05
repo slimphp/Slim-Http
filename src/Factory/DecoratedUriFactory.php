@@ -18,7 +18,7 @@ class DecoratedUriFactory implements UriFactoryInterface
     /**
      * @var UriFactoryInterface
      */
-    private $uriFactory;
+    protected $uriFactory;
 
     /**
      * @param UriFactoryInterface $uriFactory
