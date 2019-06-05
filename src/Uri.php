@@ -16,7 +16,7 @@ class Uri implements UriInterface
     /**
      * @var UriInterface
      */
-    private $uri;
+    protected $uri;
 
     /**
      * @param UriInterface $uri

@@ -19,12 +19,12 @@ class DecoratedResponseFactory implements ResponseFactoryInterface
     /**
      * @var ResponseFactoryInterface
      */
-    private $responseFactory;
+    protected $responseFactory;
 
     /**
      * @var StreamFactoryInterface
      */
-    private $streamFactory;
+    protected $streamFactory;
 
     /**
      * @param ResponseFactoryInterface $responseFactory
