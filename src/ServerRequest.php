@@ -162,13 +162,13 @@ class ServerRequest implements ServerRequestInterface
     {
         $parsedBody = $this->serverRequest->getParsedBody();
 
-        if ($parsedBody !== null) {
+        if (!empty($parsedBody)) {
             return $parsedBody;
         }
 
         $mediaType = $this->getMediaType();
         if ($mediaType === null) {
-            return null;
+            return $parsedBody;
         }
 
         // Check if this specific media type has a parser registered first
