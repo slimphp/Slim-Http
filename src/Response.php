@@ -194,7 +194,7 @@ class Response implements ResponseInterface
         }
 
         $response = $this->response
-            ->withHeader('Content-Type', 'application/json;charset=utf-8')
+            ->withHeader('Content-Type', 'application/json')
             ->withBody($this->streamFactory->createStream($json));
 
         if ($status !== null) {
