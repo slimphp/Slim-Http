@@ -225,11 +225,10 @@ class UriTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testWithPortInvalidInt()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
             $provider = new $factoryProvider();
@@ -240,11 +239,10 @@ class UriTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testWithPortInvalidString()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
             $provider = new $factoryProvider();

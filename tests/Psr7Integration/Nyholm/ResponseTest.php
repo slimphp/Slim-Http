@@ -16,7 +16,7 @@ use Slim\Tests\Http\Providers\NyholmPsr17FactoryProvider;
 
 class ResponseTest extends ResponseIntegrationTest
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         if (!defined('STREAM_FACTORY')) {
             define('STREAM_FACTORY', Psr17Factory::class);

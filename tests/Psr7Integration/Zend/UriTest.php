@@ -16,7 +16,7 @@ use Zend\Diactoros\StreamFactory;
 
 class UriTest extends UriIntegrationTest
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         if (!defined('STREAM_FACTORY')) {
             define('STREAM_FACTORY', StreamFactory::class);
