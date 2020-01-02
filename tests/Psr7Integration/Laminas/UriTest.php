@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-namespace Slim\Tests\Http\Psr7Integration\Zend;
+namespace Slim\Tests\Http\Psr7Integration\Laminas;
 
 use Http\Psr7Test\UriIntegrationTest;
+use Laminas\Diactoros\StreamFactory;
 use Slim\Http\Factory\DecoratedUriFactory;
-use Slim\Tests\Http\Providers\ZendDiactorosPsr17FactoryProvider;
-use Zend\Diactoros\StreamFactory;
+use Slim\Tests\Http\Providers\LaminasDiactorosPsr17FactoryProvider;
 
 class UriTest extends UriIntegrationTest
 {
@@ -25,7 +25,7 @@ class UriTest extends UriIntegrationTest
 
     public function createUri($uri)
     {
-        $provider = new ZendDiactorosPsr17FactoryProvider();
+        $provider = new LaminasDiactorosPsr17FactoryProvider();
         $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
         return $decoratedUriFactory->createUri($uri);

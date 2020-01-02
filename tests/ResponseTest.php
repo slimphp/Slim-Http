@@ -309,11 +309,10 @@ class ResponseTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testWithFileThrowsInvalidArgumentException()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
             $provider = new $factoryProvider();
@@ -636,11 +635,10 @@ class ResponseTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testWithInvalidJsonThrowsException()
     {
+        $this->expectException(RuntimeException::class);
+
         $data = ['foo' => 'bar'.chr(233)];
         $this->assertEquals('bar'.chr(233), $data['foo']);
 

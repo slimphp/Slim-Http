@@ -93,11 +93,10 @@ class ServerRequestTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testWithMethodInvalid()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
             $provider = new $factoryProvider();
@@ -957,11 +956,10 @@ class ServerRequestTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testGetParsedBodyThrowsRuntimeExceptionWhenInvalidTypeReturned()
     {
+        $this->expectException(RuntimeException::class);
+
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
             $provider = new $factoryProvider();

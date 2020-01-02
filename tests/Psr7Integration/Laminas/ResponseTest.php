@@ -7,25 +7,25 @@
 
 declare(strict_types=1);
 
-namespace Slim\Tests\Http\Psr7Integration\Nyholm;
+namespace Slim\Tests\Http\Psr7Integration\Laminas;
 
 use Http\Psr7Test\ResponseIntegrationTest;
-use Nyholm\Psr7\Factory\Psr17Factory;
+use Laminas\Diactoros\StreamFactory;
 use Slim\Http\Factory\DecoratedResponseFactory;
-use Slim\Tests\Http\Providers\NyholmPsr17FactoryProvider;
+use Slim\Tests\Http\Providers\LaminasDiactorosPsr17FactoryProvider;
 
 class ResponseTest extends ResponseIntegrationTest
 {
     public static function setUpBeforeClass(): void
     {
         if (!defined('STREAM_FACTORY')) {
-            define('STREAM_FACTORY', Psr17Factory::class);
+            define('STREAM_FACTORY', StreamFactory::class);
         }
     }
 
     public function createSubject()
     {
-        $provider = new NyholmPsr17FactoryProvider();
+        $provider = new LaminasDiactorosPsr17FactoryProvider();
         $decoratedResponseFactory = new DecoratedResponseFactory(
             $provider->getResponseFactory(),
             $provider->getStreamFactory()

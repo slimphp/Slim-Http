@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-namespace Slim\Tests\Http\Psr7Integration\Zend;
+namespace Slim\Tests\Http\Psr7Integration\Laminas;
 
 use Http\Psr7Test\ServerRequestIntegrationTest;
+use Laminas\Diactoros\StreamFactory;
 use Slim\Http\Factory\DecoratedServerRequestFactory;
-use Slim\Tests\Http\Providers\ZendDiactorosPsr17FactoryProvider;
-use Zend\Diactoros\StreamFactory;
+use Slim\Tests\Http\Providers\LaminasDiactorosPsr17FactoryProvider;
 
 class ServerRequestTest extends ServerRequestIntegrationTest
 {
@@ -25,7 +25,7 @@ class ServerRequestTest extends ServerRequestIntegrationTest
 
     public function createSubject()
     {
-        $provider = new ZendDiactorosPsr17FactoryProvider();
+        $provider = new LaminasDiactorosPsr17FactoryProvider();
         $decoratedServerRequestFactory = new DecoratedServerRequestFactory($provider->getServerRequestFactory());
 
         return $decoratedServerRequestFactory->createServerRequest('GET', 'http://foo.com', $_SERVER);
