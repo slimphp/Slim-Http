@@ -68,7 +68,7 @@
     "phpcs": "phpcs",
     "phpstan": "phpstan analyse src --memory-limit=-1"
   },
-    "config": {
-        "sort-packages": true
-    }
+  "config": {
+    "sort-packages": true
+  }
 }
