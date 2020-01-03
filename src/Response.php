@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Slim Framework (https://slimframework.com)
  *
@@ -14,6 +15,24 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
+
+use function basename;
+use function in_array;
+use function is_array;
+use function is_resource;
+use function is_string;
+use function json_encode;
+use function json_last_error;
+use function json_last_error_msg;
+use function mime_content_type;
+use function preg_replace;
+use function rawurlencode;
+use function sprintf;
+use function stream_get_meta_data;
+use function strlen;
+use function substr;
+
+use const JSON_ERROR_NONE;
 
 class Response implements ResponseInterface
 {
@@ -32,7 +51,7 @@ class Response implements ResponseInterface
      *
      * @var string
      */
-    const EOL = "\r\n";
+    public const EOL = "\r\n";
 
     /**
      * @param ResponseInterface $response

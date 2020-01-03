@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Slim Framework (https://slimframework.com)
  *
@@ -13,6 +14,9 @@ use Http\Psr7Test\ResponseIntegrationTest;
 use Laminas\Diactoros\StreamFactory;
 use Slim\Http\Factory\DecoratedResponseFactory;
 use Slim\Tests\Http\Providers\LaminasDiactorosPsr17FactoryProvider;
+
+use function define;
+use function defined;
 
 class ResponseTest extends ResponseIntegrationTest
 {

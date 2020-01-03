@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Slim Framework (https://slimframework.com)
  *
@@ -13,6 +14,9 @@ use Http\Psr7Test\ServerRequestIntegrationTest;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Slim\Http\Factory\DecoratedServerRequestFactory;
 use Slim\Tests\Http\Providers\NyholmPsr17FactoryProvider;
+
+use function define;
+use function defined;
 
 class ServerRequestTest extends ServerRequestIntegrationTest
 {

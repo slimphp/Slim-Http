@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Slim Framework (https://slimframework.com)
  *
@@ -12,6 +13,8 @@ namespace Slim\Tests\Http;
 use InvalidArgumentException;
 use Slim\Http\Factory\DecoratedUriFactory;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
+
+use function property_exists;
 
 class UriTest extends TestCase
 {

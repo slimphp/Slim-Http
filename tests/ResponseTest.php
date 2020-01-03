@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Slim Framework (https://slimframework.com)
  *
@@ -14,6 +15,15 @@ use RuntimeException;
 use Slim\Http\Factory\DecoratedResponseFactory;
 use Slim\Http\Response;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
+
+use function chr;
+use function fclose;
+use function fopen;
+use function is_resource;
+use function json_decode;
+use function property_exists;
+
+use const JSON_HEX_AMP;
 
 class ResponseTest extends TestCase
 {
@@ -639,8 +649,8 @@ class ResponseTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $data = ['foo' => 'bar'.chr(233)];
-        $this->assertEquals('bar'.chr(233), $data['foo']);
+        $data = ['foo' => 'bar' . chr(233)];
+        $this->assertEquals('bar' . chr(233), $data['foo']);
 
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */

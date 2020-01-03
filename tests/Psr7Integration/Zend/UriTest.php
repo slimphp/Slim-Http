@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Slim Framework (https://slimframework.com)
  *
@@ -13,6 +14,9 @@ use Http\Psr7Test\UriIntegrationTest;
 use Slim\Http\Factory\DecoratedUriFactory;
 use Slim\Tests\Http\Providers\ZendDiactorosPsr17FactoryProvider;
 use Zend\Diactoros\StreamFactory;
+
+use function define;
+use function defined;
 
 class UriTest extends UriIntegrationTest
 {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Slim Framework (https://slimframework.com)
  *
@@ -7,6 +8,21 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/../vendor/autoload.php';
+use AdrianSuter\Autoload\Override\Override;
+use Slim\Http\ServerRequest;
 
-require __DIR__ . '/Assets/PhpFunctionOverrides.php';
+$classLoader = require __DIR__ . '/../vendor/autoload.php';
+
+//require __DIR__ . '/Assets/PhpFunctionOverrides.php';
+
+Override::apply($classLoader, [
+    ServerRequest::class => [
+        'preg_split' => function (string $pattern, string $subject, int $limit = -1, int $flags = 0) {
+            if (isset($GLOBALS['preg_split_return'])) {
+                return $GLOBALS['preg_split_return'];
+            }
+
+            return preg_split($pattern, $subject, $limit, $flags);
+        }
+    ]
+]);
