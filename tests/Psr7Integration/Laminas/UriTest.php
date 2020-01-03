@@ -15,6 +15,9 @@ use Laminas\Diactoros\StreamFactory;
 use Slim\Http\Factory\DecoratedUriFactory;
 use Slim\Tests\Http\Providers\LaminasDiactorosPsr17FactoryProvider;
 
+use function define;
+use function defined;
+
 class UriTest extends UriIntegrationTest
 {
     public static function setUpBeforeClass(): void

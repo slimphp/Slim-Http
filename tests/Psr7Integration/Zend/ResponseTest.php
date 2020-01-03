@@ -15,6 +15,9 @@ use Slim\Http\Factory\DecoratedResponseFactory;
 use Slim\Tests\Http\Providers\ZendDiactorosPsr17FactoryProvider;
 use Zend\Diactoros\StreamFactory;
 
+use function define;
+use function defined;
+
 class ResponseTest extends ResponseIntegrationTest
 {
     public static function setUpBeforeClass(): void

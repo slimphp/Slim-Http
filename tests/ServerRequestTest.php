@@ -14,6 +14,9 @@ use InvalidArgumentException;
 use RuntimeException;
 use Slim\Http\Factory\DecoratedServerRequestFactory;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
+use stdClass;
+
+use function property_exists;
 
 class ServerRequestTest extends TestCase
 {
@@ -833,7 +836,7 @@ class ServerRequestTest extends TestCase
                 ->withHeader('Content-Type', 'application/hal+xml;charset=utf8')
                 ->withBody($stream);
 
-            /** @var \stdClass $obj */
+            /** @var stdClass $obj */
             $obj = $request->getParsedBody();
             $this->assertEquals('John', $obj->name);
         }
@@ -854,7 +857,7 @@ class ServerRequestTest extends TestCase
                 ->withHeader('Content-Type', 'application/xml;charset=utf8')
                 ->withBody($stream);
 
-            /** @var \stdClass $obj */
+            /** @var stdClass $obj */
             $obj = $request->getParsedBody();
             $this->assertEquals('John', $obj->name);
         }
@@ -875,7 +878,7 @@ class ServerRequestTest extends TestCase
                 ->withHeader('Content-Type', 'text/xml')
                 ->withBody($stream);
 
-            /** @var \stdClass $obj */
+            /** @var stdClass $obj */
             $obj = $request->getParsedBody();
             $this->assertEquals('John', $obj->name);
         }

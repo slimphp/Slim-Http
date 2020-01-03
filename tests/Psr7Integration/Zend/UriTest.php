@@ -15,6 +15,9 @@ use Slim\Http\Factory\DecoratedUriFactory;
 use Slim\Tests\Http\Providers\ZendDiactorosPsr17FactoryProvider;
 use Zend\Diactoros\StreamFactory;
 
+use function define;
+use function defined;
+
 class UriTest extends UriIntegrationTest
 {
     public static function setUpBeforeClass(): void

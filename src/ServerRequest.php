@@ -16,6 +16,22 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 use RuntimeException;
 
+use function array_merge;
+use function count;
+use function explode;
+use function is_array;
+use function is_null;
+use function is_object;
+use function json_decode;
+use function libxml_clear_errors;
+use function libxml_disable_entity_loader;
+use function libxml_use_internal_errors;
+use function parse_str;
+use function preg_split;
+use function property_exists;
+use function simplexml_load_string;
+use function strtolower;
+
 class ServerRequest implements ServerRequestInterface
 {
     /**

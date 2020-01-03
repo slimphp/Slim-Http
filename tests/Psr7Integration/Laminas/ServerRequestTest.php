@@ -15,6 +15,9 @@ use Laminas\Diactoros\StreamFactory;
 use Slim\Http\Factory\DecoratedServerRequestFactory;
 use Slim\Tests\Http\Providers\LaminasDiactorosPsr17FactoryProvider;
 
+use function define;
+use function defined;
+
 class ServerRequestTest extends ServerRequestIntegrationTest
 {
     public static function setUpBeforeClass(): void

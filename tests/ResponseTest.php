@@ -16,6 +16,15 @@ use Slim\Http\Factory\DecoratedResponseFactory;
 use Slim\Http\Response;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
 
+use function chr;
+use function fclose;
+use function fopen;
+use function is_resource;
+use function json_decode;
+use function property_exists;
+
+use const JSON_HEX_AMP;
+
 class ResponseTest extends TestCase
 {
     public function testDisableSetter()

@@ -15,6 +15,9 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Slim\Http\Factory\DecoratedResponseFactory;
 use Slim\Tests\Http\Providers\NyholmPsr17FactoryProvider;
 
+use function define;
+use function defined;
+
 class ResponseTest extends ResponseIntegrationTest
 {
     public static function setUpBeforeClass(): void
