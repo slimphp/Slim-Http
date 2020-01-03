@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Slim Framework (https://slimframework.com)
  *
@@ -32,7 +33,7 @@ class Response implements ResponseInterface
      *
      * @var string
      */
-    const EOL = "\r\n";
+    public const EOL = "\r\n";
 
     /**
      * @param ResponseInterface $response

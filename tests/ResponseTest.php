@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Slim Framework (https://slimframework.com)
  *
@@ -639,8 +640,8 @@ class ResponseTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $data = ['foo' => 'bar'.chr(233)];
-        $this->assertEquals('bar'.chr(233), $data['foo']);
+        $data = ['foo' => 'bar' . chr(233)];
+        $this->assertEquals('bar' . chr(233), $data['foo']);
 
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
