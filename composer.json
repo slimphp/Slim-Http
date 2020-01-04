@@ -37,7 +37,7 @@
     "psr/http-message": "^1.0"
   },
   "require-dev": {
-    "adriansuter/php-autoload-override": "v0.1-beta",
+    "adriansuter/php-autoload-override": "^1.0",
     "laminas/laminas-diactoros": "^2.0",
     "nyholm/psr7": "^1.0",
     "php-http/psr7-integration-tests": "dev-master",
