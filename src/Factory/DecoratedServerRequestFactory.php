@@ -33,7 +33,7 @@ class DecoratedServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * @param string $method
      * @param UriInterface|string $uri
-     * @param array $serverParams
+     * @param array{key: string, value: mixed}|array<mixed> $serverParams
      * @return ServerRequest
      */
     public function createServerRequest(string $method, $uri, array $serverParams = []): ServerRequestInterface

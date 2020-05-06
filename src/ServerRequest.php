@@ -47,7 +47,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * @param ServerRequestInterface $serverRequest
      */
-    public function __construct(ServerRequestInterface $serverRequest)
+    public final function __construct(ServerRequestInterface $serverRequest)
     {
         $this->serverRequest = $serverRequest;
 
@@ -103,9 +103,11 @@ class ServerRequest implements ServerRequestInterface
      * Disable magic setter to ensure immutability
      * @param mixed $name
      * @param mixed $value
+     * @return void
      */
     public function __set($name, $value)
     {
+        return;
     }
 
     /**
