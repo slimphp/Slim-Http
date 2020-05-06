@@ -47,7 +47,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * @param ServerRequestInterface $serverRequest
      */
-    public final function __construct(ServerRequestInterface $serverRequest)
+    final public function __construct(ServerRequestInterface $serverRequest)
     {
         $this->serverRequest = $serverRequest;
 

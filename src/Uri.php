@@ -22,7 +22,7 @@ class Uri implements UriInterface
     /**
      * @param UriInterface $uri
      */
-    public final function __construct(UriInterface $uri)
+    final public function __construct(UriInterface $uri)
     {
         $this->uri = $uri;
     }

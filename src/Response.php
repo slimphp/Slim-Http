@@ -57,7 +57,7 @@ class Response implements ResponseInterface
      * @param ResponseInterface $response
      * @param StreamFactoryInterface $streamFactory
      */
-    public final function __construct(ResponseInterface $response, StreamFactoryInterface $streamFactory)
+    final public function __construct(ResponseInterface $response, StreamFactoryInterface $streamFactory)
     {
         $this->response = $response;
         $this->streamFactory = $streamFactory;
