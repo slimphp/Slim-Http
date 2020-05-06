@@ -38,7 +38,7 @@
   },
   "require-dev": {
     "adriansuter/php-autoload-override": "^1.0",
-    "laminas/laminas-diactoros": "^2.0",
+    "laminas/laminas-diactoros": "^2.3",
     "nyholm/psr7": "^1.2",
     "php-http/psr7-integration-tests": "dev-master",
     "phpstan/phpstan": "^0.10.3",
