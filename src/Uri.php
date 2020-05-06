@@ -22,7 +22,7 @@ class Uri implements UriInterface
     /**
      * @param UriInterface $uri
      */
-    public function __construct(UriInterface $uri)
+    final public function __construct(UriInterface $uri)
     {
         $this->uri = $uri;
     }
@@ -31,9 +31,11 @@ class Uri implements UriInterface
      * Disable magic setter to ensure immutability
      * @param mixed $name
      * @param mixed $value
+     * @return void
      */
     public function __set($name, $value)
     {
+        return;
     }
 
     /**

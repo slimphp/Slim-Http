@@ -57,7 +57,7 @@ class Response implements ResponseInterface
      * @param ResponseInterface $response
      * @param StreamFactoryInterface $streamFactory
      */
-    public function __construct(ResponseInterface $response, StreamFactoryInterface $streamFactory)
+    final public function __construct(ResponseInterface $response, StreamFactoryInterface $streamFactory)
     {
         $this->response = $response;
         $this->streamFactory = $streamFactory;
@@ -67,9 +67,11 @@ class Response implements ResponseInterface
      * Disable magic setter to ensure immutability
      * @param mixed $name
      * @param mixed $value
+     * @return void
      */
     public function __set($name, $value)
     {
+        return;
     }
 
     /**
