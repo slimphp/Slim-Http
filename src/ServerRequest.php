@@ -61,12 +61,12 @@ class ServerRequest implements ServerRequestInterface
             return $result;
         });
 
-        $this->registerMediaTypeParser('application/xml', function ($input) {
-            $backup = libxml_disable_entity_loader(true);
+        $xmlParserCallable = function ($input) {
+            $backup = self::disableXmlEntityLoader(true);
             $backup_errors = libxml_use_internal_errors(true);
             $result = simplexml_load_string($input);
 
-            libxml_disable_entity_loader($backup);
+            self::disableXmlEntityLoader($backup);
             libxml_clear_errors();
             libxml_use_internal_errors($backup_errors);
 
@@ -75,23 +75,10 @@ class ServerRequest implements ServerRequestInterface
             }
 
             return $result;
-        });
+        };
 
-        $this->registerMediaTypeParser('text/xml', function ($input) {
-            $backup = libxml_disable_entity_loader(true);
-            $backup_errors = libxml_use_internal_errors(true);
-            $result = simplexml_load_string($input);
-
-            libxml_disable_entity_loader($backup);
-            libxml_clear_errors();
-            libxml_use_internal_errors($backup_errors);
-
-            if ($result === false) {
-                return null;
-            }
-
-            return $result;
-        });
+        $this->registerMediaTypeParser('application/xml', $xmlParserCallable);
+        $this->registerMediaTypeParser('text/xml', $xmlParserCallable);
 
         $this->registerMediaTypeParser('application/x-www-form-urlencoded', function ($input) {
             parse_str($input, $data);
@@ -780,5 +767,18 @@ class ServerRequest implements ServerRequestInterface
     public function isXhr(): bool
     {
         return $this->serverRequest->getHeaderLine('X-Requested-With') === 'XMLHttpRequest';
+    }
+
+    private static function disableXmlEntityLoader(bool $disable): bool
+    {
+        if (\LIBXML_VERSION >= 20900) {
+            // libxml >= 2.9.0 disables entity loading by default, so it is
+            // safe to skip the real call (deprecated in PHP 8).
+            return true;
+        }
+
+        // @codeCoverageIgnoreStart
+        return libxml_disable_entity_loader($disable);
+        // @codeCoverageIgnoreEnd
     }
 }
