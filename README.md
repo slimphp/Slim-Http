@@ -2,7 +2,7 @@
 
 Slim PSR-7 Object Decorators
 
-[![Build Status](https://travis-ci.org/slimphp/Slim-Http.svg?branch=master)](https://travis-ci.org/slimphp/Slim-Http)
+[![Build Status](https://github.com/slimphp/Slim-Http/workflows/Tests/badge.svg?branch=master)](https://github.com/slimphp/Slim-Http/actions?query=branch:master)
 [![Coverage Status](https://coveralls.io/repos/slimphp/Slim-Http/badge.svg?branch=master&service=github)](https://coveralls.io/github/slimphp/Slim-Http?branch=master)
 [![Total Downloads](https://poser.pugx.org/slim/http/downloads)](https://packagist.org/packages/slim/http)
 [![License](https://poser.pugx.org/slim/http/license)](https://packagist.org/packages/slim/http)
@@ -17,7 +17,7 @@ $ composer require slim/http
 ```
 
 This will install the `slim/http` component and all required dependencies.
-PHP 7.1, or newer, is required.
+PHP 7.2, or newer, is required.
 
 ## Tests
 
