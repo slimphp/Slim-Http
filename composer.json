@@ -42,7 +42,7 @@
     "nyholm/psr7": "^1.4",
     "php-http/psr7-integration-tests": "dev-master",
     "phpstan/phpstan": "^0.12.80",
-    "phpunit/phpunit": "^8.5 || ^9.3",
+    "phpunit/phpunit": "^8.5.15",
     "squizlabs/php_codesniffer": "^3.5"
   },
   "autoload": {
