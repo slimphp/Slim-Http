@@ -17,7 +17,7 @@ $ composer require slim/http
 ```
 
 This will install the `slim/http` component and all required dependencies.
-PHP 7.2, or newer, is required.
+PHP 7.3, or newer, is required.
 
 ## Tests
 
@@ -64,12 +64,12 @@ $response = $response->withJson(['data' => [1, 2, 3]]);
 ```
 
 
-## Example for Instantiating a Decorated Zend Diactoros Response
+## Example for Instantiating a Decorated Laminas Diactoros Response
 ```php
 <?php
 
-use Zend\Diactoros\ResponseFactory;
-use Zend\Diactoros\StreamFactory;
+use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\StreamFactory;
 use Slim\Http\Factory\DecoratedResponseFactory;
 
 $responseFactory = new ResponseFactory();
