@@ -22,8 +22,14 @@ class ResponseTest extends ResponseIntegrationTest
 {
     public static function setUpBeforeClass(): void
     {
+        if (!defined('URI_FACTORY')) {
+            define('URI_FACTORY', Psr17Factory::class);
+        }
         if (!defined('STREAM_FACTORY')) {
             define('STREAM_FACTORY', Psr17Factory::class);
+        }
+        if (!defined('UPLOADED_FILE_FACTORY')) {
+            define('UPLOADED_FILE_FACTORY', Psr17Factory::class);
         }
     }
 

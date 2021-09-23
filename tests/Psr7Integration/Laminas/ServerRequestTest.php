@@ -12,6 +12,8 @@ namespace Slim\Tests\Http\Psr7Integration\Laminas;
 
 use Http\Psr7Test\ServerRequestIntegrationTest;
 use Laminas\Diactoros\StreamFactory;
+use Laminas\Diactoros\UploadedFileFactory;
+use Laminas\Diactoros\UriFactory;
 use Slim\Http\Factory\DecoratedServerRequestFactory;
 use Slim\Tests\Http\Providers\LaminasDiactorosPsr17FactoryProvider;
 
@@ -22,8 +24,14 @@ class ServerRequestTest extends ServerRequestIntegrationTest
 {
     public static function setUpBeforeClass(): void
     {
+        if (!defined('URI_FACTORY')) {
+            define('URI_FACTORY', UriFactory::class);
+        }
         if (!defined('STREAM_FACTORY')) {
             define('STREAM_FACTORY', StreamFactory::class);
+        }
+        if (!defined('UPLOADED_FILE_FACTORY')) {
+            define('UPLOADED_FILE_FACTORY', UploadedFileFactory::class);
         }
     }
 
