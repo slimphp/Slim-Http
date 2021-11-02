@@ -71,7 +71,6 @@ class Response implements ResponseInterface
      */
     public function __set($name, $value)
     {
-        return;
     }
 
     /**
@@ -503,7 +502,7 @@ class Response implements ResponseInterface
         }
 
         $output .= self::EOL;
-        $output .= (string) $this->response->getBody();
+        $output .= $this->response->getBody();
 
         return $output;
     }
