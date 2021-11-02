@@ -32,6 +32,8 @@ use function property_exists;
 use function simplexml_load_string;
 use function strtolower;
 
+use const LIBXML_VERSION;
+
 class ServerRequest implements ServerRequestInterface
 {
     /**
@@ -94,7 +96,6 @@ class ServerRequest implements ServerRequestInterface
      */
     public function __set($name, $value)
     {
-        return;
     }
 
     /**
@@ -512,7 +513,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * Note: This method is not part of the PSR-7 standard.
      *
-     * @return mixed[]
+     * @return string[]
      */
     public function getMediaTypeParams(): array
     {
@@ -525,6 +526,7 @@ class ServerRequest implements ServerRequestInterface
                 $contentTypePartsLength = count($contentTypeParts);
                 for ($i = 1; $i < $contentTypePartsLength; $i++) {
                     $paramParts = explode('=', $contentTypeParts[$i]);
+                    /** @var string[] $paramParts */
                     $contentTypeParams[strtolower($paramParts[0])] = $paramParts[1];
                 }
             }
@@ -565,7 +567,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * Note: This method is not part of the PSR-7 standard.
      *
-     * @return mixed[]
+     * @return array
      */
     public function getParams(): array
     {
@@ -637,7 +639,7 @@ class ServerRequest implements ServerRequestInterface
     public function getServerParam(string $key, $default = null)
     {
         $serverParams = $this->serverRequest->getServerParams();
-        return isset($serverParams[$key]) ? $serverParams[$key] : $default;
+        return $serverParams[$key] ?? $default;
     }
 
     /**
@@ -771,7 +773,7 @@ class ServerRequest implements ServerRequestInterface
 
     private static function disableXmlEntityLoader(bool $disable): bool
     {
-        if (\LIBXML_VERSION >= 20900) {
+        if (LIBXML_VERSION >= 20900) {
             // libxml >= 2.9.0 disables entity loading by default, so it is
             // safe to skip the real call (deprecated in PHP 8).
             return true;

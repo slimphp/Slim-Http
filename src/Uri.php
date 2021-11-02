@@ -35,7 +35,6 @@ class Uri implements UriInterface
      */
     public function __set($name, $value)
     {
-        return;
     }
 
     /**
