@@ -512,7 +512,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * Note: This method is not part of the PSR-7 standard.
      *
-     * @return mixed[]
+     * @return string[]
      */
     public function getMediaTypeParams(): array
     {
@@ -525,6 +525,7 @@ class ServerRequest implements ServerRequestInterface
                 $contentTypePartsLength = count($contentTypeParts);
                 for ($i = 1; $i < $contentTypePartsLength; $i++) {
                     $paramParts = explode('=', $contentTypeParts[$i]);
+                    /** @var string[] $paramParts */
                     $contentTypeParams[strtolower($paramParts[0])] = $paramParts[1];
                 }
             }

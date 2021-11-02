@@ -208,7 +208,7 @@ class Response implements ResponseInterface
      */
     public function withJson($data, ?int $status = null, int $options = 0, int $depth = 512): ResponseInterface
     {
-        $json = (string) json_encode($data, $options, $depth);
+        $json = (string) json_encode($data, $options, $depth > 0 ? $depth : 512);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new RuntimeException(json_last_error_msg(), json_last_error());
