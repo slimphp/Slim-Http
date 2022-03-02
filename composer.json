@@ -39,7 +39,7 @@
   "require-dev": {
     "adriansuter/php-autoload-override": "^1.2",
     "laminas/laminas-diactoros": "^2.8",
-    "nyholm/psr7": "^1.4",
+    "nyholm/psr7": "^1.5",
     "php-http/psr7-integration-tests": "dev-master",
     "phpstan/phpstan": "^1.4",
     "phpunit/phpunit": "^9.5",
