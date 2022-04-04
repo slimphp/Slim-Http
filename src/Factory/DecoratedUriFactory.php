@@ -16,10 +16,7 @@ use Slim\Http\Uri;
 
 class DecoratedUriFactory implements UriFactoryInterface
 {
-    /**
-     * @var UriFactoryInterface
-     */
-    protected $uriFactory;
+    protected UriFactoryInterface $uriFactory;
 
     /**
      * @param UriFactoryInterface $uriFactory

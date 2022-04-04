@@ -36,15 +36,9 @@ use const LIBXML_VERSION;
 
 class ServerRequest implements ServerRequestInterface
 {
-    /**
-     * @var ServerRequestInterface
-     */
-    protected $serverRequest;
+    protected ServerRequestInterface $serverRequest;
 
-    /**
-     * @var array
-     */
-    protected $bodyParsers;
+    protected array $bodyParsers;
 
     /**
      * @param ServerRequestInterface $serverRequest

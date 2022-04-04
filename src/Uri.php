@@ -14,10 +14,7 @@ use Psr\Http\Message\UriInterface;
 
 class Uri implements UriInterface
 {
-    /**
-     * @var UriInterface
-     */
-    protected $uri;
+    protected UriInterface $uri;
 
     /**
      * @param UriInterface $uri
