@@ -36,15 +36,9 @@ use const JSON_ERROR_NONE;
 
 class Response implements ResponseInterface
 {
-    /**
-     * @var ResponseInterface
-     */
-    protected $response;
+    protected ResponseInterface $response;
 
-    /**
-     * @var StreamFactoryInterface
-     */
-    protected $streamFactory;
+    protected StreamFactoryInterface $streamFactory;
 
     /**
      * EOL characters used for HTTP response.
