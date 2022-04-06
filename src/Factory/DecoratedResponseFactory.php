@@ -17,15 +17,9 @@ use Slim\Http\Response;
 
 class DecoratedResponseFactory implements ResponseFactoryInterface
 {
-    /**
-     * @var ResponseFactoryInterface
-     */
-    protected $responseFactory;
+    protected ResponseFactoryInterface $responseFactory;
 
-    /**
-     * @var StreamFactoryInterface
-     */
-    protected $streamFactory;
+    protected StreamFactoryInterface $streamFactory;
 
     /**
      * @param ResponseFactoryInterface $responseFactory

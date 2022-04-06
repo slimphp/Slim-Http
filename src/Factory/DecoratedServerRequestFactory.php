@@ -17,10 +17,7 @@ use Slim\Http\ServerRequest;
 
 class DecoratedServerRequestFactory implements ServerRequestFactoryInterface
 {
-    /**
-     * @var ServerRequestFactoryInterface
-     */
-    protected $serverRequestFactory;
+    protected ServerRequestFactoryInterface $serverRequestFactory;
 
     /**
      * @param ServerRequestFactoryInterface $serverRequestFactory

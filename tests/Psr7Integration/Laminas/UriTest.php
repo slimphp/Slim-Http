@@ -22,6 +22,11 @@ use function defined;
 
 class UriTest extends UriIntegrationTest
 {
+    // https://datatracker.ietf.org/doc/html/rfc3986#section-3.3
+    protected $skippedTests = [
+        'testPathWithMultipleSlashes' => 'laminas-diactoros does not respect RFC3986.',
+    ];
+
     public static function setUpBeforeClass(): void
     {
         if (!defined('URI_FACTORY')) {
