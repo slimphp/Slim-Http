@@ -148,6 +148,9 @@ Assert the underlying response's status code is **200**.
 #### `Response::isNotFound()` ####
 Assert the underlying response's status code is **404**.
 
+#### `Response::isRedirect()` ####
+Assert the underlying response's status code is **301**, **302**, **303**, **307** or **308**.
+
 #### `Response::isRedirection()` ####
 Assert the underlying response's status code is between **300** and **400**.
 
