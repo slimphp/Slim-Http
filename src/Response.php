@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Slim\Http;
 
 use InvalidArgumentException;
+use Slim\Http\Interfaces\ResponseInterface as DecoratedResponseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
@@ -34,7 +35,7 @@ use function substr;
 
 use const JSON_ERROR_NONE;
 
-class Response implements ResponseInterface
+class Response implements DecoratedResponseInterface
 {
     protected ResponseInterface $response;
 
