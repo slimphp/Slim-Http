@@ -32,7 +32,7 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-SimpleXML": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
