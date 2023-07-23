@@ -1,6 +1,6 @@
 name: Tests
 
-on: [push, pull_request]
+on: [push, pull_request, pull_request_target]
 
 jobs:
   tests:
@@ -10,10 +10,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.4, 8.0, 8.1]
+        php: [8.0, 8.1, 8.2]
         experimental: [false]
         include:
-          - php: 8.1
+          - php: 8.2
             analysis: true
 
     steps:
@@ -43,7 +43,7 @@ jobs:
       - name: Upload coverage results to Coveralls
         if: matrix.analysis
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           composer require php-coveralls/php-coveralls -n -W
           vendor/bin/php-coveralls --coverage_clover=clover.xml -v
