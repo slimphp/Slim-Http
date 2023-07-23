@@ -289,7 +289,7 @@ class UriTest extends TestCase
             $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
-            $uri = $decoratedUriFactory->createUri('https://google.com/path');
+            $uri = $decoratedUriFactory->createUri();
             $uri = $uri->withPath('newPath');
 
             $this->assertEquals('newPath', $uri->getPath());
