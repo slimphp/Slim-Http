@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3df0a53c05c9b4755af24e24008f4122",
+    "content-hash": "fdc6e4fc90367a679f7d4b1420a8ad66",
     "packages": [
         {
             "name": "psr/http-factory",
@@ -642,36 +642,31 @@
         },
         {
             "name": "php-http/psr7-integration-tests",
-            "version": "1.1.1",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/psr7-integration-tests.git",
-                "reference": "dbc81e59655c3d927ba62b2cd38be9af334590fc"
+                "reference": "c333566ed5b1620fc769eba1bb24a13b7d16e812"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/psr7-integration-tests/zipball/dbc81e59655c3d927ba62b2cd38be9af334590fc",
-                "reference": "dbc81e59655c3d927ba62b2cd38be9af334590fc",
+                "url": "https://api.github.com/repos/php-http/psr7-integration-tests/zipball/c333566ed5b1620fc769eba1bb24a13b7d16e812",
+                "reference": "c333566ed5b1620fc769eba1bb24a13b7d16e812",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
                 "phpunit/phpunit": "^8.0 || ^9.3",
-                "psr/http-message": "^1.0"
+                "psr/http-message": "^1.0 || ^2.0"
             },
             "require-dev": {
-                "guzzlehttp/psr7": "^1.4",
+                "guzzlehttp/psr7": "^1.7 || ^2.0",
                 "laminas/laminas-diactoros": "^2.1",
                 "nyholm/psr7": "^1.0",
                 "ringcentral/psr7": "^1.2",
-                "slim/psr7": "dev-master"
+                "slim/psr7": "^1.4"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Http\\Psr7Test\\": "src/"
@@ -695,9 +690,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/psr7-integration-tests/issues",
-                "source": "https://github.com/php-http/psr7-integration-tests/tree/1.1.1"
+                "source": "https://github.com/php-http/psr7-integration-tests/tree/1.3.0"
             },
-            "time": "2020-11-02T14:08:03+00:00"
+            "time": "2023-04-28T14:30:11+00:00"
         },
         {
             "name": "phpstan/phpstan",
@@ -763,16 +758,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.26",
+            "version": "9.2.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "443bc6912c9bd5b409254a40f4b0f4ced7c80ea1"
+                "reference": "b0a88255cb70d52653d80c890bd7f38740ea50d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/443bc6912c9bd5b409254a40f4b0f4ced7c80ea1",
-                "reference": "443bc6912c9bd5b409254a40f4b0f4ced7c80ea1",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b0a88255cb70d52653d80c890bd7f38740ea50d1",
+                "reference": "b0a88255cb70d52653d80c890bd7f38740ea50d1",
                 "shasum": ""
             },
             "require": {
@@ -828,7 +823,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.26"
+                "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.27"
             },
             "funding": [
                 {
@@ -836,7 +832,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-06T12:58:08+00:00"
+            "time": "2023-07-26T13:44:30+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2260,7 +2256,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-simplexml": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
