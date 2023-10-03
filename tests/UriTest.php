@@ -14,8 +14,8 @@ use InvalidArgumentException;
 use Slim\Http\Factory\DecoratedUriFactory;
 use Slim\Tests\Http\Providers\LaminasDiactorosPsr17FactoryProvider;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
-
 use TypeError;
+
 use function property_exists;
 
 class UriTest extends TestCase
