@@ -22,6 +22,10 @@ use function defined;
 
 class ServerRequestTest extends ServerRequestIntegrationTest
 {
+    protected $skippedTests = [
+        'testUriPreserveHost_NoHost_Host' => 'laminas-diactoros is not compliant.'
+    ];
+
     public static function setUpBeforeClass(): void
     {
         if (!defined('URI_FACTORY')) {
