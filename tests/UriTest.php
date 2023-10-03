@@ -12,7 +12,9 @@ namespace Slim\Tests\Http;
 
 use InvalidArgumentException;
 use Slim\Http\Factory\DecoratedUriFactory;
+use Slim\Tests\Http\Providers\LaminasDiactorosPsr17FactoryProvider;
 use Slim\Tests\Http\Providers\Psr17FactoryProvider;
+use TypeError;
 
 use function property_exists;
 
@@ -244,14 +246,19 @@ class UriTest extends TestCase
 
     public function testWithPortInvalidString()
     {
-        $this->expectException(InvalidArgumentException::class);
-
         foreach ($this->factoryProviders as $factoryProvider) {
             /** @var Psr17FactoryProvider $provider */
             $provider = new $factoryProvider();
             $decoratedUriFactory = new DecoratedUriFactory($provider->getUriFactory());
 
             $uri = $decoratedUriFactory->createUri('https://google.com');
+
+            if ($factoryProvider === LaminasDiactorosPsr17FactoryProvider::class) {
+                $this->expectException(TypeError::class);
+            } else {
+                $this->expectException(InvalidArgumentException::class);
+            }
+
             $uri->withPort('invalid');
         }
     }
