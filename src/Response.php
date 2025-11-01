@@ -270,7 +270,7 @@ class Response implements DecoratedResponseInterface
                 ? $file->getMetadata()
                 : stream_get_meta_data($file);
 
-            if (is_array($metaData) && isset($metaData['uri'])) {
+            if (is_array($metaData) && isset($metaData['uri']) && is_string($metaData['uri'])) {
                 $uri = $metaData['uri'];
                 if ('php://' !== substr($uri, 0, 6)) {
                     $fileName = basename($uri);

@@ -40,6 +40,7 @@ class ServerRequest implements ServerRequestInterface
 {
     protected ServerRequestInterface $serverRequest;
 
+    /** @var array<string, callable|null> */
     protected array $bodyParsers;
 
     /**
@@ -49,7 +50,7 @@ class ServerRequest implements ServerRequestInterface
     {
         $this->serverRequest = $serverRequest;
 
-        $this->registerMediaTypeParser('application/json', function ($input) {
+        $this->registerMediaTypeParser('application/json', function (string $input) {
             $result = json_decode($input, true);
 
             if (!is_array($result)) {
@@ -59,7 +60,7 @@ class ServerRequest implements ServerRequestInterface
             return $result;
         });
 
-        $xmlParserCallable = function ($input) {
+        $xmlParserCallable = function (string $input) {
             $backup = self::disableXmlEntityLoader(true);
             $backup_errors = libxml_use_internal_errors(true);
             $result = simplexml_load_string($input);
@@ -78,7 +79,7 @@ class ServerRequest implements ServerRequestInterface
         $this->registerMediaTypeParser('application/xml', $xmlParserCallable);
         $this->registerMediaTypeParser('text/xml', $xmlParserCallable);
 
-        $this->registerMediaTypeParser('application/x-www-form-urlencoded', function ($input) {
+        $this->registerMediaTypeParser('application/x-www-form-urlencoded', function (string $input) {
             parse_str($input, $data);
             return $data;
         });
@@ -214,7 +215,7 @@ class ServerRequest implements ServerRequestInterface
     {
         $queryParams = $this->serverRequest->getQueryParams();
 
-        if (is_array($queryParams) && !empty($queryParams)) {
+        if (!empty($queryParams)) {
             return $queryParams;
         }
 
