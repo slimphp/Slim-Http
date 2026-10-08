@@ -9,8 +9,7 @@ Slim PSR-7 Object Decorators
 
 ## Installation
 
-It's recommended that you use [Composer](https://getcomposer.org/) to install 
-this library.
+It's recommended that you use [Composer](https://getcomposer.org/) to install this library.
 
 ```bash
 $ composer require slim/http
@@ -29,15 +28,16 @@ $ composer install
 $ composer test
 ```
 
-
-## Usage 
+## Usage
 
 The Decoration Repo Provides 3 Factories which instantiate the Decorators. They respectively return PSR-7 Compatible Interfaces.
+
 - `DecoratedResponseFactory`
 - `DecoratedServerRequestFactory`
 - `DecoratedUriFactory`
 
 ## Example for Instantiating a Decorated Nyholm/Psr7 Response
+
 ```php
 <?php
 
@@ -63,8 +63,8 @@ $response = $response->withJson(['data' => [1, 2, 3]]);
 
 ```
 
-
 ## Example for Instantiating a Decorated Laminas Diactoros Response
+
 ```php
 <?php
 
@@ -91,115 +91,140 @@ $response = $response->withJson(['data' => [1, 2, 3]]);
 
 ```
 
-
 ## Decorated Response Object Methods
+
 The decorated `ResponseInterface` provides the following additional methods:
 
-#### `Response::withJson($data, $status, $options, $depth)` ####
+#### `Response::withJson($data, $status, $options, $depth)`
+
 | Parameter   | Type    | Description             |
 |-------------|---------|-------------------------|
 | **$data**   | `mixed` | The data to encode      |
 | **$status** | `int`   | The HTTP Status Code    |
 | **$depth**  | `int`   | JSON encoding max depth |
 
-#### `Response::withFileDownload($file, $name)` ####
+#### `Response::withFileDownload($file, $name)`
+
 Triggers the client to download the specified file.
 
-| Parameter        | Type                              | Description                                                                                                                       |
-|------------------|-----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| **$file**        | `string|resource|StreamInterface` | The file to send to the client                                                                                                    |
-| **$name**        | `string|null`                     | The filename for the `Content-Disposition` header. Defaults to `attachment`                                                       |
-| **$contentType** | `bool|string`                     | Set the `Content-Type` header. Defaults to true, which attempts to detect mime type from file extension, set to false to disable. |
+| Parameter        | Type                                | Description                                                                                                                       |
+|------------------|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| **$file**        | `string\|resource\|StreamInterface` | The file to send to the client                                                                                                    |
+| **$name**        | `string\|null`                      | The filename for the `Content-Disposition` header. Defaults to `attachment`                                                       |
+| **$contentType** | `bool\|string`                      | Set the `Content-Type` header. Defaults to true, which attempts to detect mime type from file extension, set to false to disable. |
 
-#### `Response::withFile($file, $contentType)` ####
+#### `Response::withFile($file, $contentType)`
+
 Response with file to client
 
-| Parameter            | Type                              | Description                                                                                                                       |
-|----------------------|-----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| **$file**            | `string|resource|StreamInterface` | The file to send to the client                                                                                                    |
-| **$contentType**     | `bool|string`                     | Set the `Content-Type` header. Defaults to true, which attempts to detect mime type from file extension, set to false to disable. |
+| Parameter            | Type                                | Description                                                                                                                       |
+|----------------------|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| **$file**            | `string\|resource\|StreamInterface` | The file to send to the client                                                                                                    |
+| **$contentType**     | `bool\|string`                      | Set the `Content-Type` header. Defaults to true, which attempts to detect mime type from file extension, set to false to disable. |
 
-#### `Response::withRedirect($url, $status)` ####
+#### `Response::withRedirect($url, $status)`
+
 | Parameter   | Type     | Description                  |
 |-------------|----------|------------------------------|
 | **$url**    | `string` | The redirect destination url |
 | **$status** | `int`    | The HTTP Status Code         |
 
-#### `Response::write($data)` ####
+#### `Response::write($data)`
+
 | Parameter | Type     | Description                              |
 |-----------|----------|------------------------------------------|
 | **$url**  | `string` | The data to write to the `Response` body |
 
-#### `Response::isClientError()` ####
+#### `Response::isClientError()`
+
 Assert the underlying response's status code is between **400** and **500**.
 
-#### `Response::isEmpty()` ####
+#### `Response::isEmpty()`
+
 Assert the underlying response's status code is **204, 205** or **304**.
 
-#### `Response::isForbidden()` ####
+#### `Response::isForbidden()`
+
 Assert the underlying response's status code is **403**.
 
-#### `Response::isInformational()` ####
+#### `Response::isInformational()`
+
 Assert the underlying response's status code is between **100** and **200**.
 
-#### `Response::isOk()` ####
+#### `Response::isOk()`
+
 Assert the underlying response's status code is **200**.
 
-#### `Response::isNotFound()` ####
+#### `Response::isNotFound()`
+
 Assert the underlying response's status code is **404**.
 
-#### `Response::isRedirect()` ####
+#### `Response::isRedirect()`
+
 Assert the underlying response's status code is **301**, **302**, **303**, **307** or **308**.
 
-#### `Response::isRedirection()` ####
+#### `Response::isRedirection()`
+
 Assert the underlying response's status code is between **300** and **400**.
 
-#### `Response::isServerError()` ####
+#### `Response::isServerError()`
+
 Assert the underlying response's status code is between **500** and **600**.
 
-#### `Response::isSuccessful()` ####
+#### `Response::isSuccessful()`
+
 Assert the underlying response's status code is between **200** and **300**.
 
-#### `Response::__toString()` ####
+#### `Response::__toString()`
+
 Will return a string formatted representation of the underlying response object.
-```
+
+```text
 HTTP/1.1 200 OK
 Content-Type: application/json;charset=utf-8
 
 {"Hello": "World"}
 ```
 
-
 ## Decorated ServerRequest Object Methods
+
 The decorated `ServerRequestInterface` provides the following additional methods:
 
-#### `ServerRequest::withAttributes($attributes)` ####
+#### `ServerRequest::withAttributes($attributes)`
+
 | Parameter       | Type      | Description                              |
 |-----------------|-----------|------------------------------------------|
 | **$attributes** | `array`   | Attributes to be appended to the request |
 
-#### `ServerRequest::getContentCharset()` ####
+#### `ServerRequest::getContentCharset()`
+
 Returns the detected charset from the `Content-Type` header of the underlying server request object. Returns `null` if no value is present.
 
-#### `ServerRequest::getContentType()` ####
+#### `ServerRequest::getContentType()`
+
 Returns the value from the `Content-Type` header of the underlying server request object. Returns `null` if no value is present.
 
-#### `ServerRequest::getContentLength()` ####
+#### `ServerRequest::getContentLength()`
+
 Returns the value from the `Content-Length` header of the underlying server request object. Returns `null` if no value is present.
 
-#### `ServerRequest::getCookieParam($key, $default)` ####
+#### `ServerRequest::getCookieParam($key, $default)`
+
 | Parameter     | Type     | Description                                            |
 |---------------|----------|--------------------------------------------------------|
 | **$key**      | `string` | The attribute name                                     |
 | **$default**  | `mixed`  | Default value to return if the attribute does not exist |
 
-#### `ServerRequest::getMediaType()` ####
+#### `ServerRequest::getMediaType()`
+
 Returns the first detected value from the `Content-Type` header of the underlying server request object. Returns `null` if no value is present.
 
-#### `ServerRequest::getMediaTypeParams()` ####
+#### `ServerRequest::getMediaTypeParams()`
+
 Returns an array of detected values from the `Content-Type` header of the underlying server request object. Returns an empty array if no values are present.
 
-#### `ServerRequest::getParam($key, $default)` ####
+#### `ServerRequest::getParam($key, $default)`
+
 Returns the value from key in `$_POST` or `$_GET`
 
 | Parameter    | Type     | Description                                             |
@@ -207,20 +232,23 @@ Returns the value from key in `$_POST` or `$_GET`
 | **$key**     | `string` | The attribute name                                      |
 | **$default** | `mixed`  | Default value to return if the attribute does not exist |
 
-#### `ServerRequest::getParams()` ####
+#### `ServerRequest::getParams()`
+
 Returns a merged associative array of the `$_POST` and `$_GET` parameters.
 
-#### `ServerRequest::getParsedBody()` ####
+#### `ServerRequest::getParsedBody()`
+
 Returns the parsed body from the underlying server request object if it already has been parsed by the underlying PSR-7 implementation. If the parsed body is empty, our decorator attempts to detect the content type and parse the body using one of the registered media type parsers.
 
 The default media type parsers support:
+
 - JSON
 - XML
 
 You can register your own media type parser using the `ServerRequest::registerMediaTypeParser()` method.
 
+#### `ServerRequest::getParsedBodyParam($key, $default)`
 
-#### `ServerRequest::getParsedBodyParam($key, $default)` ####
 Returns the value from key in the parsed body of the underlying server request object.
 
 | Parameter    | Type     | Description                                             |
@@ -228,7 +256,8 @@ Returns the value from key in the parsed body of the underlying server request o
 | **$key**     | `string` | The attribute name                                      |
 | **$default** | `mixed`  | Default value to return if the attribute does not exist |
 
-#### `ServerRequest::getQueryParam($key, $default)` ####
+#### `ServerRequest::getQueryParam($key, $default)`
+
 Returns the value from key in the parsed `ServerRequest` query string
 
 | Parameter     | Type     | Description                                             |
@@ -236,7 +265,8 @@ Returns the value from key in the parsed `ServerRequest` query string
 | **$key**      | `string` | The attribute name                                      |
 | **$default**  | `mixed`  | Default value to return if the attribute does not exist |
 
-#### `ServerRequest::getServerParam($key, $default)` ####
+#### `ServerRequest::getServerParam($key, $default)`
+
 Returns the value from key in parsed server parameters from the underlying underlying server request object.
 
 | Parameter    | Type     | Description                                              |
@@ -244,7 +274,8 @@ Returns the value from key in parsed server parameters from the underlying under
 | **$key**     | `string` | The attribute name                                       |
 | **$default** | `mixed`  | Default value to return if the attribute does not exist  |
 
-#### `ServerRequest::registerMediaTypeParser($key, $default)` ####
+#### `ServerRequest::registerMediaTypeParser($key, $default)`
+
 Returns the value from key in parsed server parameters from the underlying server request object.
 
 | Parameter      | Type       | Description                                            |
@@ -252,49 +283,62 @@ Returns the value from key in parsed server parameters from the underlying serve
 | **$mediaType** | `string`   | A HTTP media type (excluding content-type params)      |
 | **$callable**  | `callable` | A callable that returns parsed contents for media type |
 
-#### `ServerRequest::isMethod($method)` ####
+#### `ServerRequest::isMethod($method)`
+
 | Parameter   | Type     | Description     |
 |-------------|----------|-----------------|
 | **$method** | `string` | The method name |
 
-#### `ServerRequest::isDelete()` ####
+#### `ServerRequest::isDelete()`
+
 Asserts that the underlying server request's method is `DELETE`
 
-#### `ServerRequest::isGet()` ####
+#### `ServerRequest::isGet()`
+
 Asserts that the underlying server request's method is `GET`
 
-#### `ServerRequest::isHead()` ####
+#### `ServerRequest::isHead()`
+
 Asserts that the underlying server request's method is `HEAD`
 
-#### `ServerRequest::isOptions()` ####
+#### `ServerRequest::isOptions()`
+
 Asserts that the underlying server request's method is `OPTIONS`
 
-#### `ServerRequest::isPatch()` ####
+#### `ServerRequest::isPatch()`
+
 Asserts that the underlying server request's method is `PATCH`
 
-#### `ServerRequest::isPost()` ####
+#### `ServerRequest::isPost()`
+
 Asserts that the underlying server request's method is `POST`
 
-#### `ServerRequest::isPut()` ####
+#### `ServerRequest::isPut()`
+
 Asserts that the underlying server request's method is `PUT`
 
-#### `ServerRequest::isXhr()` ####
+#### `ServerRequest::isXhr()`
+
 Asserts that the header `X-Requested-With` from the underlying server request is `XMLHttpRequest`
 
 ## Decorated Uri Object Methods
+
 The decorated `UriInterface` provides the following additional methods:
 
-#### `Uri::getBaseUrl()` ####
+#### `Uri::getBaseUrl()`
+
 Returns the fully qualified base URL of the underlying uri object.
 
 ## Contributing
+
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
-If you discover security related issues, please email security@slimframework.com 
-instead of using the issue tracker.
+
+If you discover security related issues, please email security@slimframework.com instead of using the issue tracker.
 
 ## Credits
+
 - [Josh Lockhart](https://github.com/codeguy)
 - [Andrew Smith](https://github.com/silentworks)
 - [Rob Allen](https://github.com/akrabat)
@@ -303,5 +347,4 @@ instead of using the issue tracker.
 
 ## License
 
-This component is licensed under the MIT license. See [License File](LICENSE) 
-for more information.
+This component is licensed under the MIT license. See [License File](LICENSE) for more information.
